@@ -4,17 +4,21 @@
     <div>User List</div>
     <table>
         <thead>
-        <tr>Name</tr>
-        <tr>Role</tr>
+        <tr>E-mail</tr>
+        <tr>Ф.И.О</tr>
+        <tr>Роль</tr>
         <th></th>
         </thead>
         <tbody>
         <#list users as user>
+            <#if user.username != currentUser.username>
         <tr>
             <td>${user.username}</td>
-            <td><#list user.roles as role>${role}<#sep>, </#list></td>
+            <td>${user.getFullName()}</td>
+            <td>${user.getRole()}</td>
             <td><a href="/user/${user.id}">edit</a></td>
         </tr>
+            </#if>
         </#list>
         </tbody>
     </table>

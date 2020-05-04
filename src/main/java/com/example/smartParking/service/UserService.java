@@ -4,15 +4,23 @@ import com.example.smartParking.domain.Role;
 import com.example.smartParking.domain.User;
 import com.example.smartParking.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.session.Session;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 @Service
 public class UserService implements UserDetailsService {
@@ -40,8 +48,7 @@ public class UserService implements UserDetailsService {
         if (userFromDb != null) {
             return false;
         }
-        user.setRoles(Collections.singleton(Role.USER));
-        user.setEnabled(true);
+        user.setEnabled(false);
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -53,15 +60,16 @@ public class UserService implements UserDetailsService {
     }
 
     private void sendMessage(User user) {
-        if (!StringUtils.isEmpty(user.getEmail())) {
+        if (!StringUtils.isEmpty(user.getUsername())) {
             String message = String.format(
-                    "Hello, %s! \n" +
-                            "Welcome to Smart Parking. Please, visit next link: http://localhost:8080/activate/%s",
-                    user.getUsername(),
+                    "Здравствуйте, %s! \n" +
+                            "Добро пожаловать в систему Умная парковка. Пожалуйста, пройдите по ссылке для окончания регистрации" +
+                            ":http://localhost:8080/activate/%s",
+                    user.getFullName(),
                     user.getActivationCode()
             );
 
-            mailSender.send(user.getEmail(), "Activation code", message);
+            mailSender.send(user.getUsername(), "Activation code", message);
 
         }
     }
@@ -73,7 +81,7 @@ public class UserService implements UserDetailsService {
         }
 
         user.setActivationCode(null);
-
+        user.setEnabled(true);
         userRepo.save(user);
 
         return true;
@@ -89,23 +97,25 @@ public class UserService implements UserDetailsService {
                 .map(Role::name)
                 .collect(Collectors.toSet());
 
-        user.getRoles().clear();
+//        user.setRole(Role.USER);
 
         for (String key : form.keySet()) {
             if (roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
+                user.setRole(Role.valueOf(key));
             }
         }
 
         userRepo.save(user);
+        refreshSession();
     }
 
-    public void updateProfile(User user, String password, String email) {
-        String userEmail = user.getEmail();
+    public void updateProfile(User user, String password, String email,
+                              String firstName, String secondName, String middleName) {
+        String userEmail = user.getUsername();
         boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
                 (userEmail != null && !userEmail.equals(email));
 
-        if (isEmailChanged) user.setEmail(email);
+        if (isEmailChanged) user.setUsername(email);
 
         if (!StringUtils.isEmpty(email))
             user.setActivationCode(UUID.randomUUID().toString());
@@ -115,6 +125,23 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(password))
             user.setPassword(passwordEncoder.encode(password));
 
+        if (!StringUtils.isEmpty(firstName)) user.setFirstName(firstName);
+        if (!StringUtils.isEmpty(secondName)) user.setSecondName(secondName);
+        user.setMiddleName(middleName);
+
         userRepo.save(user);
+        refreshSession();
     }
+
+    private void refreshSession() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+        updatedAuthorities.add(Role.ADMIN);
+
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.smartParking.controllers;
 
 import com.example.smartParking.Utils.ControllerUtils;
+import com.example.smartParking.domain.Role;
 import com.example.smartParking.domain.User;
 import com.example.smartParking.domain.dto.CaptchaResponseDto;
 import com.example.smartParking.service.UserService;
@@ -34,7 +35,8 @@ public class RegistrationController {
     private UserService userService;
 
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(Model model) {
+        model.addAttribute("roles", Role.values());
         return "registration";
     }
 
@@ -44,6 +46,7 @@ public class RegistrationController {
                           BindingResult bindingResult,
                           Model model) {
 
+        model.addAttribute("roles", Role.values());
         String url = String.format(CAPTCHA_URL, recaptchaSecret, captchaResponse);
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
 

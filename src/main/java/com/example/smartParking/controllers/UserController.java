@@ -21,8 +21,9 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public String userList(Model model) {
+    public String userList(@AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("currentUser", currentUser);
         return "userList";
     }
 
@@ -46,8 +47,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String getProfile(Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("email", user.getEmail());
+        model.addAttribute("user", user);
 
         return "profile";
     }
@@ -55,9 +55,13 @@ public class UserController {
     @PostMapping("/profile")
     public String updateProfile(@AuthenticationPrincipal User user,
                                 @RequestParam String password,
-                                @RequestParam String email) {
+                                @RequestParam String username,
+                                @RequestParam String firstName,
+                                @RequestParam String secondName,
+                                @RequestParam String middleName) {
 
-        userService.updateProfile(user, password, email);
+        userService.updateProfile(user, password, username,
+                firstName, secondName, middleName);
         return "redirect:/user/profile";
     }
 }

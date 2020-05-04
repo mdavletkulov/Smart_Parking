@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -19,33 +20,27 @@ public class User implements UserDetails {
 
     @Email(message = "Некорректный e-mail")
     @NotBlank(message = "Поле email не может быть пустым")
-    private String userName;
+    private String username;
     @NotBlank(message = "Поле имени не может быть пустым")
     private String firstName;
     @NotBlank(message = "Поле фамилии не может быть пустым")
     private String secondName;
     private String middleName;
-    @NotBlank(message = "Password cannot be empty")
+    @NotBlank(message = "Пароль не может быть пустым")
     private String password;
     @Transient
     private String password2;
     private boolean enabled;
-    @Email(message = "Email is not correct")
-    @NotBlank(message = "Email cannot be empty")
-    private String email;
     private String activationCode;
 
     public User() {
     }
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name="user_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Role role;
 
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getFullName() {
+        return secondName + " " + firstName + " " + middleName;
     }
 
     public String getSecondName() {
@@ -65,11 +60,11 @@ public class User implements UserDetails {
     }
 
     public boolean isAdmin() {
-        return roles.contains(Role.ADMIN);
+        return role.equals(Role.ADMIN);
     }
 
     public boolean isManager() {
-        return roles.contains(Role.MANAGER);
+        return role.equals(Role.MANAGER);
     }
 
     public Long getId() {
@@ -97,7 +92,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return Collections.singletonList(getRole());
     }
 
     public String getPassword() {
@@ -106,19 +101,19 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role roles) {
+        this.role = roles;
     }
 
     public boolean isEnabled() {
@@ -127,14 +122,6 @@ public class User implements UserDetails {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getActivationCode() {
@@ -153,11 +140,8 @@ public class User implements UserDetails {
         this.password2 = password2;
     }
 
-    public String getFullName() {
-        return userName + secondName + middleName;
-    }
-
     public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {

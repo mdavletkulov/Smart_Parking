@@ -4,10 +4,13 @@
 User editor
     <form action="/user" method="post">
         <input type="text" value="${user.username}" name="username" />
+        <input type="text" value="${user.firstName}" name="firstName" />
+        <input type="text" value="${user.secondName}" name="secondName" />
+        <input type="text" value="${user.middleName}" name="middleName" />
         <#list roles as role>
             <div>
-                <label>
-                    <input type="checkbox" name = "${role}" ${user.roles?seq_contains(role)?string("checked", "")}> ${role}
+                <label class="radio-inline">
+                    <input type="radio" name="role" id="${role}"  value="${role}" checked="${(user.role == role)?string("checked", "")}"/>${role}
                 </label>
             </div>
         </#list>

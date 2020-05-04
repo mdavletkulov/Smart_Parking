@@ -1,5 +1,3 @@
-insert into usr (id, username, email, password, enabled)
-    values (1,'admin', 'm160598@gmail.com', '123', 1);
-insert into user_role(user_id, roles)
-    values (1, 'USER'), (1, 'ADMIN');
+insert into usr (id, username, password, enabled, first_name, second_name, middle_name, role)
+    values (1, 'm160598@gmail.com', '123', 1, N'Максим', N'Давлеткулов', N'Артурович', 'ADMIN');
 alter sequence hibernate_sequence restart with 2;

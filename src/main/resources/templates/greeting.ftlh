@@ -2,5 +2,5 @@
 
 <@c.page>
 <h5>Hello, guest</h5>
-    Simple site
+    Smart parking page
 </@c.page>

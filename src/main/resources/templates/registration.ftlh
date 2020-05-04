@@ -8,6 +8,6 @@
     <#if message?has_content>
     ${message}
     </#if>
-    <@l.login "/registration" true/>
+    <@l.registration/>
 </@c.page>
 

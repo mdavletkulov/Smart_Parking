@@ -2,7 +2,7 @@
     <form action="/login" method="post" class="mt-2">
         <div class="form-group">
             <label for="username">E-mail:</label>
-            <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')} col-sm-3" id="username"
+            <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')} col-sm-4" id="username"
                    value="<#if user??>${user.username}</#if>"
                    placeholder="Введите e-mail"
                    name="username">
@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="password">Пароль:</label>
-            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} col-sm-3"
+            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} col-sm-4"
                    id="password" placeholder="Введите пароль"
                    name="password">
             <#if passwordError??>
@@ -40,7 +40,7 @@
     <form action="/registration" method="post" class="mt-2">
         <div class="form-group">
             <label for="firstName">Имя</label>
-            <input type="text" class="form-control ${(firstNameError??)?string('is-invalid', '')} col-sm-3"
+            <input type="text" class="form-control ${(firstNameError??)?string('is-invalid', '')} col-sm-4"
                    id="firstName"
                    value="<#if user??>${user.firstName}</#if>"
                    placeholder="Введите имя пользователя"
@@ -53,7 +53,7 @@
         </div>
         <div class="form-group">
             <label for="secondName">Фамилия</label>
-            <input type="text" class="form-control ${(secondNameError??)?string('is-invalid', '')} col-sm-3"
+            <input type="text" class="form-control ${(secondNameError??)?string('is-invalid', '')} col-sm-4"
                    id="secondName"
                    value="<#if user??>${user.secondName}</#if>"
                    placeholder="Введите фамилию"
@@ -66,14 +66,19 @@
         </div>
         <div class="form-group">
             <label for="middleName">Отчество</label>
-            <input type="text" class="form-control col-sm-3" id="middleName"
+            <input type="text" class="form-control ${(middleNameError??)?string('is-invalid', '')} col-sm-4" id="middleName"
                    value="<#if user??>${user.middleName}</#if>"
                    placeholder="Введите отчество"
                    name="middleName">
+            <#if middleNameError??>
+                <div class="invalid-feedback">
+                    ${middleNameError}
+                </div>
+            </#if>
         </div>
         <div class="form-group">
             <label for="username">E-mail:</label>
-            <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')} col-sm-3" id="username"
+            <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')} col-sm-4" id="username"
                    value="<#if user??>${user.username}</#if>"
                    placeholder="Введите e-mail"
                    name="username">
@@ -85,7 +90,7 @@
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} col-sm-3"
+            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} col-sm-4"
                    id="password" placeholder="Введите пароль"
                    name="password">
             <#if passwordError??>
@@ -96,7 +101,7 @@
         </div>
         <div class="form-group">
             <label for="password2">Password Confirmation:</label>
-            <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')} col-sm-3"
+            <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')} col-sm-4"
                    id="password2" placeholder="Повторите пароль"
                    name="password2">
             <#if password2Error??>

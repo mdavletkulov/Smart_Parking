@@ -45,7 +45,6 @@ public class RegistrationController {
                           @Valid User user,
                           BindingResult bindingResult,
                           Model model) {
-
         model.addAttribute("roles", Role.values());
         String url = String.format(CAPTCHA_URL, recaptchaSecret, captchaResponse);
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
@@ -62,6 +61,19 @@ public class RegistrationController {
         if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
             model.addAttribute("passwordError", "Passwords are different");
             bindingResult.addError(new ObjectError("passwordError", "Passwords are different"));
+        }
+
+        if (user.getFirstName().matches(".*\\d.*")) {
+            model.addAttribute("firstNameError", "Имя не должно содержать цифр");
+            bindingResult.addError(new ObjectError("firstNameError", "Имя не должно содержать цифр"));
+        }
+        if (user.getSecondName().matches(".*\\d.*")) {
+            model.addAttribute("secondNameError", "Фамилия не должно содержать цифр");
+            bindingResult.addError(new ObjectError("secondNameError", "Фамилия не должно содержать цифр"));
+        }
+        if (user.getMiddleName().matches(".*\\d.*")) {
+            model.addAttribute("middleNameError", "Отчество не должно содержать цифр");
+            bindingResult.addError(new ObjectError("middleNameError", "Отчество не должно содержать цифр"));
         }
 
         if (bindingResult.hasErrors() || !response.isSuccess()) {

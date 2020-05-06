@@ -12,7 +12,7 @@ create table message
 
 create table usr
 (
-    id              bigint not null,
+    id              bigint identity not null,
     activation_code varchar(255),
     enabled         bit    not null,
     first_name      varchar(255) not null ,

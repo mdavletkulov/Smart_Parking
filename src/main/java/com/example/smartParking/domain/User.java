@@ -1,5 +1,6 @@
 package com.example.smartParking.domain;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,23 +9,25 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
 
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Email(message = "Некорректный e-mail")
     @NotBlank(message = "Поле email не может быть пустым")
     private String username;
     @NotBlank(message = "Поле имени не может быть пустым")
+    @Length(max = 60, message = "Значение имени слишком длинное")
     private String firstName;
     @NotBlank(message = "Поле фамилии не может быть пустым")
+    @Length(max = 60, message = "Значение фамилии слишком длинное")
     private String secondName;
+    @Length(max = 60, message = "Значение отчества слишком длинное")
     private String middleName;
     @NotBlank(message = "Пароль не может быть пустым")
     private String password;

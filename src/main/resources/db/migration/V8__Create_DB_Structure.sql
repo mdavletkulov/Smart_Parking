@@ -53,6 +53,7 @@ create table parking_place
     id           int identity not null,
     place_number int not null,
     parking_id   int not null,
+    special_status       bit         not null,
     primary key (id)
 )
 
@@ -77,7 +78,7 @@ create table person
 create table subdivision
 (
     id          int identity not null,
-    name        varchar(30) not null,
+    name        varchar(100) not null,
     division_id int,
     primary key (id)
 )

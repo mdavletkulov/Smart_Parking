@@ -14,6 +14,24 @@ public class ParkingPlace {
     private Parking parking;
     @NotBlank(message = "Номер места не может быть пустым")
     private int placeNumber;
+    @NotBlank(message = "Статус парковочного места не может быть пустым")
+    private boolean specialStatus;
+
+    public int getPlaceNumber() {
+        return placeNumber;
+    }
+
+    public void setPlaceNumber(int placeNumber) {
+        this.placeNumber = placeNumber;
+    }
+
+    public boolean isSpecialStatus() {
+        return specialStatus;
+    }
+
+    public void setSpecialStatus(boolean specialStatus) {
+        this.specialStatus = specialStatus;
+    }
 
     public int getId() {
         return Id;
@@ -29,13 +47,5 @@ public class ParkingPlace {
 
     public void setParking(Parking parking) {
         this.parking = parking;
-    }
-
-    public int getPlaceNumber() {
-        return placeNumber;
-    }
-
-    public void setPlaceNumber(int placeNumber) {
-        this.placeNumber = placeNumber;
     }
 }

@@ -15,7 +15,7 @@ public class Subdivision {
     @JoinColumn(name = "division_id")
     private Division division;
     @NotBlank(message = "Название кафедры не может быть пустым")
-    @Length(max = 30, message = "Название кафедры слишком длинное")
+    @Length(max = 100, message = "Название кафедры слишком длинное")
     private String name;
 
     public int getId() {

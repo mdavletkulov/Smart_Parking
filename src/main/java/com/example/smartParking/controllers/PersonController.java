@@ -17,16 +17,6 @@ public class PersonController {
 
     @GetMapping("/createPerson")
     public void createPerson() {
-//        Person person = new Person();
-//        person.setFirstName();
-//        person.setSecondName();
-//        person.setMiddleName();
-//        person.setJobPosition();
-//        person.setSubdivision();
-//        person.setEmployee(true);
-//        person.setStudent(false);
-//        person.setPassNum(1);
-//        person.setPassEndDate(DateUtils.addYears(new Date(), 1));
-//        person.setSpecialStatus(false);
+
     }
 }

@@ -34,7 +34,7 @@ public class Person {
     private int course;
     @Length(max = 10, message = "Значение группы слишком длинное")
     private String groupName;
-    private int passNum;
+    private Integer passNum;
     private Date passEndDate;
     @NotBlank
     private boolean specialStatus;
@@ -119,11 +119,11 @@ public class Person {
         this.groupName = groupName;
     }
 
-    public int getPassNum() {
+    public Integer getPassNum() {
         return passNum;
     }
 
-    public void setPassNum(int passNum) {
+    public void setPassNum(Integer passNum) {
         this.passNum = passNum;
     }
 

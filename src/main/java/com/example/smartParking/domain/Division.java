@@ -10,16 +10,16 @@ import javax.validation.constraints.NotBlank;
 public class Division {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
     @NotBlank(message = "Название института не может быть пустым")
     @Length(max = 30, message = "Название института слишком длинное")
     private String name;
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

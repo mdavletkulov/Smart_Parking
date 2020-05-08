@@ -11,7 +11,7 @@ public class Automobile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
     @NotBlank(message = "Номер машины не может быть пустым")
     @Length(max = 12, message = "Значение номера машины слишком длинное")
     private String number;
@@ -25,11 +25,11 @@ public class Automobile {
     @JoinColumn(name = "color_id")
     private Color color;
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

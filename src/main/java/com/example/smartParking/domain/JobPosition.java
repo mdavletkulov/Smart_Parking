@@ -10,18 +10,18 @@ import javax.validation.constraints.NotBlank;
 public class JobPosition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
     @Enumerated(EnumType.STRING)
     private TypeJobPosition typeJobPosition;
     @NotBlank(message = "Название должности не может быть пустой")
     @Length(max = 60, message = "Значение должности слишком длинное")
     private String namePosition;
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

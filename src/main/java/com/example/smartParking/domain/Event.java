@@ -6,14 +6,14 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "parking_event")
-public class ParkingEvent {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "place_id")
-    private ParkingPlace place;
+    private Place place;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "automobile_id")
     private Automobile automobile;
@@ -21,19 +21,19 @@ public class ParkingEvent {
     private Timestamp startTime;
     private Timestamp endTime;
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 
-    public ParkingPlace getPlace() {
+    public Place getPlace() {
         return place;
     }
 
-    public void setPlace(ParkingPlace place) {
+    public void setPlace(Place place) {
         this.place = place;
     }
 

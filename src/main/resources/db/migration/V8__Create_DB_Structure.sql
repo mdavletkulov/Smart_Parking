@@ -1,30 +1,30 @@
 create table automobile
 (
-    id        int identity not null,
+    id        bigint identity not null,
     model     varchar(50),
     number    varchar(12),
-    color_id  int not null,
-    person_id int not null,
+    color_id  bigint not null,
+    person_id bigint not null,
     primary key (id)
 )
 
 create table color
 (
-    id   int  identity not null,
+    id   bigint  identity not null,
     name varchar(255) not null,
     primary key (id)
 )
 
 create table division
 (
-    id   int identity not null,
+    id   bigint identity not null,
     name varchar(30) not null,
     primary key (id)
 )
 
 create table job_position
 (
-    id                int identity not null,
+    id                bigint identity not null,
     name_position     varchar(60)  not null,
     type_job_position varchar(255) not null,
     primary key (id)
@@ -32,7 +32,7 @@ create table job_position
 
 create table parking
 (
-    id           int identity not null,
+    id           bigint identity not null,
     description  varchar(150),
     place_number int not null,
     primary key (id)
@@ -40,26 +40,26 @@ create table parking
 
 create table parking_event
 (
-    id            int identity not null,
+    id            bigint identity not null,
     end_time      datetime2,
     start_time    datetime2 not null,
-    automobile_id int       not null,
-    place_id      int       not null,
+    automobile_id bigint       not null,
+    place_id      bigint       not null,
     primary key (id)
 )
 
 create table parking_place
 (
-    id           int identity not null,
+    id           bigint identity not null,
     place_number int not null,
-    parking_id   int not null,
+    parking_id   bigint not null,
     special_status       bit         not null,
     primary key (id)
 )
 
 create table person
 (
-    id             int identity not null,
+    id             bigint identity not null,
     course         int,
     employee       bit         not null,
     first_name     varchar(60) not null,
@@ -70,16 +70,16 @@ create table person
     second_name    varchar(60),
     special_status bit         not null,
     student        bit         not null,
-    job_position   int,
-    subdivision    int,
+    job_position   bigint,
+    subdivision    bigint,
     primary key (id)
 )
 
 create table subdivision
 (
-    id          int identity not null,
+    id          bigint identity not null,
     name        varchar(100) not null,
-    division_id int,
+    division_id bigint,
     primary key (id)
 )
 

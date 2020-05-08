@@ -11,14 +11,14 @@
         </thead>
         <tbody>
         <#list users as user>
-            <#if user.username != currentUser.username>
+<#--            <#if user.username != currentUser.username>-->
         <tr>
             <td>${user.username}</td>
             <td>${user.getFullName()}</td>
             <td>${user.getRole()}</td>
             <td><a href="/user/${user.id}">edit</a></td>
         </tr>
-            </#if>
+<#--            </#if>-->
         </#list>
         </tbody>
     </table>

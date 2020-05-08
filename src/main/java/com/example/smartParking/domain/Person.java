@@ -11,7 +11,7 @@ import java.util.Date;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
 
     @NotBlank(message = "Поле имени не может быть пустым")
     @Length(max = 60, message = "Значение имени слишком длинное")
@@ -39,11 +39,11 @@ public class Person {
     @NotBlank
     private boolean specialStatus;
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

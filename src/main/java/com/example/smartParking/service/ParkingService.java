@@ -1,8 +1,8 @@
 package com.example.smartParking.service;
 
 import com.example.smartParking.domain.*;
-import com.example.smartParking.repos.ParkingEventRepo;
-import com.example.smartParking.repos.ParkingPlaceRepo;
+import com.example.smartParking.repos.EventRepo;
+import com.example.smartParking.repos.PlaceRepo;
 import com.example.smartParking.repos.ParkingRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ import java.util.Map;
 public class ParkingService {
 
     @Autowired
-    ParkingPlaceRepo parkingPlaceRepo;
+    EventRepo eventRepo;
 
     @Autowired
-    ParkingEventRepo parkingEventRepo;
+    PlaceRepo placeRepo;
 
     @Autowired
     ParkingRepo parkingRepo;
@@ -30,13 +30,13 @@ public class ParkingService {
     }
 
 
-    public List<ParkingPlace> findPlaceByParkingId(int parkingId) {
-        return parkingPlaceRepo.findByParkingId(parkingId);
+    public List<Place> findPlaceByParkingId(Long parkingId) {
+        return placeRepo.findByParkingNum(parkingId);
     }
 
-    public Map<String, ?> getParkingEventAttributes(Model model, ParkingPlace place) {
-        ParkingEvent parkingEvent = parkingEventRepo.findActiveParkingEvent(place.getId());
-        Automobile automobile = parkingEvent.getAutomobile();
+    public Map<String, ?> getParkingEventAttributes(Model model, Place place) {
+        Event event = eventRepo.findActiveParkingEvent(place.getId());
+        Automobile automobile = event.getAutomobile();
         Person person = automobile.getPerson();
         boolean statusViolation = place.isSpecialStatus() && !person.isSpecialStatus();
         boolean passViolation = person.getPassNum() == null
@@ -46,7 +46,7 @@ public class ParkingService {
             put("violation", statusViolation);
             put("automobile", automobile);
             put("person", person);
-            put("parkingEvent", parkingEvent);
+            put("parkingEvent", event);
         }};
     }
 

@@ -5,10 +5,10 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "parking_place")
-public class ParkingPlace {
+public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parking_id")
     private Parking parking;
@@ -33,11 +33,11 @@ public class ParkingPlace {
         this.specialStatus = specialStatus;
     }
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 public class Subdivision {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
     @ManyToOne
     @JoinColumn(name = "division_id")
     private Division division;
@@ -18,11 +18,11 @@ public class Subdivision {
     @Length(max = 100, message = "Название кафедры слишком длинное")
     private String name;
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

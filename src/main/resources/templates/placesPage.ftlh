@@ -6,7 +6,7 @@
                 <div class="row mt-5">
             </#if>
             <div class="card col-6 p-0">
-                <a href="/${parking.getId()}/${place.id}">
+                <a href="${parking.getId()}/${place.id}">
                     <div class="card-body">
                         <h3 class="card-title">Парковочное место <br> ${place.getId()}</h3>
                     </div>

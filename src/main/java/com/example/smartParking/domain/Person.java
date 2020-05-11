@@ -31,7 +31,7 @@ public class Person {
     private boolean employee;
     @NotBlank
     private boolean student;
-    private int course;
+    private Integer course;
     @Length(max = 10, message = "Значение группы слишком длинное")
     private String groupName;
     private Integer passNum;
@@ -103,11 +103,11 @@ public class Person {
         this.student = student;
     }
 
-    public int getCourse() {
+    public Integer getCourse() {
         return course;
     }
 
-    public void setCourse(int course) {
+    public void setCourse(Integer course) {
         this.course = course;
     }
 
@@ -120,6 +120,10 @@ public class Person {
     }
 
     public Integer getPassNum() {
+        if (getPassEndDate() == null || getPassEndDate().getTime() < new Date().getTime()) {
+            passNum = null;
+            return null;
+        }
         return passNum;
     }
 
@@ -141,5 +145,9 @@ public class Person {
 
     public void setSpecialStatus(boolean specialStatus) {
         this.specialStatus = specialStatus;
+    }
+
+    public String getFullName() {
+        return secondName + " " + firstName + " " + middleName;
     }
 }

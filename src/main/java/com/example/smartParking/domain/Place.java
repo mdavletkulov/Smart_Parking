@@ -13,15 +13,15 @@ public class Place {
     @JoinColumn(name = "parking_id")
     private Parking parking;
     @NotBlank(message = "Номер места не может быть пустым")
-    private int placeNumber;
+    private Integer placeNumber;
     @NotBlank(message = "Статус парковочного места не может быть пустым")
     private boolean specialStatus;
 
-    public int getPlaceNumber() {
+    public Integer getPlaceNumber() {
         return placeNumber;
     }
 
-    public void setPlaceNumber(int placeNumber) {
+    public void setPlaceNumber(Integer placeNumber) {
         this.placeNumber = placeNumber;
     }
 

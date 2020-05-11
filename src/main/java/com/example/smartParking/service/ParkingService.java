@@ -39,10 +39,7 @@ public class ParkingService {
         Automobile automobile = event.getAutomobile();
         Person person = automobile.getPerson();
         boolean statusViolation = place.isSpecialStatus() && !person.isSpecialStatus();
-        boolean passViolation = person.getPassNum() == null
-                || person.getPassEndDate().getTime() < new Date().getTime();
         return new HashMap<String, Object>() {{
-            put("passViolation", passViolation);
             put("violation", statusViolation);
             put("automobile", automobile);
             put("person", person);

@@ -64,4 +64,8 @@ public class Automobile {
     public void setColor(Color color) {
         this.color = color;
     }
+
+    public String getInfo() {
+        return model + "; Цвет: " + color.getName();
+    }
 }

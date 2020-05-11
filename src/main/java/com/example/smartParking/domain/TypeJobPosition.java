@@ -1,7 +1,7 @@
 package com.example.smartParking.domain;
 
 public enum TypeJobPosition {
-    PPS("ППС"), AUP("АУП");
+    ППС("ППС"), АУП("АУП");
 
     public String type;
 

@@ -13,5 +13,6 @@
         <#assign
         name = "unknown"
         isAdmin = false
+        isManager = false
         >
 </#if>

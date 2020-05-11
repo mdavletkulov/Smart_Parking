@@ -112,9 +112,9 @@
         </div>
 
 
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <div class="btn-group btn-group-toggle mb-3" data-toggle="buttons">
             <#list roles as role>
-                <label class="btn btn-secondary <#if user??> ${(user.role == role)?string("active", "")}                 </#if>">
+                <label class="btn btn-secondary <#if user??> ${(user.role == role)?string("active", "")}</#if>">
                     <input type="radio" name="role" id="${role}" value="${role}"
                            checked="<#if user??> ${(user.role == role)?string("checked", "")}</#if>"> ${role}
                 </label>

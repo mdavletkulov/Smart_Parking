@@ -1,0 +1,27 @@
+h3.active {
+    color: gray;
+}
+
+h3.viol {
+    color: red;
+}
+
+h3.free {
+    color: green;
+}
+
+/*body {*/
+/*    background-image: url("/img/bg.jpg");*/
+/*    !* Half height *!*/
+
+/*    !* Center and scale the image nicely *!*/
+/*    background-position: center;*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: cover;*/
+/*}*/
+
+.bg {
+    /* The image used */
+    background-image: url("/img/bg2.jpg");
+    background-size: cover;
+}

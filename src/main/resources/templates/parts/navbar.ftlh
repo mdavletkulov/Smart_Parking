@@ -9,12 +9,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">Домой</a>
+                <a class="nav-link" href="/parking">Парковки</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/main">Сообщения</a>
-            </li>
-            <#if isAdmin>
+            <#if isAdmin || isManager>
             <li class="nav-item">
                 <a class="nav-link" href="/user">Список пользователей</a>
             </li>
@@ -24,12 +21,32 @@
                     <a class="nav-link" href="/user/profile">Профиль</a>
                 </li>
             </#if>
+            <#if isAdmin || isManager>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">Формирование отчетов</a>
+                </li>
+            </#if>
+            <#if isAdmin || isManager>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">Редактирование данных</a>
+                </li>
+            </#if>
         </ul>
 
         <div class="navbar-text mr-3">
             <#if user??>
             ${name}</div>
+        <#if isAdmin || isManager>
+            <form action="/registration" method="get">
+                <button type="submit" class="btn btn-primary mr-2">Зарегестрировать</button>
+            </form>
+        </#if>
         <@l.logout />
-            </#if>
+
+        <#else>
+            <form action="/login" method="get">
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </form>
+        </#if>
     </div>
 </nav>

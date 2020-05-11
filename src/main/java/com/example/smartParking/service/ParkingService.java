@@ -2,13 +2,12 @@ package com.example.smartParking.service;
 
 import com.example.smartParking.domain.*;
 import com.example.smartParking.repos.EventRepo;
-import com.example.smartParking.repos.PlaceRepo;
 import com.example.smartParking.repos.ParkingRepo;
+import com.example.smartParking.repos.PlaceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,16 +34,19 @@ public class ParkingService {
     }
 
     public Map<String, ?> getParkingEventAttributes(Model model, Place place) {
-        Event event = eventRepo.findActiveParkingEvent(place.getId());
+        Event event = eventRepo.findActivePlaceEvent(place.getId());
         Automobile automobile = event.getAutomobile();
         Person person = automobile.getPerson();
-        boolean statusViolation = place.isSpecialStatus() && !person.isSpecialStatus();
         return new HashMap<String, Object>() {{
-            put("violation", statusViolation);
+            put("violation", event.isSpecialStatusViolation());
             put("automobile", automobile);
             put("person", person);
             put("parkingEvent", event);
         }};
+    }
+
+    public List<Event> getActualEvents(Long parkingId) {
+        return eventRepo.findActiveParkingEvent(parkingId);
     }
 
 

@@ -65,10 +65,10 @@
         </tr>
         <tr class="d-flex">
             <th scope="row">Место для инвалидов</th>
-            <#if specialStatus??>
+            <#if specialStatus>
                 <td content="\2611">&#9745;</td>
             <#else>
-                <td content="\2612">&#9746;</td>
+                <td content="\2612">&#x2716;</td>
             </#if>
         </tr>
         <#if person.getPassNum()??>
@@ -83,7 +83,7 @@
             </tr>
         </#if>
         <tr class="d-flex">
-            <#if violation??>
+            <#if violation>
                 <td class="bg-danger w-100">Нарушение правил парковки на место для инвалидов!</td>
             </#if>
         </tr>

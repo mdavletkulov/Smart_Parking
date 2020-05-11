@@ -3,6 +3,7 @@ package com.example.smartParking.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "parking_event")
@@ -59,5 +60,14 @@ public class Event {
 
     public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
+    }
+
+    public boolean isPassViolation() {
+        return automobile.getPerson().getPassNum() == null
+                || automobile.getPerson().getPassEndDate().getTime() < new Date().getTime();
+    }
+
+    public boolean isSpecialStatusViolation() {
+        return place.isSpecialStatus() && !automobile.getPerson().isSpecialStatus();
     }
 }

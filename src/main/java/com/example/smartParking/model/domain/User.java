@@ -1,4 +1,4 @@
-package com.example.smartParking.domain;
+package com.example.smartParking.model.domain;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;

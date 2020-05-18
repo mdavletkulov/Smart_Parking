@@ -1,6 +1,6 @@
 package com.example.smartParking.service;
 
-import com.example.smartParking.domain.*;
+import com.example.smartParking.model.domain.*;
 import com.example.smartParking.repos.EventRepo;
 import com.example.smartParking.repos.ParkingRepo;
 import com.example.smartParking.repos.PlaceRepo;

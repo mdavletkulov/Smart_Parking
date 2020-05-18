@@ -1,4 +1,4 @@
-package com.example.smartParking.domain.dto;
+package com.example.smartParking.model.domain.dto;
 
 public class UpdateParking {
 

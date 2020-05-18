@@ -1,6 +1,6 @@
 package com.example.smartParking.repos;
 
-import com.example.smartParking.domain.Message;
+import com.example.smartParking.model.domain.Message;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

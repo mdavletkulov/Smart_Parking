@@ -1,6 +1,6 @@
 package com.example.smartParking.repos;
 
-import com.example.smartParking.domain.Place;
+import com.example.smartParking.model.domain.Place;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

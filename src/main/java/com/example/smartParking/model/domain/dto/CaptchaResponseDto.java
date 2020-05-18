@@ -1,4 +1,4 @@
-package com.example.smartParking.domain.dto;
+package com.example.smartParking.model.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

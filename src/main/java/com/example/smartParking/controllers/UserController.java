@@ -1,7 +1,7 @@
 package com.example.smartParking.controllers;
 
-import com.example.smartParking.domain.Role;
-import com.example.smartParking.domain.User;
+import com.example.smartParking.model.domain.Role;
+import com.example.smartParking.model.domain.User;
 import com.example.smartParking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,8 +14,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -43,25 +43,5 @@ public class UserController {
             @RequestParam("userId") User user) {
         userService.saveUser(user, username, form);
         return "redirect:/user";
-    }
-
-    @GetMapping("/profile")
-    public String getProfile(Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("user", user);
-
-        return "profile";
-    }
-
-    @PostMapping("/profile")
-    public String updateProfile(@AuthenticationPrincipal User user,
-                                @RequestParam String password,
-                                @RequestParam String username,
-                                @RequestParam String firstName,
-                                @RequestParam String secondName,
-                                @RequestParam String middleName) {
-
-        userService.updateProfile(user, password, username,
-                firstName, secondName, middleName);
-        return "redirect:/user/profile";
     }
 }

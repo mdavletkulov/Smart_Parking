@@ -23,7 +23,7 @@
             </#if>
             <#if isAdmin || isManager>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user">Формирование отчетов</a>
+                    <a class="nav-link" href="/report/subdivision">Формирование отчетов</a>
                 </li>
             </#if>
             <#if isAdmin || isManager>

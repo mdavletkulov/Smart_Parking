@@ -1,9 +1,9 @@
 package com.example.smartParking.controllers;
 
 import com.example.smartParking.Utils.ControllerUtils;
-import com.example.smartParking.domain.Role;
-import com.example.smartParking.domain.User;
-import com.example.smartParking.domain.dto.CaptchaResponseDto;
+import com.example.smartParking.model.domain.Role;
+import com.example.smartParking.model.domain.User;
+import com.example.smartParking.model.domain.dto.CaptchaResponseDto;
 import com.example.smartParking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,6 +75,11 @@ public class RegistrationController {
             model.addAttribute("middleNameError", "Отчество не должно содержать цифр");
             bindingResult.addError(new ObjectError("middleNameError", "Отчество не должно содержать цифр"));
         }
+        if (user.getRole() == null) {
+            model.addAttribute("roleError", "Выберите роль пользователя");
+            bindingResult.addError(new ObjectError("roleError", "Выберите роль пользователя"));
+        }
+
 
         if (bindingResult.hasErrors() || !response.isSuccess()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);

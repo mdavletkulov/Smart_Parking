@@ -24,7 +24,6 @@
             </#if>
         </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <a href="/registration">Добавить нового пользователя</a>
         <button type="submit" class="btn btn-primary">Войти</button>
     </form>
 </#macro>
@@ -66,7 +65,8 @@
         </div>
         <div class="form-group">
             <label for="middleName">Отчество</label>
-            <input type="text" class="form-control ${(middleNameError??)?string('is-invalid', '')} col-sm-4" id="middleName"
+            <input type="text" class="form-control ${(middleNameError??)?string('is-invalid', '')} col-sm-4"
+                   id="middleName"
                    value="<#if user??>${user.middleName}</#if>"
                    placeholder="Введите отчество"
                    name="middleName">
@@ -111,15 +111,18 @@
             </#if>
         </div>
 
-
-        <div class="btn-group btn-group-toggle mb-3" data-toggle="buttons">
+        <div class="btn-group btn-group-toggle form-group" data-toggle="buttons">
             <#list roles as role>
-                <label class="btn btn-secondary <#if user??> ${(user.role == role)?string("active", "")}</#if>">
-                    <input type="radio" name="role" id="${role}" value="${role}"
-                           checked="<#if user??> ${(user.role == role)?string("checked", "")}</#if>"> ${role}
+                <label class="btn btn-secondary">
+                    <input type="radio" name="role" id="${role}" value="${role}"> ${role}
                 </label>
             </#list>
         </div>
+            <#if roleError??>
+                <div class="invalid-feedback mb-3" style="display: block">
+                    ${roleError}
+                </div>
+            </#if>
 
         <div class="col-sm-1">
             <div class="g-recaptcha" data-sitekey="6Ld2WPIUAAAAAD7PuG0wfhYFEIK408dIjng1u1fa"></div>

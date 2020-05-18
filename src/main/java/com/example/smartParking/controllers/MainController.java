@@ -1,8 +1,8 @@
 package com.example.smartParking.controllers;
 
 import com.example.smartParking.Utils.ControllerUtils;
-import com.example.smartParking.domain.Message;
-import com.example.smartParking.domain.User;
+import com.example.smartParking.model.domain.Message;
+import com.example.smartParking.model.domain.User;
 import com.example.smartParking.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

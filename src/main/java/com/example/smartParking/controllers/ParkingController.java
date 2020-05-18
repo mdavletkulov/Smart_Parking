@@ -1,9 +1,9 @@
 package com.example.smartParking.controllers;
 
-import com.example.smartParking.domain.Event;
-import com.example.smartParking.domain.Parking;
-import com.example.smartParking.domain.Place;
-import com.example.smartParking.domain.dto.UpdateParking;
+import com.example.smartParking.model.domain.Event;
+import com.example.smartParking.model.domain.Parking;
+import com.example.smartParking.model.domain.Place;
+import com.example.smartParking.model.domain.dto.UpdateParking;
 import com.example.smartParking.service.ParkingService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;

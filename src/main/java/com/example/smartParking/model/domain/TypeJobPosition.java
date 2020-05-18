@@ -1,4 +1,4 @@
-package com.example.smartParking.domain;
+package com.example.smartParking.model.domain;
 
 public enum TypeJobPosition {
     ППС("ППС"), АУП("АУП");

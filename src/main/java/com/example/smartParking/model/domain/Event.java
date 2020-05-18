@@ -1,4 +1,4 @@
-package com.example.smartParking.domain;
+package com.example.smartParking.model.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -64,7 +64,7 @@ public class Event {
 
     public boolean isPassViolation() {
         return automobile.getPerson().getPassNum() == null
-                || automobile.getPerson().getPassEndDate().getTime() < new Date().getTime();
+                || automobile.getPerson().getPassEndDate().getTime() < getStartTime().getTime();
     }
 
     public boolean isSpecialStatusViolation() {

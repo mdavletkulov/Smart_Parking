@@ -1,7 +1,7 @@
 package com.example.smartParking.service;
 
-import com.example.smartParking.domain.Role;
-import com.example.smartParking.domain.User;
+import com.example.smartParking.model.domain.Role;
+import com.example.smartParking.model.domain.User;
 import com.example.smartParking.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -56,7 +57,7 @@ public class UserService implements UserDetailsService {
     }
 
     private void sendMessage(User user) {
-        if (!StringUtils.isEmpty(user.getUsername())) {
+        if (!user.getUsername().isEmpty()) {
             String message = String.format(
                     "Здравствуйте, %s! \n" +
                             "Добро пожаловать в систему Умная парковка. Пожалуйста, пройдите по ссылке для окончания регистрации" +
@@ -105,28 +106,53 @@ public class UserService implements UserDetailsService {
         refreshSession();
     }
 
-    public void updateProfile(User user, String password, String email,
-                              String firstName, String secondName, String middleName) {
+    public boolean updateProfile(User user, String email,
+                                 String firstName, String secondName, String middleName, Model model) {
         String userEmail = user.getUsername();
-        boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
-                (userEmail != null && !userEmail.equals(email));
+        boolean correctChanging = true;
+        if (email == null || email.isBlank()) {
+            model.addAttribute("usernameError", "Поле электронной почты было пустым");
+            correctChanging = false;
+        }
+        if (firstName == null || firstName.isBlank()) {
+            model.addAttribute("firstNameError", "Поле имени было пустым");
+            correctChanging = false;
+        }
+        if (secondName == null || secondName.isBlank()) {
+            model.addAttribute("secondNameError", "Поле фамилии было пустым");
+            correctChanging = false;
+        }
 
-        if (isEmailChanged) user.setUsername(email);
+        if (correctChanging) {
+            boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
+                    (userEmail != null && !userEmail.equals(email));
+            if (isEmailChanged) user.setUsername(email);
+//            if (email != null && !email.isBlank())
+//                user.setActivationCode(UUID.randomUUID().toString());
+//            if (isEmailChanged) sendMessage(user);
+            user.setFirstName(firstName);
+            user.setSecondName(secondName);
+            user.setMiddleName(middleName);
+            userRepo.save(user);
+            refreshSession();
+        }
+        return correctChanging;
+    }
 
-        if (!StringUtils.isEmpty(email))
-            user.setActivationCode(UUID.randomUUID().toString());
-
-        if (isEmailChanged) sendMessage(user);
-
-        if (!StringUtils.isEmpty(password))
+    public boolean updatePassword(User user, String password, String password2, Model model) {
+        if (!password.isBlank() && !password2.isBlank() && password.equals(password2)) {
             user.setPassword(passwordEncoder.encode(password));
-
-        if (!StringUtils.isEmpty(firstName)) user.setFirstName(firstName);
-        if (!StringUtils.isEmpty(secondName)) user.setSecondName(secondName);
-        user.setMiddleName(middleName);
-
-        userRepo.save(user);
-        refreshSession();
+            userRepo.save(user);
+            refreshSession();
+            model.addAttribute("message", "Пароль успешно изменен!");
+            return true;
+        } else {
+            if (StringUtils.isEmpty(password)) model.addAttribute("passwordError", "Поле пароля пустое");
+            if (StringUtils.isEmpty(password2))
+                model.addAttribute("password2Error", "Поле подтверждения пароля пустое");
+            if (!password.equals(password2)) model.addAttribute("passwordError", "Пароли не совпадают");
+            return false;
+        }
     }
 
     private void refreshSession() {

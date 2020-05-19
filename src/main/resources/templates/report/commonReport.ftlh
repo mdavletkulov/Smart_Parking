@@ -131,56 +131,8 @@
             }
         }
 
-        function populate(selector, name) {
-            $(selector)
-                .append('<option value="' + name + '">' + name + '</option>')
-        }
-
-        function sendRequest() {
-            var st = "${(startTimeError??)?string('yes', 'no')}";
-            console.log(st);
-            var reportRequest = createJson();
-            console.log(JSON.stringify(reportRequest));
-            var token = $("input[name='_csrf']").val();
-            var header = "X-CSRF-TOKEN";
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(header, token);
-                }
-            });
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "common",
-                dataType: 'json',
-                data: JSON.stringify(reportRequest),
-                async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-                cache: false,    //This will force requested pages not to be cached by the browser
-                processData: false, //To avoid making query String instead of JSON
-                timeout: 600000,
-                success:function(response) {
-                    window.location = '/report/common';
-                },
-                error: function (e) {
-                    alert(e);
-                }
-            });
-        }
-
         function isEmpty(el) {
             return !$.trim(el.html())
-        }
-
-        function createJson() {
-            var requestJson = new Object();
-            requestJson.typeJob = typesJobSelect.children("option:selected").val();
-            requestJson.division = divisionsSelect.children("option:selected").val();
-            requestJson.subdivision = subdivisionSelect.children("option:selected").val();
-            requestJson.startTime = $('input[name ="startTime"]').val();
-            requestJson.endTime = $('input[name ="endTime"]').val();
-            // requestJson.student ='abc';
-            // requestJson.employee ='abc';
-            return requestJson;
         }
 
 

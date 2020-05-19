@@ -1,4 +1,5 @@
 <#macro dateReport>
+    <script type="text/javascript" src="/static/js/dateReport.js"></script>
     <div class="form-group col-4">
         <label for="startTime">Начальная дата</label>
         <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
@@ -29,23 +30,5 @@
             </#if>
         </div>
     </div>
-
-
-    <script type="text/javascript">
-
-
-        $(function () {
-            $('#datetimepicker1').datetimepicker({
-                locale: 'ru'
-            });
-            $('#datetimepicker2').datetimepicker({
-                locale: 'ru',
-                useCurrent: false
-            });
-            $("#datetimepicker1").on("change.datetimepicker", function (e) {
-                $('#datetimepicker2').datetimepicker('minDate', e.date);
-            });
-        });
-    </script>
 </#macro>
 

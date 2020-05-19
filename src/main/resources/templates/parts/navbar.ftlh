@@ -8,9 +8,11 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            <#if user??>
             <li class="nav-item">
                 <a class="nav-link" href="/parking">Парковки</a>
             </li>
+            </#if>
             <#if isAdmin || isManager>
             <li class="nav-item">
                 <a class="nav-link" href="/user">Список пользователей</a>

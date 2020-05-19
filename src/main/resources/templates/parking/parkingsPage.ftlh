@@ -7,7 +7,7 @@
         </#if>
         <div class="card col-4 p-0">
             <a href="/parking/${parking.id}">
-            <img src="img/parking_1.jpg" class="card-img-top">
+            <img src="/img/1_corpus.jpg" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">${parking.getDescription()}</h5>
                 <p class="card-text">Парковка расчитана на ${parking.getPlaceNumber()} мест</p>

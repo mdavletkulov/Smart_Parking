@@ -2,23 +2,26 @@ package com.example.smartParking.controllers;
 
 import com.example.smartParking.model.domain.Division;
 import com.example.smartParking.model.domain.Event;
-import com.example.smartParking.model.domain.Person;
 import com.example.smartParking.model.domain.Subdivision;
-import com.example.smartParking.repos.*;
+import com.example.smartParking.repos.AutomobileRepo;
+import com.example.smartParking.repos.DivisionRepo;
+import com.example.smartParking.repos.PersonRepo;
+import com.example.smartParking.repos.SubdivisionRepo;
 import com.example.smartParking.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Controller
 @RequestMapping("/report")
+@PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
 public class ReportController {
 
     @Autowired

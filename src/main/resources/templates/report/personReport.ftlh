@@ -1,6 +1,7 @@
 <#import "../parts/reportNav.ftlh" as rN>
 <#import "../parts/dateReport.ftlh" as r>
 <@rN.reportNav>
+    <script type="text/javascript" src="/static/js/personReport.js"></script>
     <div class="form-group">
         <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
     </div>
@@ -45,20 +46,3 @@
         </tbody>
     </table>
 </@rN.reportNav>
-
-<script>
-
-    $(document).ready(function () {
-
-        $("#search").keyup(function () {
-            _this = this;
-            $.each($("#persons tbody tr"), function () {
-                if ($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                }
-            });
-        });
-    });
-</script>

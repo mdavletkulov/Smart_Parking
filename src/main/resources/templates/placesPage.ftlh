@@ -24,10 +24,6 @@
         var parkingId = "${parking.getId()}";
 
         function foo() {
-            var countryId = $(this).find(":selected").val();
-            let xhr;
-
-
             $.ajax({
                 type: "GET",
                 contentType: "application/json",

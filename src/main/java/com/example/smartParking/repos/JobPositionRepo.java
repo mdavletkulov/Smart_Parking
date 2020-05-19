@@ -1,7 +1,17 @@
 package com.example.smartParking.repos;
 
 import com.example.smartParking.model.domain.JobPosition;
+import com.example.smartParking.model.domain.Subdivision;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface JobPositionRepo extends CrudRepository<JobPosition, Long> {
+
+    @Query(
+            value = "SELECT DISTINCT type_job_position " +
+                    "FROM job_position",
+            nativeQuery = true)
+    List<String> findAllPositionNames();
 }

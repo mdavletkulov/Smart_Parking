@@ -31,7 +31,7 @@ public class ParkingController {
         ArrayList<Parking> parkings = Lists.newArrayList(parkingService.findAllParking());
         model.addAttribute("parkings", parkings);
         model.addAttribute("parkingsSize", parkings.size());
-        return "parkingsPage";
+        return "parking/parkingsPage";
     }
 
     @GetMapping("{parking}")
@@ -40,7 +40,7 @@ public class ParkingController {
         model.addAttribute("parking", parking);
         model.addAttribute("places", places);
         model.addAttribute("placesSize", places.size());
-        return "placesPage";
+        return "parking/placesPage";
     }
 
     @GetMapping("{parking}/{place}")
@@ -49,7 +49,7 @@ public class ParkingController {
         model.addAttribute("specialStatus", place.isSpecialStatus());
         model.addAttribute("parkingName", place.getParking().getDescription());
         model.addAllAttributes(parkingService.getParkingEventAttributes(model, place));
-        return "placeProfile";
+        return "parking/placeProfile";
     }
 
     @GetMapping(value = "updateStatus/{parkingId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

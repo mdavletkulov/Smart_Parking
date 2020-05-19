@@ -1,5 +1,5 @@
-<#import "parts/reportNav.ftlh" as rN>
-<#import "parts/dateReport.ftlh" as r>
+<#import "../parts/reportNav.ftlh" as rN>
+<#import "../parts/dateReport.ftlh" as r>
 
 <@rN.reportNav>
     <#if message?has_content>
@@ -9,7 +9,7 @@
     </#if>
     <form method="post" action="/report/common">
     <div class="form-group col-4 typesJob">
-        <label class="typesJob" for="typesJob" <#if !employee??> hidden="hidden"</#if>>Категории сотрудников (опционально)</label>
+        <label class="typesJob" for="typesJob" <#if !employee??> hidden="hidden"</#if>>Подразделение (опционально)</label>
         <select class="form-control typesJob" name="typesJob" <#if !employee??> hidden="hidden"</#if>>
             <option selected="selected" value=""/>
             <#list typesJob as typeJob>
@@ -18,7 +18,7 @@
         </select>
     </div>
     <div class="form-group col-4 division">
-        <label class="division" for="division" <#if employee??> hidden="hidden"</#if>>Институты (опционально)</label>
+        <label class="division" for="division" <#if employee??> hidden="hidden"</#if>>Институт (опционально)</label>
         <select class="form-control division" name="division" <#if employee??> hidden="hidden"</#if>>
             <option selected="selected" value=""/>
             <#list divisions as division>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-group col-4 subdivisions">
-        <label class="subdivision" for="subdivision"  hidden="hidden">Кафедры (опционально)</label>
+        <label class="subdivision" for="subdivision"  hidden="hidden">Кафедра (опционально)</label>
         <select class="form-control subdivision" name="subdivision" hidden="hidden">
         </select>
     </div>

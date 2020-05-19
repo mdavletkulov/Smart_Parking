@@ -24,7 +24,7 @@ public class UserController {
     public String userList(@AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("currentUser", currentUser);
-        return "userList";
+        return "admin/userList";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -32,7 +32,7 @@ public class UserController {
     public String userEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
-        return "userEdit";
+        return "admin/userEdit";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

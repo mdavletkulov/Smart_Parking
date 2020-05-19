@@ -28,9 +28,6 @@ public class ReportService {
     ReportCreatorService reportCreatorService;
 
     @Autowired
-    ReportService reportService;
-
-    @Autowired
     EventRepo eventRepo;
 
     @Autowired
@@ -79,7 +76,7 @@ public class ReportService {
 
     public void createReport(List<Event> events, Model model) {
         if (!events.isEmpty()) {
-            List<ReportEntity> reportEntities = reportService.createReportEntities(events);
+            List<ReportEntity> reportEntities = createReportEntities(events);
             String savedPath = reportCreatorService.createDocxReport(reportEntities);
             if (savedPath != null && !savedPath.isBlank()) {
                 model.addAttribute("messageType", "success");
@@ -98,8 +95,8 @@ public class ReportService {
                                         String startTime, String endTime,
                                         Boolean student, Boolean employee, Boolean violation) {
         List<Event> events = new ArrayList<>();
-        Timestamp startDateTime = reportService.convertToTimestamp(startTime);
-        Timestamp endDateTime = reportService.convertToTimestamp(endTime);
+        Timestamp startDateTime = convertToTimestamp(startTime);
+        Timestamp endDateTime = convertToTimestamp(endTime);
         if (student) {
             if (subdivision != null && !subdivision.isBlank()) {
                 events = eventRepo.findAllParkingBetweenDatesBySubdivisionStudent(startDateTime, endDateTime, subdivision);
@@ -187,4 +184,13 @@ public class ReportService {
         return violationPresent;
     }
 
+    public List<Event> findSimpleEvents(String startTime, String endTime, String personId) {
+        Timestamp startDateTime = convertToTimestamp(startTime);
+        Timestamp endDateTime = convertToTimestamp(endTime);
+        if (personId != null && !personId.isBlank()) {
+            Long personIdL = Long.valueOf(personId);
+            return eventRepo.findAllPersonParkingBetweenDates(startDateTime, endDateTime, personIdL);
+        }
+       return eventRepo.findAllParkingBetweenDates(startDateTime, endDateTime);
+    }
 }

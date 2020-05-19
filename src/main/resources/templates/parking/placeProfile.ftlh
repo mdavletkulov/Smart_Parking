@@ -1,4 +1,4 @@
-<#import "parts/common.ftlh" as c>
+<#import "../parts/common.ftlh" as c>
 <@c.page>
     <h4>${parkingName}</h4>
     <h5 class="mt-3">Парковочное место номер ${placeNum}</h5>

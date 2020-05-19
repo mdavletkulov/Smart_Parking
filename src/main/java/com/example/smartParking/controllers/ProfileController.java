@@ -22,7 +22,7 @@ public class ProfileController {
     public String getProfile(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("user", user);
 
-        return "profile";
+        return "admin/profile";
     }
 
     @PostMapping("/profile")
@@ -43,7 +43,7 @@ public class ProfileController {
     @GetMapping("/changePassword")
     public String changePassword(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("user", user);
-        return "changePassword";
+        return "admin/changePassword";
     }
 
     @PostMapping("/changePassword")

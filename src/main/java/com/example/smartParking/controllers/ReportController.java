@@ -2,13 +2,10 @@ package com.example.smartParking.controllers;
 
 import com.example.smartParking.model.domain.Division;
 import com.example.smartParking.model.domain.Event;
+import com.example.smartParking.model.domain.Person;
 import com.example.smartParking.model.domain.Subdivision;
-import com.example.smartParking.repos.DivisionRepo;
-import com.example.smartParking.repos.EventRepo;
-import com.example.smartParking.repos.JobPositionRepo;
-import com.example.smartParking.repos.SubdivisionRepo;
+import com.example.smartParking.repos.*;
 import com.example.smartParking.service.ReportService;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -28,20 +25,20 @@ public class ReportController {
     ReportService reportService;
 
     @Autowired
-    EventRepo eventRepo;
-
-    @Autowired
     DivisionRepo divisionRepo;
 
     @Autowired
     SubdivisionRepo subdivisionRepo;
 
     @Autowired
-    JobPositionRepo jobPositionRepo;
+    PersonRepo personRepo;
+
+    @Autowired
+    AutomobileRepo automobileRepo;
 
     @GetMapping
     public String getReportsPage() {
-        return "reportMain";
+        return "report/reportMain";
     }
 
     @GetMapping("common")
@@ -49,7 +46,7 @@ public class ReportController {
         reportService.addDefaultAttributes(model);
         model.addAttribute("criteria", "yes");
         model.addAttribute("criteria_common", "yes");
-        return "commonReport";
+        return "report/commonReport";
     }
 
     @GetMapping("common/student")
@@ -58,7 +55,7 @@ public class ReportController {
         model.addAttribute("criteria", "yes");
         model.addAttribute("criteria_student", "yes");
         model.addAttribute("student", "yes");
-        return "commonReport";
+        return "report/commonReport";
     }
 
     @GetMapping("common/employee")
@@ -67,7 +64,7 @@ public class ReportController {
         model.addAttribute("criteria", "yes");
         model.addAttribute("criteria_employee", "yes");
         model.addAttribute("employee", "yes");
-        return "commonReport";
+        return "report/commonReport";
     }
 
     @GetMapping("common/violation")
@@ -75,7 +72,7 @@ public class ReportController {
         reportService.addDefaultAttributes(model);
         model.addAttribute("violation", "yes");
         model.addAttribute("violation_common", "yes");
-        return "commonReport";
+        return "report/commonReport";
     }
 
     @GetMapping("common/student/violation")
@@ -84,7 +81,7 @@ public class ReportController {
         model.addAttribute("violation", "yes");
         model.addAttribute("violation_student", "yes");
         model.addAttribute("student", "yes");
-        return "commonReport";
+        return "report/commonReport";
     }
 
     @GetMapping("common/employee/violation")
@@ -93,7 +90,7 @@ public class ReportController {
         model.addAttribute("violation", "yes");
         model.addAttribute("violation_employee", "yes");
         model.addAttribute("employee", "yes");
-        return "commonReport";
+        return "report/commonReport";
     }
 
     @PostMapping(value = "common")
@@ -106,17 +103,20 @@ public class ReportController {
                                      @RequestParam(required = false) String student,
                                      @RequestParam(required = false) String employee,
                                      @RequestParam(required = false) String violation) {
+        boolean onlyViolation = reportService.checkViolation(violation);
         reportService.addDefaultAttributes(model);
-        if (!reportService.checkDates(startTime, endTime, model)) return "commonReport";
-        else {
+        if (!reportService.checkDates(startTime, endTime, model)) {
+            if (onlyViolation) return getCommonViolationReports(model);
+            else return "report/commonReport";
+        } else {
             boolean studentPresent = reportService.checkStudent(student, employee);
             boolean employeePresent = reportService.checkEmployee(student, employee);
-            boolean onlyViolation = reportService.checkViolation(violation);
             List<Event> events = reportService.findCommonEvents(typesJob, division, subdivision, startTime,
                     endTime, studentPresent, employeePresent, onlyViolation);
             reportService.createReport(events, model);
         }
-        return "commonReport";
+        if (onlyViolation) return getCommonViolationReports(model);
+        else return "report/commonReport";
     }
 
     @GetMapping(value = "common/subdivision/{division}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -143,18 +143,38 @@ public class ReportController {
     @GetMapping("simple")
     public String showSimpleReport(Model model) {
         model.addAttribute("simple", "yes");
-        return "reportSimple";
+        return "report/reportSimple";
     }
 
     @PostMapping("simple")
-    public String createReport(@RequestParam String startTime,
-                               @RequestParam String endTime,
-                               Model model) {
-        Timestamp startDateTime = reportService.convertToTimestamp(startTime);
-        Timestamp endDateTime = reportService.convertToTimestamp(endTime);
-        List<Event> events = eventRepo.findAllParkingBetweenDates(startDateTime, endDateTime);
+    public String createSimpleReport(@RequestParam String startTime,
+                                     @RequestParam String endTime,
+                                     @RequestParam(required = false) String personId,
+                                     Model model) {
+        boolean personIdPresent = personId != null && !personId.isBlank();
+        if (!reportService.checkDates(startTime, endTime, model)) {
+            if (personIdPresent)
+                return createPersonReport(Long.valueOf(personId), model);
+            else return "report/reportSimple";
+        }
+        List<Event> events = reportService.findSimpleEvents(startTime, endTime, personId);
         reportService.createReport(events, model);
-        return "reportSimple";
+        if (personIdPresent) return createPersonReport(Long.valueOf(personId), model);
+        else return "report/reportSimple";
+    }
+
+    @GetMapping("person")
+    public String showPersonReport(Model model) {
+        model.addAttribute("person", "yes");
+        model.addAttribute("persons", personRepo.findAll());
+        model.addAttribute("automobiles", automobileRepo.findAll());
+        return "report/personReport";
+    }
+
+    @GetMapping("person/{personId}")
+    public String createPersonReport(@PathVariable Long personId, Model model) {
+        model.addAttribute("personId", personId);
+        return "report/reportSimple";
     }
 
 

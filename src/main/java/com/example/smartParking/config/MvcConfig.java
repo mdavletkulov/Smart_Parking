@@ -13,8 +13,11 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
-    @Value("${upload.path}")
-    private String uploadPath;
+    @Value("${upload.img.path}")
+    private String uploadImgPath;
+
+    @Value("${upload.report.path}")
+    private String uploadReportPath;
 
     @Bean
     public RestTemplate getRestTemplate() {
@@ -39,7 +42,9 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
-                .addResourceLocations("file://" + uploadPath + "/");
+                .addResourceLocations("file://" + uploadImgPath + "/");
+        registry.addResourceHandler("/report/**")
+                .addResourceLocations("file://" + uploadReportPath + "/");
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
     }

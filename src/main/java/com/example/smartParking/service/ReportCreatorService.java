@@ -8,11 +8,19 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTText;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +28,14 @@ import java.util.UUID;
 @Service
 public class ReportCreatorService {
 
-    public String createDocxReport(List<ReportEntity> reportEntities) {
+    @Value("${upload.report.path}")
+    private String uploadPath;
+
+    @Autowired
+    Environment environment;
+
+
+    public boolean createDocxReport(List<ReportEntity> reportEntities, HttpServletResponse response) {
         try {
             // создаем модель docx документа,
             // к которой будем прикручивать наполнение (колонтитулы, текст)
@@ -51,14 +66,34 @@ public class ReportCreatorService {
             // сохраняем модель docx документа в файл
             String home = System.getProperty("user.home");
             String path = home + "/Downloads/report" + UUID.randomUUID().toString() + ".docx";
-            FileOutputStream outputStream = new FileOutputStream(path);
+
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String fileName = "report" + UUID.randomUUID().toString() + ".docx";
+            FileOutputStream outputStream = new FileOutputStream(uploadDir +"\\"+  fileName);
             docxModel.write(outputStream);
             outputStream.close();
-            return path.replace("/", "\\");
+            Path file = Paths.get(uploadPath, fileName);
+            if (Files.exists(file))
+            {
+                response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                response.addHeader("Content-Disposition", "attachment; filename="+fileName);
+                try
+                {
+                    Files.copy(file, response.getOutputStream());
+                    response.getOutputStream().flush();
+                }
+                catch (IOException ex) {
+                    return false;
+                }
+            }
+            return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
-        return null;
     }
 
     private void generateReportText(ReportEntity reportEntity, XWPFRun paragraphConfig, XWPFParagraph bodyParagraph) {

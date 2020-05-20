@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -71,13 +72,13 @@ public class ReportService {
         return reportEntities;
     }
 
-    public void createReport(List<Event> events, Model model) {
+    public void createReport(List<Event> events, Model model, HttpServletResponse response) {
         if (!events.isEmpty()) {
             List<ReportEntity> reportEntities = createReportEntities(events);
-            String savedPath = reportCreatorService.createDocxReport(reportEntities);
-            if (savedPath != null && !savedPath.isBlank()) {
+            boolean reportSaved = reportCreatorService.createDocxReport(reportEntities , response);
+            if (reportSaved) {
                 model.addAttribute("messageType", "success");
-                model.addAttribute("message", "Отчет успешно сохранен по пути " + savedPath);
+                model.addAttribute("message", "Отчет успешно сохранен");
             } else {
                 model.addAttribute("messageType", "danger");
                 model.addAttribute("message", "Произошла ошибка при создании отчета!");

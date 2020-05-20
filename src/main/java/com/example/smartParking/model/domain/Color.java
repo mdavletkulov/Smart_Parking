@@ -1,6 +1,9 @@
 package com.example.smartParking.model.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "color")
@@ -8,6 +11,8 @@ public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
+    @NotBlank
+    @Length(max = 30, message = "Название цвета слишком длинное")
     private String name;
 
     public Long getId() {
@@ -17,6 +22,7 @@ public class Color {
     public void setId(Long id) {
         Id = id;
     }
+
 
     public String getName() {
         return name;

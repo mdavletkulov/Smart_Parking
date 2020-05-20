@@ -2,7 +2,7 @@
 <@c.page>
     <h4>${parkingName}</h4>
     <h5 class="mt-3">Парковочное место номер ${placeNum}</h5>
-    <table class="table table-borderless table-striped col-4">
+    <table class="table table-borderless table-striped col-4 table-hover">
         <thead>
         <tr class="d-flex">
             <th scope="col" class="col-1"></th>

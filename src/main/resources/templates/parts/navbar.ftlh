@@ -1,7 +1,7 @@
 <#include "security.ftlh">
 <#import "login.ftlh" as l>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/static">Умная Парковка</a>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Умная Парковка</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -30,7 +30,7 @@
             </#if>
             <#if isAdmin || isManager>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user">Редактирование данных</a>
+                    <a class="nav-link" href="/dataEdit">Редактирование данных</a>
                 </li>
             </#if>
         </ul>

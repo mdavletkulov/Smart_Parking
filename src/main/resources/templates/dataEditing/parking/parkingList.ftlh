@@ -1,42 +1,39 @@
-<#import "../parts/common.ftlh" as c>
+<#import "../../parts/common.ftlh" as c>
 
 <@c.page>
     <script type="text/javascript" src="/static/js/tableSearch.js"></script>
-    <h5> Список пользователей </h5>
-    <#if message?has_content>
-        <div class="alert alert-${messageType}" role="alert">
-            ${message}
-        </div>
-    </#if>
+    <div><h5 class="mb-3">Парковки</h5>
+    </div>
+
     <div class="form-group" style="margin-bottom: 5%">
         <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
     </div>
-    <table class="table table-striped text-center mt-5 table-hover" id="persons">
+    <table class="table table-striped text-center table-hover col-5" id="persons">
         <thead class="thead-dark">
         <tr class="row">
-            <th class="col-sm-3" scope="col">E-mail</th>
-            <th class="col-sm-4" scope="col">Пользователь</th>
-            <th class="col-sm-2" scope="col">Роль</th>
-            <th class="col-sm-2" scope="col"></th>
-            <th class="col-sm-1" scope="col"></th>
+            <th class="align-middle col-sm-5" scope="col">Парковка</th>
+            <th class="align-middle col-sm-2" scope="col">Количество мест</th>
+            <th class="align-middle col-sm-5" class="align-middle" colspan="2" scope="col">
+                <a href="/dataEdit/parking/add" class="btn btn-primary stretched-link">
+                    Добавить новую парковку</a></th>
         </tr>
         </thead>
         <tbody>
-        <#list users as user>
-        <#if user.username != currentUser.username>
-        <tr class="row">
-            <td class="col-sm-3">${user.username}</td>
-            <td class="col-sm-4">${user.getFullName()}</td>
-            <td class="col-sm-2">${user.getRole()}</td>
-            <td class="col-sm-2"><a href="/user/edit/${user.id}" class="btn btn-primary stretched-link">Редактировать</a>
-            </td>
-            <td class="col-sm-1">
-                <button id="${user.getId()}" type="button" class="btn btn-primary askDelete" data-toggle="modal">
-                    Удалить
-                </button>
-            </td>
-            </#if>
-            </#list>
+        <#list parkings as parking>
+            <tr class="row">
+                <th class="align-middle col-sm-5" scope="row">${parking.getDescription()}</th>
+                <td class="align-middle col-sm-2" scope="row">${parking.getPlaceNumber()}</td>
+                <td class="col-sm-3"><a href="/dataEdit/parking/edit/${parking.id}"
+                                        class="btn btn-primary stretched-link">Редактировать</a>
+                </td>
+                <td class="col-sm-2">
+                    <button id="${parking.getId()}" type="button" class="btn btn-primary askDelete"
+                            data-toggle="modal">
+                        Удалить
+                    </button>
+                </td>
+            </tr>
+        </#list>
         </tbody>
     </table>
 
@@ -51,7 +48,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Вы действительно хотите удалить пользователя?
+                    Вы действительно хотите удалить парковку?
                 </div>
                 <div class="modal-footer">
                     <button id="delete" type="button" class="btn btn-secondary">Удалить</button>
@@ -64,18 +61,15 @@
     <script>
         var userId;
         jQuery(document).ready(function ($) {
-
-
             $('button.askDelete').click(function () {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
-                userId = $(this).attr('id');
-                console.log(userId);
+                parkingId = $(this).attr('id');
             });
         });
 
-        $('button#delete').click(function() {
-            window.location.href = '/user/delete/'+userId;
+        $('button#delete').click(function () {
+            window.location.href = '/dataEdit/parking/delete/' + parkingId;
             return false;
         });
     </script>

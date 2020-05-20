@@ -2,11 +2,11 @@
 <#import "../parts/dateReport.ftlh" as r>
 <@rN.reportNav>
     <script type="text/javascript" src="/static/js/tableSearch.js"></script>
-    <div class="form-group">
+    <div class="form-group" style="margin-bottom: 7%">
         <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
     </div>
-    <table class="table table-striped text-center" id="persons">
-        <thead>
+    <table class="table table-striped text-center table-hover" id="persons">
+        <thead class="thead-dark">
         <tr>
             <th scope="col">Водитель</th>
             <th scope="col">Автомобиль</th>
@@ -40,7 +40,7 @@
                 <td><#if person.getPassNum()??>${person.getPassNum()}<#else>&#x2716;</#if></td>
                 <td><#if person.getPassEndDate()??>${person.getPassEndDate()}<#else>&#x2716;</#if></td>
                 <td><#if person.isSpecialStatus()>&#9745; <#else>&#x2716;</#if></td>
-                <td><a href="/report/person/${person.getId()}" class="btn btn-primary stretched-link mt-3">Отчет</a></td>
+                <td><a href="/report/person/${person.getId()}" class="btn btn-primary stretched-link">Отчет</a></td>
             </tr>
         </#list>
         </tbody>

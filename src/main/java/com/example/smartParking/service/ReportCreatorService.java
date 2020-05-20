@@ -64,19 +64,18 @@ public class ReportCreatorService {
             }
 
             // сохраняем модель docx документа в файл
-            String home = System.getProperty("user.home");
-            String path = home + "/Downloads/report" + UUID.randomUUID().toString() + ".docx";
-
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
 
             String fileName = "report" + UUID.randomUUID().toString() + ".docx";
-            FileOutputStream outputStream = new FileOutputStream(uploadDir +"\\"+  fileName);
+            String filePath = uploadDir +"\\"+  fileName;
+            FileOutputStream outputStream = new FileOutputStream(filePath);
             docxModel.write(outputStream);
             outputStream.close();
             Path file = Paths.get(uploadPath, fileName);
+            File fileToDelete = new File(filePath);
             if (Files.exists(file))
             {
                 response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
@@ -85,8 +84,10 @@ public class ReportCreatorService {
                 {
                     Files.copy(file, response.getOutputStream());
                     response.getOutputStream().flush();
+                    fileToDelete.delete();
                 }
                 catch (IOException ex) {
+                    fileToDelete.delete();
                     return false;
                 }
             }

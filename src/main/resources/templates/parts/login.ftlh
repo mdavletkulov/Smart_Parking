@@ -127,7 +127,7 @@
         <div class="col-sm-1">
             <div class="g-recaptcha" data-sitekey="6Ld2WPIUAAAAAD7PuG0wfhYFEIK408dIjng1u1fa"></div>
             <#if captchaError??>
-            <div class="alert alert-danger" role="alert">
+            <div class="invalid-feedback mb-3 mt-3" style="display: block">
                 ${captchaError}
             </div>
         </div>

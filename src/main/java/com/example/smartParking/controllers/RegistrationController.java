@@ -52,18 +52,18 @@ public class RegistrationController {
         String url = String.format(CAPTCHA_URL, recaptchaSecret, captchaResponse);
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
 
-        if(!response.isSuccess()) {
-            model.addAttribute("captchaError", "Fill captcha");
+        if (!response.isSuccess()) {
+            model.addAttribute("captchaError", "Заполните капчу");
         }
 
         if (user.getPassword2() == null || user.getPassword2().isEmpty()) {
-            model.addAttribute("password2Error", "Password confirmation is empty");
-            bindingResult.addError(new ObjectError("password2Error", "Password confirmation is empty"));
+            model.addAttribute("password2Error", "Поле подтверждения пароля пусто");
+            bindingResult.addError(new ObjectError("password2Error", "Поле подтверждения пароля пусто"));
         }
 
         if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
-            model.addAttribute("passwordError", "Passwords are different");
-            bindingResult.addError(new ObjectError("passwordError", "Passwords are different"));
+            model.addAttribute("passwordError", "Пароли не совпадают");
+            bindingResult.addError(new ObjectError("passwordError", "Пароли не совпадают"));
         }
 
         if (user.getFirstName().matches(".*\\d.*")) {
@@ -83,6 +83,10 @@ public class RegistrationController {
             bindingResult.addError(new ObjectError("roleError", "Выберите роль пользователя"));
         }
 
+        if (user.getPassword().length() > 30) {
+            model.addAttribute("passwordError", "Пароль не должен быть длиннее чем 30 знаков");
+            bindingResult.addError(new ObjectError("passwordError", "Пароль не должен быть длиннее чем 30 знаков"));
+        }
 
         if (bindingResult.hasErrors() || !response.isSuccess()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
@@ -91,11 +95,8 @@ public class RegistrationController {
             return "registration";
         }
 
-        if (!userService.addUser(user)) {
-            model.addAttribute("usernameError", "User exists!");
-            return "registration";
-        }
-        return "redirect:/login";
+        userService.addUser(user, model);
+        return "registration";
     }
 
     @GetMapping("/activate/{code}")
@@ -104,8 +105,7 @@ public class RegistrationController {
         if (isActivated) {
             model.addAttribute("messageType", "success");
             model.addAttribute("message", "User successfully activated");
-        }
-        else {
+        } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Activation code in not found");
         }

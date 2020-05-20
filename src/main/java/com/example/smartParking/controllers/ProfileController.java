@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
@@ -43,15 +46,16 @@ public class ProfileController {
     @GetMapping("/changePassword")
     public String changePassword(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("user", user);
+
         return "admin/changePassword";
     }
 
     @PostMapping("/changePassword")
     public String changePassword(@AuthenticationPrincipal User user,
-                                 @RequestParam String password,
-                                 @RequestParam String password2,
+                                 @Valid User userChange,
+                                 BindingResult bindingResult,
                                  Model model) {
-        userService.updatePassword(user, password, password2, model);
+        userService.updatePassword(user, bindingResult, userChange.getPassword(), userChange.getPassword2(), model);
         return changePassword(model, user);
     }
 

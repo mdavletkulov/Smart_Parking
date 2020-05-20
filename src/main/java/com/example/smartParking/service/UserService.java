@@ -1,5 +1,6 @@
 package com.example.smartParking.service;
 
+import com.example.smartParking.Utils.ControllerUtils;
 import com.example.smartParking.model.domain.Role;
 import com.example.smartParking.model.domain.User;
 import com.example.smartParking.repos.UserRepo;
@@ -13,7 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,36 +41,49 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public boolean addUser(User user) {
+    public void addUser(User user, Model model) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
-            return false;
+            model.addAttribute("usernameError", "Пользователь с таким E-mail уже существует!");
+            return;
         }
         user.setEnabled(false);
         user.setActivationCode(UUID.randomUUID().toString());
+        String password = user.getPassword();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepo.save(user);
 
-        sendMessage(user);
+        boolean sended = sendMessage(user, password);
 
-        return true;
+        if (!sended) {
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Произошла ошибка при отправке сообщения");
+        } else {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", String.format("Для заверешния регистрации пользователю стоит проверить почту: %s", user.getUsername()));
+        }
+
     }
 
-    private void sendMessage(User user) {
+    private boolean sendMessage(User user, String password) {
         if (!user.getUsername().isEmpty()) {
             String message = String.format(
                     "Здравствуйте, %s! \n" +
-                            "Добро пожаловать в систему Умная парковка. Пожалуйста, пройдите по ссылке для окончания регистрации" +
+                            "Добро пожаловать в систему Умная парковка. Ваш пароль: %s. Пожалуйста, пройдите по ссылке для окончания регистрации" +
                             ":http://localhost:8080/activate/%s",
                     user.getFullName(),
+                    password,
                     user.getActivationCode()
             );
-
-            mailSender.send(user.getUsername(), "Activation code", message);
-
-        }
+            try {
+                mailSender.send(user.getUsername(), "Activation code", message);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        } else return false;
     }
 
     public boolean activateUser(String code) {
@@ -139,19 +154,25 @@ public class UserService implements UserDetailsService {
         return correctChanging;
     }
 
-    public boolean updatePassword(User user, String password, String password2, Model model) {
-        if (!password.isBlank() && !password2.isBlank() && password.equals(password2)) {
+    public void updatePassword(User user, BindingResult bindingResult, String password, String password2, Model model) {
+        if (!password.isBlank() && !password2.isBlank() && password.equals(password2) && !bindingResult.hasErrors()) {
             user.setPassword(passwordEncoder.encode(password));
             userRepo.save(user);
             refreshSession();
             model.addAttribute("message", "Пароль успешно изменен!");
-            return true;
         } else {
-            if (StringUtils.isEmpty(password)) model.addAttribute("passwordError", "Поле пароля пустое");
-            if (StringUtils.isEmpty(password2))
+            if (password.isEmpty()) {
+                model.addAttribute("passwordError", "Поле пароля пустое");
+            } else if (!password.equals(password2)) model.addAttribute("passwordError", "Пароли не совпадают");
+            else if (user.getPassword().length() > 30) {
+                bindingResult.addError(new ObjectError("passwordError", "Пароль не должен быть длиннее чем 30 знаков"));
+            } else if
+            (bindingResult.hasErrors()) {
+                Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+                model.mergeAttributes(errors);
+            }
+            if (password2.isEmpty())
                 model.addAttribute("password2Error", "Поле подтверждения пароля пустое");
-            if (!password.equals(password2)) model.addAttribute("passwordError", "Пароли не совпадают");
-            return false;
         }
     }
 

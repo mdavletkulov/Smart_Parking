@@ -1,5 +1,6 @@
 package com.example.smartParking.model.domain;
 
+import com.example.smartParking.validator.ValidPassword;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
     @Length(max = 60, message = "Значение отчества слишком длинное")
     private String middleName;
     @NotBlank(message = "Пароль не может быть пустым")
+    @ValidPassword
     private String password;
     @Transient
     private String password2;

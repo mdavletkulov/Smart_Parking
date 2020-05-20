@@ -1,7 +1,7 @@
 <#import "../parts/common.ftlh" as c>
 
 <@c.page>
-    <h5>${user.username}</h5>
+    <h5>${user.getFullName()}</h5>
     <#if message?has_content>
         ${message}
     </#if>

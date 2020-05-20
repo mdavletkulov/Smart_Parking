@@ -109,8 +109,6 @@ public class UserService implements UserDetailsService {
                 .map(Role::name)
                 .collect(Collectors.toSet());
 
-//        user.setRole(Role.USER);
-
         for (String key : form.keySet()) {
             if (roles.contains(key)) {
                 user.setRole(Role.valueOf(key));
@@ -122,7 +120,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean updateProfile(User user, String email,
-                                 String firstName, String secondName, String middleName, Model model) {
+                                 String firstName, String secondName, String middleName, Model model, Role role) {
         String userEmail = user.getUsername();
         boolean correctChanging = true;
         if (email == null || email.isBlank()) {
@@ -148,10 +146,20 @@ public class UserService implements UserDetailsService {
             user.setFirstName(firstName);
             user.setSecondName(secondName);
             user.setMiddleName(middleName);
+            if (role != null) {
+                changeRole(user, role);
+            }
             userRepo.save(user);
             refreshSession();
         }
         return correctChanging;
+    }
+
+    public void changeRole(User user, Role role) {
+        if (user.getRole().equals(role)) return;
+        else {
+            user.setRole(role);
+        }
     }
 
     public void updatePassword(User user, BindingResult bindingResult, String password, String password2, Model model) {
@@ -164,7 +172,7 @@ public class UserService implements UserDetailsService {
             if (password.isEmpty()) {
                 model.addAttribute("passwordError", "Поле пароля пустое");
             } else if (!password.equals(password2)) model.addAttribute("passwordError", "Пароли не совпадают");
-            else if (user.getPassword().length() > 30) {
+            else if (password.length() > 30) {
                 bindingResult.addError(new ObjectError("passwordError", "Пароль не должен быть длиннее чем 30 знаков"));
             } else if
             (bindingResult.hasErrors()) {
@@ -185,6 +193,30 @@ public class UserService implements UserDetailsService {
         Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
 
         SecurityContextHolder.getContext().setAuthentication(newAuth);
+    }
+
+    public void deleteUser(Long userId, Model model) {
+        Optional<User> user = userRepo.findById(userId);
+        if (user.isPresent()) {
+            userRepo.deleteById(userId);
+        } else {
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Пользователь не найден");
+            return;
+        }
+        user = userRepo.findById(userId);
+        if (user.isEmpty()) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Пользователь успешно удален");
+        } else {
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Пользователь не был удален");
+        }
+    }
+
+    public User getUserById(Long userId) {
+        Optional<User> userDB = userRepo.findById(userId);
+        return userDB.get();
     }
 
 }

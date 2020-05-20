@@ -1,7 +1,7 @@
 <#import "../parts/reportNav.ftlh" as rN>
 <#import "../parts/dateReport.ftlh" as r>
 <@rN.reportNav>
-    <script type="text/javascript" src="/static/js/personReport.js"></script>
+    <script type="text/javascript" src="/static/js/tableSearch.js"></script>
     <div class="form-group">
         <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
     </div>

@@ -37,7 +37,7 @@ public class ProfileController {
                                 Model model) {
 
 
-        if (userService.updateProfile(user, username, firstName, secondName, middleName, model)) {
+        if (userService.updateProfile(user, username, firstName, secondName, middleName, model, null)) {
             return "redirect:/user/profile";
         }
         return getProfile(model, user);
@@ -46,8 +46,7 @@ public class ProfileController {
     @GetMapping("/changePassword")
     public String changePassword(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("user", user);
-
-        return "admin/changePassword";
+        return "profileChangePassword";
     }
 
     @PostMapping("/changePassword")

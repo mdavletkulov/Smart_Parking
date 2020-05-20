@@ -3,17 +3,14 @@ package com.example.smartParking.service;
 import com.example.smartParking.model.ReportEntity;
 import com.example.smartParking.model.domain.Event;
 import com.example.smartParking.model.domain.Person;
-import com.example.smartParking.model.request.ReportRequest;
 import com.example.smartParking.repos.DivisionRepo;
 import com.example.smartParking.repos.EventRepo;
 import com.example.smartParking.repos.JobPositionRepo;
 import com.example.smartParking.repos.SubdivisionRepo;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

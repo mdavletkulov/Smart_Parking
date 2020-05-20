@@ -43,7 +43,7 @@ create table parking_event
     id            bigint identity not null,
     end_time      datetime2,
     start_time    datetime2 not null,
-    automobile_id bigint       not null,
+    automobile_id bigint      ,
     place_id      bigint       not null,
     primary key (id)
 )

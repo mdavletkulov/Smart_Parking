@@ -37,7 +37,6 @@ public class ColorEditController {
 
     @PostMapping("auto/color/{color}")
     public String addColor(@PathVariable @Valid Color color, BindingResult bindingResult, Model model) {
-        boolean success = false;
         if (dataEditingService.addColor(color, bindingResult, model)) {
             return getColorsEdit(model);
         } else return addColor(model);
@@ -52,7 +51,7 @@ public class ColorEditController {
     @PostMapping("color/edit/{colorId}")
     public String editColor(@PathVariable Long colorId, @Valid Division changedColor, BindingResult bindingResult, Model model) {
         Optional<Color> color = dataEditingService.getColor(colorId);
-        boolean success = false;
+        boolean success;
         if (color.isPresent()) {
             success = dataEditingService.updateColor(color.get(), changedColor.getName(), bindingResult, model);
         } else {
@@ -63,6 +62,7 @@ public class ColorEditController {
             model.addAttribute("messageType", "success");
             model.addAttribute("message", "Успешно");
         }
+        color = dataEditingService.getColor(colorId);
         return editColor(color.get(), model);
     }
 

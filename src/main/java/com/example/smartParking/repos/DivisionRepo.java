@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DivisionRepo extends CrudRepository<Division, Long> {
 
@@ -18,4 +19,6 @@ public interface DivisionRepo extends CrudRepository<Division, Long> {
                     "where type_job_position = ?1",
             nativeQuery = true)
     List<Division> findByTypeJob(String typeJobPosition);
+
+    Optional<Division> findByName(String name);
 }

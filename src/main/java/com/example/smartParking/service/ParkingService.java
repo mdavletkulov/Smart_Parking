@@ -30,7 +30,7 @@ public class ParkingService {
 
 
     public List<Place> findPlaceByParkingId(Long parkingId) {
-        return placeRepo.findByParkingNum(parkingId);
+        return placeRepo.findByParkingId(parkingId);
     }
 
     public Map<String, ?> getParkingEventAttributes(Model model, Place place) {

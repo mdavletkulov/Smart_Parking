@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JobPositionRepo extends CrudRepository<JobPosition, Long> {
 
@@ -14,4 +15,6 @@ public interface JobPositionRepo extends CrudRepository<JobPosition, Long> {
                     "FROM job_position",
             nativeQuery = true)
     List<String> findAllPositionNames();
+
+    Optional<JobPosition> findByNamePosition(String namePosition);
 }

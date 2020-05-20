@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SubdivisionRepo extends CrudRepository<Subdivision, Long> {
 
@@ -16,5 +17,7 @@ public interface SubdivisionRepo extends CrudRepository<Subdivision, Long> {
                     "WHERE d.name = ?1",
             nativeQuery = true)
     List<Subdivision> findByDivision(String divisionName);
+
+    Optional<Subdivision> findByName(String name);
 
 }

@@ -1,5 +1,6 @@
 package com.example.smartParking.controllers.edit;
 
+import com.example.smartParking.model.domain.Color;
 import com.example.smartParking.model.domain.Parking;
 import com.example.smartParking.model.domain.Person;
 import com.example.smartParking.service.DataEditingService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
@@ -37,11 +39,9 @@ public class PersonEditController {
 
     @PostMapping("person/add/{person}")
     public String addPerson(@PathVariable @Valid Person person, BindingResult bindingResult, Model model) {
-        boolean success = false;
-        if(success) {
+        if (dataEditingService.addPerson(person, bindingResult, model)) {
             return getPersonsEdit(model);
-        }
-        else return addPerson(model);
+        } else return addPerson(model);
     }
 
     @GetMapping("person/edit/{person}")
@@ -52,12 +52,25 @@ public class PersonEditController {
 
     @PostMapping("person/edit/{personId}")
     public String editPerson(@PathVariable Long personId, @Valid Person changedPerson, BindingResult bindingResult, Model model) {
-        Person person = dataEditingService.getPerson(personId).get();
-        return editPerson(person, model);
+        Optional<Person> personDB = dataEditingService.getPerson(personId);
+        boolean success;
+        if (personDB.isPresent()) {
+            success = dataEditingService.updatePerson(personDB.get(), changedPerson, bindingResult, model);
+        } else {
+            model.addAttribute("message", "Такого цвета не существует");
+            return getPersonsEdit(model);
+        }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        personDB = dataEditingService.getPerson(personId);
+        return editPerson(personDB.get(), model);
     }
 
     @GetMapping("person/delete/{personId}")
     public String deletePerson(@PathVariable Long personId, Model model) {
+        dataEditingService.deletePerson(personId, model);
         return getPersonsEdit(model);
     }
 }

@@ -15,4 +15,9 @@ public interface AutomobileRepo extends CrudRepository<Automobile, Long> {
             value = "SELECT * FROM automobile LEFT JOIN color c on automobile.color_id = c.id  where c.name = ?1",
             nativeQuery = true)
     List<Automobile> findAllByColor(String colorName);
+
+    @Query(
+            value = "SELECT * FROM automobile LEFT JOIN person p on automobile.person_id = p.id  where p.id = ?1",
+            nativeQuery = true)
+    List<Automobile> findByPersonId(Long personId);
 }

@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,7 +35,7 @@ public class ReportCreatorService {
     Environment environment;
 
 
-    public boolean createDocxReport(List<ReportEntity> reportEntities, HttpServletResponse response) {
+    public boolean createDocxReport(List<ReportEntity> reportEntities, HttpServletResponse response, Model model) {
         try {
             // создаем модель docx документа,
             // к которой будем прикручивать наполнение (колонтитулы, текст)
@@ -75,21 +75,10 @@ public class ReportCreatorService {
             docxModel.write(outputStream);
             outputStream.close();
             Path file = Paths.get(uploadPath, fileName);
-            File fileToDelete = new File(filePath);
             if (Files.exists(file))
             {
-                response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-                response.addHeader("Content-Disposition", "attachment; filename="+fileName);
-                try
-                {
-                    Files.copy(file, response.getOutputStream());
-                    response.getOutputStream().flush();
-                    fileToDelete.delete();
-                }
-                catch (IOException ex) {
-                    fileToDelete.delete();
-                    return false;
-                }
+                model.addAttribute("fileName", fileName);
+                return true;
             }
             return true;
         } catch (Exception e) {

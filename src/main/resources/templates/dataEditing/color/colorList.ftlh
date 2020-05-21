@@ -26,8 +26,6 @@
                 <td class="align-middle"><a href="/dataEdit/color/edit/${color.id}"
                                             class="btn btn-primary stretched-link">Редактировать</a>
                 </td>
-
-
             </tr>
         </#list>
         </tbody>

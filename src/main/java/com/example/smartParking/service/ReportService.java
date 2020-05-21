@@ -75,17 +75,20 @@ public class ReportService {
     public void createReport(List<Event> events, Model model, HttpServletResponse response) {
         if (!events.isEmpty()) {
             List<ReportEntity> reportEntities = createReportEntities(events);
-            boolean reportSaved = reportCreatorService.createDocxReport(reportEntities , response);
+            boolean reportSaved = reportCreatorService.createDocxReport(reportEntities , response , model);
             if (reportSaved) {
                 model.addAttribute("messageType", "success");
                 model.addAttribute("message", "Отчет успешно сохранен");
+                model.addAttribute("success", "yes");
             } else {
                 model.addAttribute("messageType", "danger");
                 model.addAttribute("message", "Произошла ошибка при создании отчета!");
+                model.addAttribute("noSuccess", "no");
             }
         } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Нет парковочных событий в этот промежуток времени!");
+            model.addAttribute("noSuccess", "no");
         }
     }
 

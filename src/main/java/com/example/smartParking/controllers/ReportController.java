@@ -9,13 +9,24 @@ import com.example.smartParking.repos.PersonRepo;
 import com.example.smartParking.repos.SubdivisionRepo;
 import com.example.smartParking.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +35,9 @@ import java.util.List;
 @RequestMapping("/report")
 @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
 public class ReportController {
+
+    @Value("${upload.report.path}")
+    private String uploadPath;
 
     @Autowired
     ReportService reportService;
@@ -155,7 +169,7 @@ public class ReportController {
                                      @RequestParam String startTime,
                                      @RequestParam String endTime,
                                      @RequestParam(required = false) String personId,
-                                     Model model) {
+                                     Model model) throws IOException {
         boolean personIdPresent = personId != null && !personId.isBlank();
         if (!reportService.checkDates(startTime, endTime, model)) {
             if (personIdPresent)
@@ -182,5 +196,31 @@ public class ReportController {
         return "report/reportSimple";
     }
 
+    @GetMapping("download/{fileName}")
+    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String fileName) throws IOException {
+
+        File file = new File(uploadPath + "\\" + fileName);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        Path path = file.toPath();
+        String mimeType = Files.probeContentType(path);
+        File fileToDelete = new File(uploadPath + "\\" + fileName);
+
+        ResponseEntity<InputStreamResource> responseEntity = ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment;filename=" + fileName)
+
+                .contentType(MediaType.valueOf(mimeType)).
+                        contentLength(file.length())
+                .body(resource);
+        fileToDelete.delete();
+        return responseEntity;
+    }
+
+    @GetMapping("delete/{fileName}")
+    public ResponseEntity<Void> deleteFile(@PathVariable String fileName) throws IOException {
+        File file = new File(uploadPath + "\\" + fileName);
+        file.delete();
+        return ResponseEntity.ok().build();
+    }
 
 }

@@ -42,6 +42,9 @@
         <#if violation??>
             <input type="hidden" name="violation" value="${violation}"/>
         </#if>
+        <#if fileName??>
+            <input type="hidden" name="fileName" class="fileName" value="${fileName}"/>
+        </#if>
     <@r.dateReport/>
     <button type="submit" class="btn btn-primary mt-3 send">Генерация отчета</button>
     </form>
@@ -57,9 +60,28 @@
         var subdivisionSelect = $("select.subdivision");
         var subdivisionLabel = $("label.subdivision");
         var employee = '${(employee??)?string('yes', 'no')}';
+        var success = '${(success??)?string('yes', 'no')}';
+
 
 
         $(document).ready(function () {
+
+            var fileName = $("input.fileName").val();
+
+            function download() {
+                window.location.href = '/report/download/' + fileName;
+                setTimeout(deleteReport, 5000);
+            }
+
+            function deleteReport() {
+                $.ajax({
+                    url: '/report/delete/'+fileName
+                });
+            }
+
+            if (success === 'yes') {
+                download();
+            }
             subdivisionSelect.empty();
             if (employee === 'yes') {
                 divisionsSelect.empty();
@@ -81,6 +103,7 @@
                     }
 
             });
+
         });
 
         function subdivision(selectedDivision) {

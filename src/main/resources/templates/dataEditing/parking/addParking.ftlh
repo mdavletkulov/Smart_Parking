@@ -2,7 +2,7 @@
 
 <@c.page>
     <h5>Парковка</h5>
-    <form action="${parking}" method="post" class="mt-2">
+    <form action="/dataEdit/parking/add" method="post" class="mt-2">
         <div class="form-group">
             <label for="description">Название парковки</label>
             <input type="text" class="form-control ${(descriptionError??)?string('is-invalid', '')} col-sm-4"

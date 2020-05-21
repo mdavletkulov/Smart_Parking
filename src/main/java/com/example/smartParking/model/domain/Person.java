@@ -1,8 +1,6 @@
 package com.example.smartParking.model.domain;
 
-import com.example.smartParking.repos.AutomobileRepo;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -33,16 +31,16 @@ public class Person {
     @ManyToOne
     @JoinColumn(name = "division")
     private Division division;
-    @NotBlank
+    @NotBlank(message = "Водитель должен иметь какой-либо статус")
     private boolean employee;
-    @NotBlank
+    @NotBlank(message = "Водитель должен иметь какой-либо статус")
     private boolean student;
     private Integer course;
     @Length(max = 10, message = "Значение группы слишком длинное")
     private String groupName;
     private Integer passNum;
     private Date passEndDate;
-    @NotBlank
+    @NotBlank(message = "Водитель должен иметь или не иметь специального статуса")
     private boolean specialStatus;
 
     public Long getId() {

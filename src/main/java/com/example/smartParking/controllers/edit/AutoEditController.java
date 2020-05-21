@@ -39,8 +39,8 @@ public class AutoEditController {
         return "dataEditing/auto/addAuto";
     }
 
-    @PostMapping("auto/add/{automobile}")
-    public String addAuto(@PathVariable @Valid Automobile automobile, BindingResult bindingResult, Model model) {
+    @PostMapping("auto/add")
+    public String addAuto(@Valid Automobile automobile, BindingResult bindingResult, Model model) {
         if (dataEditingService.addAuto(automobile, bindingResult, model)) {
             return getAutosEdit(model);
         } else return addAuto(model);

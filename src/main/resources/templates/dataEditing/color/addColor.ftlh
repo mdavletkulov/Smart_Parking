@@ -2,7 +2,7 @@
 
 <@c.page>
     <h5>Цвет</h5>
-    <form action="${color}" method="post" class="mt-2">
+    <form action="/dataEdit/color/add" method="post" class="mt-2">
         <div class="form-group">
             <label for="name">Название цвета</label>
             <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} col-sm-4"

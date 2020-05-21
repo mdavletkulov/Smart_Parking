@@ -2,18 +2,18 @@
 
 <@c.page>
     <h5>Должность</h5>
-    <form action="${job}" method="post" class="mt-2">
+    <form action="/dataEdit/job/add" method="post" class="mt-2">
 
         <div class="form-group col-4 typeJobPosition">
             <label class="typeJobPosition" for="typeJobPosition">Подразделение</label>
-            <select class="form-control typesJob" name="typesJob">
-                <#list typeJobPositions as typeJobPositioт>
+            <select class="form-control typeJobPosition" name="typeJobPosition">
+                <#list typeJobPositions as typeJobPosition>
                     <option>${typeJobPosition}</option>
                 </#list>
             </select>
             <#if typeJobPositionsError??>
                 <div class="invalid-feedback">
-                    ${typeJobPositionsError}
+                    ${typeJobPositionError}
                 </div>
             </#if>
         </div>
@@ -31,6 +31,7 @@
                 </div>
             </#if>
         </div>
+        <input type="hidden" name="division"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit" class="btn btn-primary mt-3">Создать</button>
     </form>

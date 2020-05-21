@@ -141,7 +141,8 @@ public class DataEditingService {
         Color colorFromDB = colorRepo.findByName(color.getName());
 
         if (colorFromDB != null) {
-            model.addAttribute("colorNameError", "Такой цвет уже существует!");
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Такой цвет уже существует!");
             return false;
         }
 
@@ -151,6 +152,7 @@ public class DataEditingService {
             return false;
         }
         colorRepo.save(color);
+        model.addAttribute("messageType", "success");
         model.addAttribute("message", String.format("%s цвет создан!", color.getName()));
         return true;
     }
@@ -184,7 +186,8 @@ public class DataEditingService {
         Optional<Person> personFromDB = personRepo.findById(person.getId());
 
         if (personFromDB.isPresent()) {
-            model.addAttribute("personNameError", "Такой пользователь уже существует");
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Такой пользователь уже существует");
             return false;
         }
 
@@ -194,6 +197,7 @@ public class DataEditingService {
             return false;
         }
         personRepo.save(person);
+        model.addAttribute("messageType", "success");
         model.addAttribute("message", String.format("Водитель %s создан!", person.getFullName()));
         return true;
     }
@@ -249,7 +253,8 @@ public class DataEditingService {
         Optional<Automobile> autoFromDB = automobileRepo.findById(automobile.getId());
 
         if (autoFromDB.isPresent()) {
-            model.addAttribute("automobileNameError", "Такой автомобиль уже существует");
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Такой автомобиль уже существует");
             return false;
         }
         if (bindingResult.hasErrors()) {
@@ -258,6 +263,7 @@ public class DataEditingService {
             return false;
         }
         automobileRepo.save(automobile);
+        model.addAttribute("messageType", "success");
         model.addAttribute("message", String.format("Автомобиль %s %s создан!", automobile.getModel(), automobile.getNumber()));
         return true;
     }
@@ -305,7 +311,8 @@ public class DataEditingService {
         List<Place> placeFromDB = placeRepo.findByParkingAndNum(place.getPlaceNumber(), place.getParking().getId());
 
         if (!placeFromDB.isEmpty()) {
-            model.addAttribute("placeNumberError", "Такое парковочное место уже существует");
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Такое парковочное место уже существует");
             return false;
         }
         if (bindingResult.hasErrors()) {
@@ -314,6 +321,7 @@ public class DataEditingService {
             return false;
         }
         placeRepo.save(place);
+        model.addAttribute("messageType", "success");
         model.addAttribute("message", "Парковочное место создано!");
         return true;
     }
@@ -360,7 +368,8 @@ public class DataEditingService {
         Optional<Division> divisionFromDB = divisionRepo.findByName(division.getName());
 
         if (divisionFromDB.isPresent()) {
-            model.addAttribute("nameError", "Такой институт уже существует");
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Такой институт уже существует");
             return false;
         }
         if (bindingResult.hasErrors()) {
@@ -369,6 +378,7 @@ public class DataEditingService {
             return false;
         }
         divisionRepo.save(division);
+        model.addAttribute("messageType", "success");
         model.addAttribute("message", "Институт создан!");
         return true;
     }
@@ -417,7 +427,8 @@ public class DataEditingService {
         Optional<JobPosition> jobFromDB = jobPositionRepo.findByNamePosition(jobPosition.getNamePosition());
 
         if (jobFromDB.isPresent()) {
-            model.addAttribute("nameError", "Такая должность уже существует");
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Такая должность уже существует");
             return false;
         }
         if (bindingResult.hasErrors()) {
@@ -426,6 +437,7 @@ public class DataEditingService {
             return false;
         }
         jobPositionRepo.save(jobPosition);
+        model.addAttribute("messageType", "success");
         model.addAttribute("message", "Должность создана!");
         return true;
     }
@@ -475,7 +487,8 @@ public class DataEditingService {
         Optional<Parking> parkingDB = parkingRepo.findByDescription(parking.getDescription());
 
         if (parkingDB.isPresent()) {
-            model.addAttribute("nameError", "Такая парковка уже существует");
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Такая парковка уже существует");
             return false;
         }
         if (bindingResult.hasErrors()) {
@@ -484,6 +497,7 @@ public class DataEditingService {
             return false;
         }
         parkingRepo.save(parking);
+        model.addAttribute("messageType", "success");
         model.addAttribute("message", "Парковка создана!");
         return true;
     }
@@ -529,7 +543,8 @@ public class DataEditingService {
         Optional<Subdivision> subdivisionDB = subdivisionRepo.findByName(subdivision.getName());
 
         if (subdivisionDB.isPresent()) {
-            model.addAttribute("nameError", "Такая кафедра уже существует");
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Такая кафедра уже существует");
             return false;
         }
         if (bindingResult.hasErrors()) {
@@ -538,6 +553,7 @@ public class DataEditingService {
             return false;
         }
         subdivisionRepo.save(subdivision);
+        model.addAttribute("messageType", "success");
         model.addAttribute("message", "Кафедра создана!");
         return true;
     }

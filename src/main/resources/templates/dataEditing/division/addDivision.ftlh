@@ -2,7 +2,7 @@
 
 <@c.page>
     <h5>Институт</h5>
-    <form action="${division}" method="post" class="mt-2">
+    <form action="/dataEdit/division/add" method="post" class="mt-2">
         <div class="form-group">
             <label for="name">Название института</label>
             <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} col-sm-4"

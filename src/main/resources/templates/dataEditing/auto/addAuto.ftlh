@@ -3,7 +3,7 @@
 <@c.page>
     <script type="text/javascript" src="/static/js/tableSearch.js"></script>
     <h5>Автомобиль</h5>
-    <form action="${automobile}" method="post" class="mt-2">
+    <form action="/dataEdit/auto/add" method="post" class="mt-2">
         <div class="form-group">
             <label for="number">Марка и модель автомобиля</label>
             <input type="text" class="form-control ${(numberError??)?string('is-invalid', '')} col-sm-4"

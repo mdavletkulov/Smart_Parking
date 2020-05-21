@@ -35,8 +35,8 @@ public class ColorEditController {
         return "dataEditing/color/addColor";
     }
 
-    @PostMapping("color/add/{color}")
-    public String addColor(@PathVariable @Valid Color color, BindingResult bindingResult, Model model) {
+    @PostMapping("color/add")
+    public String addColor(@Valid Color color, BindingResult bindingResult, Model model) {
         if (dataEditingService.addColor(color, bindingResult, model)) {
             return getColorsEdit(model);
         } else return addColor(model);

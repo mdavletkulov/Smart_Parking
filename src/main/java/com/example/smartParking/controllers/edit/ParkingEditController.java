@@ -48,8 +48,8 @@ public class ParkingEditController {
         return "dataEditing/parking/addParking";
     }
 
-    @PostMapping("parking/add/{parking}")
-    public String addParking(@PathVariable @Valid Parking parking, BindingResult bindingResult, Model model) {
+    @PostMapping("parking/add")
+    public String addParking(@Valid Parking parking, BindingResult bindingResult, Model model) {
         if (dataEditingService.addParking(parking, bindingResult, model)) {
             return getParkingsEdit(model);
         } else return addParking(model);

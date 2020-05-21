@@ -2,13 +2,13 @@
 
 <@c.page>
     <h5>Кафедра</h5>
-    <form action="${subdivision}" method="post" class="mt-2">
+    <form action="/dataEdit/subdivision/add" method="post" class="mt-2">
         <div class="form-group col-4 division">
-            <label class="parking" for="division">Институты</label>
-            <select class="form-control parking" name="division">
-                <option selected="selected" value=""/>
+            <label class="division" for="division">Институты</label>
+            <select id="division" class="form-control division" name="division" >
+
                 <#list divisions as division>
-                    <option>${division.getName()}</option>
+                    <option value="${division.getId()}">${division.getName()}</option>
                 </#list>
             </select>
             <#if divisionError??>
@@ -30,7 +30,11 @@
                 </div>
             </#if>
         </div>
+
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit" class="btn btn-primary mt-3">Создать</button>
     </form>
+
+    <script>
+        </script>
 </@c.page>

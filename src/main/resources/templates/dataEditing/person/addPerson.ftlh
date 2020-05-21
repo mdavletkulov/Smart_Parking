@@ -2,7 +2,7 @@
 
 <@c.page>
     <h5>Водитель</h5>
-    <form action="${person}" method="post" class="mt-2">
+    <form action="/dataEdit/person/add" method="post" class="mt-2">
         <div class="form-group">
             <label for="firstName">Имя</label>
             <input type="text" class="form-control ${(firstNameError??)?string('is-invalid', '')} col-sm-4"

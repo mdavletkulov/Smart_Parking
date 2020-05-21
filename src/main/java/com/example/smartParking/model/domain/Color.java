@@ -11,7 +11,7 @@ public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    @NotBlank
+    @NotBlank(message = "Название цвета не может быть пустым")
     @Length(max = 30, message = "Название цвета слишком длинное")
     private String name;
 

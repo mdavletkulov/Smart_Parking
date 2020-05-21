@@ -36,8 +36,8 @@ public class JobEditController {
         return "dataEditing/job/addJob";
     }
 
-    @PostMapping("job/add/{job}")
-    public String addJob(@PathVariable @Valid JobPosition job, BindingResult bindingResult, Model model) {
+    @PostMapping("job/add")
+    public String addJob(@Valid JobPosition job, BindingResult bindingResult, Model model) {
         if (dataEditingService.addJob(job, bindingResult, model)) {
             return getJobEdit(model);
         } else return addJob(model);

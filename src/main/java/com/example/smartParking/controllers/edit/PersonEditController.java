@@ -38,8 +38,8 @@ public class PersonEditController {
         return "dataEditing/person/addPerson";
     }
 
-    @PostMapping("person/add/{person}")
-    public String addPerson(@PathVariable @Valid Person person, BindingResult bindingResult, Model model) {
+    @PostMapping("person/add")
+    public String addPerson(@Valid Person person, BindingResult bindingResult, Model model) {
         if (dataEditingService.addPerson(person, bindingResult, model)) {
             return getPersonsEdit(model);
         } else return addPerson(model);

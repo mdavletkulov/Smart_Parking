@@ -1,5 +1,6 @@
 package com.example.smartParking.controllers.edit;
 
+import com.example.smartParking.model.domain.Division;
 import com.example.smartParking.model.domain.Person;
 import com.example.smartParking.model.domain.Place;
 import com.example.smartParking.model.domain.Subdivision;
@@ -9,10 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -37,8 +35,9 @@ public class SubdivisionEditController {
         return "dataEditing/subdivision/addSubdivision";
     }
 
-    @PostMapping("subdivision/add/{subdivision}")
-    public String addSubdivision(@PathVariable @Valid Subdivision subdivision, BindingResult bindingResult, Model model) {
+    @PostMapping("subdivision/add")
+    public String addSubdivision(@Valid Subdivision subdivision, BindingResult bindingResult, @RequestParam Division division, Model model) {
+        subdivision.setDivision(division);
         if (dataEditingService.addSubdivision(subdivision, bindingResult, model)) {
             return getSubdivisionsEdit(model);
         } else return addSubdivision(model);

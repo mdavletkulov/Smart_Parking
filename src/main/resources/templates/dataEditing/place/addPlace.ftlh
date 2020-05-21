@@ -2,7 +2,7 @@
 
 <@c.page>
     <h5>Парковочное место</h5>
-    <form action="${place}" method="post" class="mt-2">
+    <form action="/dataEdit/place/add" method="post" class="mt-2">
         <div class="form-group col-4 parking">
             <label class="parking" for="parking">Парковки</label>
             <select class="form-control parking" name="parking">

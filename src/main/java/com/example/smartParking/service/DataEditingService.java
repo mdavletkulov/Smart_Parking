@@ -401,7 +401,11 @@ public class DataEditingService {
 
     //------------------------------------------------------------------//
 
-    //---------------------------- Division -----------------------------//
+    //------------------------------ Job -------------------------------//
+
+    public List<String> getTypeJobs() {
+        return jobPositionRepo.findAllPositionNames();
+    }
 
     public void deleteJob(Long jobId, Model model) {
         Optional<JobPosition> jobPosition = jobPositionRepo.findById(jobId);

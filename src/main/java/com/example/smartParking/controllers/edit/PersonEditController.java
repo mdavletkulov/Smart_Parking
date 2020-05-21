@@ -1,7 +1,5 @@
 package com.example.smartParking.controllers.edit;
 
-import com.example.smartParking.model.domain.Color;
-import com.example.smartParking.model.domain.Parking;
 import com.example.smartParking.model.domain.Person;
 import com.example.smartParking.service.DataEditingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,8 @@ public class PersonEditController {
 
     @GetMapping("person/add")
     public String addPerson(Model model) {
+        model.addAttribute("jobTypes", dataEditingService.getTypeJobs());
+        model.addAttribute("divisions", dataEditingService.getAllDivisions());
         return "dataEditing/person/addPerson";
     }
 

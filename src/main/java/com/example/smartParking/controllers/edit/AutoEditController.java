@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
@@ -36,13 +37,11 @@ public class AutoEditController {
         return "dataEditing/auto/addAuto";
     }
 
-    @PostMapping("auto/add/{auto}")
+    @PostMapping("auto/add/{automobile}")
     public String addAuto(@PathVariable @Valid Automobile automobile, BindingResult bindingResult, Model model) {
-        boolean success = false;
-        if(success) {
+        if (dataEditingService.addAuto(automobile, bindingResult, model)) {
             return getAutosEdit(model);
-        }
-        else return addAuto(model);
+        } else return addAuto(model);
     }
 
     @GetMapping("auto/edit/{auto}")
@@ -53,12 +52,25 @@ public class AutoEditController {
 
     @PostMapping("auto/edit/{autoId}")
     public String editAuto(@PathVariable Long autoId, @Valid Automobile changedAuto, BindingResult bindingResult, Model model) {
-        Automobile auto = dataEditingService.getAuto(autoId).get();
-        return editAuto(auto, model);
+        Optional<Automobile> auto = dataEditingService.getAuto(autoId);
+        boolean success;
+        if (auto.isPresent()) {
+            success = dataEditingService.updateAuto(auto.get(), changedAuto, bindingResult, model);
+        } else {
+            model.addAttribute("message", "Такого автомобиля не существует");
+            return getAutosEdit(model);
+        }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        auto = dataEditingService.getAuto(autoId);
+        return editAuto(auto.get(), model);
     }
 
     @GetMapping("auto/delete/{autoId}")
     public String deleteAuto(@PathVariable Long autoId, Model model) {
+        dataEditingService.deleteAuto(autoId, model);
         return getAutosEdit(model);
     }
 }

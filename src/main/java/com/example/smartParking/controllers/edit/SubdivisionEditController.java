@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
@@ -32,16 +33,15 @@ public class SubdivisionEditController {
 
     @GetMapping("subdivision/add")
     public String addSubdivision(Model model) {
+        model.addAttribute("divisions", dataEditingService.getAllDivisions());
         return "dataEditing/subdivision/addSubdivision";
     }
 
     @PostMapping("auto/subdivision/{subdivision}")
     public String addSubdivision(@PathVariable @Valid Subdivision subdivision, BindingResult bindingResult, Model model) {
-        boolean success = false;
-        if(success) {
+        if (dataEditingService.addSubdivision(subdivision, bindingResult, model)) {
             return getSubdivisionsEdit(model);
-        }
-        else return addSubdivision(model);
+        } else return addSubdivision(model);
     }
 
     @GetMapping("subdivision/edit/{subdivision}")
@@ -52,12 +52,25 @@ public class SubdivisionEditController {
 
     @PostMapping("subdivision/edit/{subdivisionId}")
     public String editSubdivision(@PathVariable Long subdivisionId, @Valid Subdivision changedSubdivision, BindingResult bindingResult, Model model) {
-        Subdivision subdivision = dataEditingService.getSubdivision(subdivisionId).get();
-        return editSubdivision(subdivision, model);
+        Optional<Subdivision> subdivisionDB = dataEditingService.getSubdivision(subdivisionId);
+        boolean success;
+        if (subdivisionDB.isPresent()) {
+            success = dataEditingService.updateSubdivision(subdivisionDB.get(), changedSubdivision, bindingResult, model);
+        } else {
+            model.addAttribute("message", "Такой кафедры не существует");
+            return getSubdivisionsEdit(model);
+        }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        subdivisionDB = dataEditingService.getSubdivision(subdivisionId);
+        return editSubdivision(subdivisionDB.get(), model);
     }
 
     @GetMapping("subdivision/delete/{subdivisionId}")
-    public String deletePerson(@PathVariable Long subdivisionId, Model model) {
+    public String deleteSubdivision(@PathVariable Long subdivisionId, Model model) {
+        dataEditingService.deleteSubdivision(subdivisionId, model);
         return getSubdivisionsEdit(model);
     }
 }

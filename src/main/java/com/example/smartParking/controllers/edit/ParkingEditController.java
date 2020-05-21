@@ -3,6 +3,7 @@ package com.example.smartParking.controllers.edit;
 import com.example.smartParking.model.domain.JobPosition;
 import com.example.smartParking.model.domain.Parking;
 import com.example.smartParking.model.domain.Place;
+import com.example.smartParking.model.domain.Subdivision;
 import com.example.smartParking.service.DataEditingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
@@ -37,11 +39,9 @@ public class ParkingEditController {
 
     @PostMapping("auto/parking/{parking}")
     public String addParking(@PathVariable @Valid Parking parking, BindingResult bindingResult, Model model) {
-        boolean success = false;
-        if(success) {
+        if (dataEditingService.addParking(parking, bindingResult, model)) {
             return getParkingsEdit(model);
-        }
-        else return addParking(model);
+        } else return addParking(model);
     }
 
     @GetMapping("parking/edit/{parking}")
@@ -52,12 +52,25 @@ public class ParkingEditController {
 
     @PostMapping("parking/edit/{parkingId}")
     public String editParking(@PathVariable Long parkingId, @Valid Parking changedParking, BindingResult bindingResult, Model model) {
-        Parking parking = dataEditingService.getParking(parkingId).get();
-        return editParking(parking, model);
+        Optional<Parking> parkingDB = dataEditingService.getParking(parkingId);
+        boolean success;
+        if (parkingDB.isPresent()) {
+            success = dataEditingService.updateParking(parkingDB.get(), changedParking, bindingResult, model);
+        } else {
+            model.addAttribute("message", "Такой парковки не существует");
+            return getParkingsEdit(model);
+        }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        parkingDB = dataEditingService.getParking(parkingId);
+        return editParking(parkingDB.get(), model);
     }
 
     @GetMapping("parking/delete/{parkingId}")
     public String deleteParking(@PathVariable Long parkingId, Model model) {
+        dataEditingService.deleteParking(parkingId, model);
         return getParkingsEdit(model);
     }
 }

@@ -32,7 +32,8 @@ public class PersonEditController {
 
     @GetMapping("person/add")
     public String addPerson(Model model) {
-        model.addAttribute("jobTypes", dataEditingService.getTypeJobs());
+        model.addAttribute("jobPositions", dataEditingService.getAllJobs());
+        model.addAttribute("divisions", dataEditingService.getAllDivisions());
         model.addAttribute("divisions", dataEditingService.getAllDivisions());
         return "dataEditing/person/addPerson";
     }
@@ -57,7 +58,7 @@ public class PersonEditController {
         if (personDB.isPresent()) {
             success = dataEditingService.updatePerson(personDB.get(), changedPerson, bindingResult, model);
         } else {
-            model.addAttribute("message", "Такого цвета не существует");
+            model.addAttribute("message", "Такого водителя не существует");
             return getPersonsEdit(model);
         }
         if (success) {

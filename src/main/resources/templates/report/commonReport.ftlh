@@ -60,7 +60,6 @@
 
 
         $(document).ready(function () {
-            console.log(divisions);
             subdivisionSelect.empty();
             if (employee === 'yes') {
                 divisionsSelect.empty();
@@ -76,7 +75,6 @@
                     var selectedDivision = $(this).children("option:selected").val();
                     subdivision(selectedDivision);
                 } else {
-
                         subdivisionSelect.empty();
                         subdivisionSelect.attr("hidden", "hidden");
                         subdivisionLabel.attr("hidden", "hidden");

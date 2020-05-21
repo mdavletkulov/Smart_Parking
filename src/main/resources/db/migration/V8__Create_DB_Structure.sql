@@ -34,7 +34,6 @@ create table parking
 (
     id           bigint identity not null,
     description  varchar(150),
-    place_number int not null,
     primary key (id)
 )
 

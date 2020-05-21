@@ -10,7 +10,11 @@
             <img src="/img/1_corpus.jpg" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">${parking.getDescription()}</h5>
-                <p class="card-text">Парковка расчитана на ${parking.getPlaceNumber()} мест</p>
+                <#list placeNumbers as key, value>
+                    <#if key == parking.getId()>
+                        <p class="card-text">Парковка расчитана на ${parking.getPlaceNumber()} мест</p>
+                    </#if>
+                </#list>
             </div>
             </a>
         </div>

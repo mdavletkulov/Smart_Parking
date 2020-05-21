@@ -34,6 +34,8 @@ public class AutoEditController {
 
     @GetMapping("auto/add")
     public String addAuto(Model model) {
+        model.addAttribute("persons", dataEditingService.getAllPersons());
+        model.addAttribute("automobiles", dataEditingService.getAllAutos());
         return "dataEditing/auto/addAuto";
     }
 

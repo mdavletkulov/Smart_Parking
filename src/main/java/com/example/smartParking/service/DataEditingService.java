@@ -462,6 +462,10 @@ public class DataEditingService {
 
     //---------------------------- Parking -----------------------------//
 
+    public Integer getPlaceNumbersOfParking(Long parkingId) {
+        return parkingRepo.countOfPlacesByParking(parkingId);
+    }
+
     public void deleteParking(Long parkingId, Model model) {
         Optional<Parking> parking = parkingRepo.findById(parkingId);
         if (parking.isPresent()) {
@@ -507,7 +511,7 @@ public class DataEditingService {
             return false;
         } else {
             parking.setDescription(parkingChange.getDescription());
-            parking.setPlaceNumber(parkingChange.getPlaceNumber());
+//            parking.setPlaceNumber(parkingChange.getPlaceNumber());
             parkingRepo.save(parking);
             return true;
         }

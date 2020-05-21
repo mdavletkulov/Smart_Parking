@@ -27,5 +27,5 @@ values (N'Заведующий кафедрой', N'ППС'),
        (N'Первый проректор', N'АУП'),
        (N'Ректор', N'АУП');
 
-insert into parking(description, place_number)
-values (N'Парковка у первого корпуса', 4);
+insert into parking(description)
+values (N'Парковка у первого корпуса');

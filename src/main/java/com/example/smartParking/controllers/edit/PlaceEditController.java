@@ -38,7 +38,7 @@ public class PlaceEditController {
         return "dataEditing/place/addPlace";
     }
 
-    @PostMapping("auto/place/{place}")
+    @PostMapping("place/add/{place}")
     public String addPlace(@PathVariable @Valid Place place, BindingResult bindingResult, Model model) {
         if (dataEditingService.addPlace(place, bindingResult, model)) {
             return getPlacesEdit(model);

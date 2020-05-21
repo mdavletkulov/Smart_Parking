@@ -36,7 +36,7 @@ public class DivisionEditController {
         return "dataEditing/division/addDivision";
     }
 
-    @PostMapping("auto/division/{division}")
+    @PostMapping("division/add/{division}")
     public String addDivision(@PathVariable @Valid Division division, BindingResult bindingResult, Model model) {
         if (dataEditingService.addDivision(division, bindingResult, model)) {
             return getDivisionsEdit(model);

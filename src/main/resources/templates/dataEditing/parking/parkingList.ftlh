@@ -22,7 +22,11 @@
         <#list parkings as parking>
             <tr class="row">
                 <th class="align-middle col-sm-5" scope="row">${parking.getDescription()}</th>
-                <td class="align-middle col-sm-2" scope="row">${parking.getPlaceNumber()}</td>
+                        <#list placeNumbers as key, value>
+                            <#if key == parking.getId()>
+                                <td class="align-middle col-sm-2" scope="row">value</td>
+                            </#if>
+                        </#list>
                 <td class="col-sm-3"><a href="/dataEdit/parking/edit/${parking.id}"
                                         class="btn btn-primary stretched-link">Редактировать</a>
                 </td>

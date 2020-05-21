@@ -11,8 +11,6 @@ public class Parking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    @NotBlank(message = "Количество мест у парковки не может быть пустым")
-    private Integer placeNumber;
     @Length(max = 150, message = "Описание парковки слишком велико")
     private String description;
 
@@ -22,14 +20,6 @@ public class Parking {
 
     public void setId(Long id) {
         Id = id;
-    }
-
-    public Integer getPlaceNumber() {
-        return placeNumber;
-    }
-
-    public void setPlaceNumber(Integer placeNumber) {
-        this.placeNumber = placeNumber;
     }
 
     public String getDescription() {

@@ -65,12 +65,15 @@
         var userId;
         jQuery(document).ready(function ($) {
 
+            $('#persons').DataTable( {
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+            } );
+
 
             $('button.askDelete').click(function () {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
                 userId = $(this).attr('id');
-                console.log(userId);
             });
         });
 

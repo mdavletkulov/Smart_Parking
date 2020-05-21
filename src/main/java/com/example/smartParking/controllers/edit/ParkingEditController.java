@@ -5,6 +5,7 @@ import com.example.smartParking.model.domain.Parking;
 import com.example.smartParking.model.domain.Place;
 import com.example.smartParking.model.domain.Subdivision;
 import com.example.smartParking.service.DataEditingService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
@@ -28,7 +33,13 @@ public class ParkingEditController {
 
     @GetMapping("parking")
     public String getParkingsEdit(Model model) {
-        model.addAttribute("parkings", dataEditingService.getAllParking());
+        List<Parking> parkings = Lists.newArrayList(dataEditingService.getAllParking());
+        model.addAttribute("parkings", parkings);
+        Map<Long, Integer> placeNumbers = new HashMap<>();
+        for (Parking parking : parkings) {
+            placeNumbers.put(parking.getId(), dataEditingService.getPlaceNumbersOfParking(parking.getId()));
+        }
+        model.addAttribute("placeNumbers", placeNumbers);
         return "dataEditing/parking/parkingList";
     }
 
@@ -37,7 +48,7 @@ public class ParkingEditController {
         return "dataEditing/parking/addParking";
     }
 
-    @PostMapping("auto/parking/{parking}")
+    @PostMapping("parking/add/{parking}")
     public String addParking(@PathVariable @Valid Parking parking, BindingResult bindingResult, Model model) {
         if (dataEditingService.addParking(parking, bindingResult, model)) {
             return getParkingsEdit(model);

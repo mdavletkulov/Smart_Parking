@@ -4,6 +4,7 @@ import com.example.smartParking.model.domain.Event;
 import com.example.smartParking.model.domain.Parking;
 import com.example.smartParking.model.domain.Place;
 import com.example.smartParking.model.domain.dto.UpdateParking;
+import com.example.smartParking.service.DataEditingService;
 import com.example.smartParking.service.ParkingService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,9 +29,17 @@ public class ParkingController {
     @Autowired
     ParkingService parkingService;
 
+    @Autowired
+    DataEditingService dataEditingService;
+
     @GetMapping
     public String getAllParking(Model model) {
         ArrayList<Parking> parkings = Lists.newArrayList(parkingService.findAllParking());
+        Map<Long, Integer> placeNumbers = new HashMap<>();
+        for (Parking parking : parkings) {
+            placeNumbers.put(parking.getId(), dataEditingService.getPlaceNumbersOfParking(parking.getId()));
+        }
+        model.addAttribute("placeNumbers", placeNumbers);
         model.addAttribute("parkings", parkings);
         model.addAttribute("parkingsSize", parkings.size());
         return "parking/parkingsPage";

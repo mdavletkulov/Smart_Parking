@@ -37,7 +37,7 @@ public class SubdivisionEditController {
         return "dataEditing/subdivision/addSubdivision";
     }
 
-    @PostMapping("auto/subdivision/{subdivision}")
+    @PostMapping("subdivision/add/{subdivision}")
     public String addSubdivision(@PathVariable @Valid Subdivision subdivision, BindingResult bindingResult, Model model) {
         if (dataEditingService.addSubdivision(subdivision, bindingResult, model)) {
             return getSubdivisionsEdit(model);

@@ -32,10 +32,11 @@ public class JobEditController {
 
     @GetMapping("job/add")
     public String addJob(Model model) {
+        model.addAttribute("typeJobPositions", dataEditingService.getTypeJobs());
         return "dataEditing/job/addJob";
     }
 
-    @PostMapping("auto/division/{job}")
+    @PostMapping("job/add/{job}")
     public String addJob(@PathVariable @Valid JobPosition job, BindingResult bindingResult, Model model) {
         if (dataEditingService.addJob(job, bindingResult, model)) {
             return getJobEdit(model);

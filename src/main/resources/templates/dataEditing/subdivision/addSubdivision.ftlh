@@ -18,8 +18,8 @@
             </#if>
         </div>
         <div class="form-group">
-            <label for="name">Навзание кафедры</label>
-            <input type="text" class="form-control ${(placeNumberError??)?string('is-invalid', '')} col-sm-4"
+            <label for="name">Название кафедры</label>
+            <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} col-sm-4"
                    id="name"
                    value="<#if place??>${subdivision.name}</#if>"
                    placeholder="Введите название кафедры"

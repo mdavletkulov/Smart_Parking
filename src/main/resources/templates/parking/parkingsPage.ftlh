@@ -12,7 +12,7 @@
                 <h5 class="card-title">${parking.getDescription()}</h5>
                 <#list placeNumbers as key, value>
                     <#if key == parking.getId()>
-                        <p class="card-text">Парковка расчитана на ${parking.getPlaceNumber()} мест</p>
+                        <p class="card-text">Парковка расчитана на ${value} мест</p>
                     </#if>
                 </#list>
             </div>

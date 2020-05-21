@@ -11,7 +11,7 @@ public interface ParkingRepo extends CrudRepository<Parking, Long> {
     Optional<Parking> findByDescription(String description);
 
     @Query(
-            value = "Select COUNT(*) FROM parking WHERE paring_id = ?1",
+            value = "Select COUNT(*) FROM parking_place WHERE parking_id = ?1",
             nativeQuery = true)
     Integer countOfPlacesByParking(Long parkingId);
 }

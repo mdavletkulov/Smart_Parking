@@ -8,33 +8,34 @@
     <div class="form-group" style="margin-bottom: 5%">
         <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
     </div>
-    <table class="table table-striped text-center table-hover col-5" id="persons">
+    <table class="table table-striped text-center table-hover col-5" id="parkings" style="width: 50%">
         <thead class="thead-dark">
-        <tr class="row">
-            <th class="align-middle col-sm-5" scope="col">Парковка</th>
-            <th class="align-middle col-sm-2" scope="col">Количество мест</th>
-            <th class="align-middle col-sm-5" class="align-middle" colspan="2" scope="col">
+        <tr>
+            <th class="align-middle" scope="col">Парковка</th>
+            <th class="align-middle" scope="col">Количество мест</th>
+            <th>
+            <th class="align-middle" scope="col">
                 <a href="/dataEdit/parking/add" class="btn btn-primary stretched-link">
                     Добавить новую парковку</a></th>
         </tr>
         </thead>
         <tbody>
         <#list parkings as parking>
-            <tr class="row">
-                <th class="align-middle col-sm-5" scope="row">${parking.getDescription()}</th>
-                        <#list placeNumbers as key, value>
-                            <#if key == parking.getId()>
-                                <td class="align-middle col-sm-2" scope="row">value</td>
-                            </#if>
-                        </#list>
-                <td class="col-sm-3"><a href="/dataEdit/parking/edit/${parking.id}"
-                                        class="btn btn-primary stretched-link">Редактировать</a>
-                </td>
-                <td class="col-sm-2">
+            <tr>
+                <th class="align-middle" scope="row">${parking.getDescription()}</th>
+                <#list placeNumbers as key, value>
+                    <#if key == parking.getId()>
+                        <td class="align-middle" scope="row">${value}</td>
+                    </#if>
+                </#list>
+                <td>
                     <button id="${parking.getId()}" type="button" class="btn btn-primary askDelete"
                             data-toggle="modal">
                         Удалить
                     </button>
+                </td>
+                <td><a href="/dataEdit/parking/edit/${parking.id}"
+                       class="btn btn-primary stretched-link">Редактировать</a>
                 </td>
             </tr>
         </#list>
@@ -63,8 +64,24 @@
     </div>
 
     <script>
-        var userId;
+        var parkingId;
         jQuery(document).ready(function ($) {
+
+            $('#parkings').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Все"]],
+                columnDefs: [
+                    {width: '45%', targets: 0},
+                    {width: '15%', targets: 1},
+                    {width: '15%', "orderable": false, targets: 2},
+                    {width: '25%', "orderable": false, targets: 3},
+                ],
+                language: {
+                    url: '/static/localization/Russian.json'
+                },
+                fixedColumns: true
+            });
+
+
             $('button.askDelete').click(function () {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');

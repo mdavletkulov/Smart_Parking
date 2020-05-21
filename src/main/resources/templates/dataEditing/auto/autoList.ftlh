@@ -1,41 +1,40 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
-    <script type="text/javascript" src="/static/js/tableSearch.js"></script>
     <div><h5 class="mb-3">Автомобили</h5>
     </div>
 
-    <div class="form-group" style="margin-bottom: 5%">
-        <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
-    </div>
-    <table class="table table-striped text-center table-hover col-10" id="persons">
+    <table class="table table-striped text-center table-hover col-10" id="autos" style="width:100%">
         <thead class="thead-dark">
-        <tr class="row">
-            <th class="align-middle col-sm-3" scope="col">Водитель</th>
-            <th class="align-middle col-sm-2" scope="col">Модель</th>
-            <th class="align-middle col-sm-2" scope="col">Номер</th>
-            <th class="align-middle col-sm-2" scope="col">Цвет</th>
-            <th class="align-middle col-sm-3" colspan="2" scope="col">
-                <a href="/dataEdit/auto/add" class="btn btn-primary stretched-link">
+        <tr>
+            <th class="align-middle" scope="col">Водитель</th>
+            <th class="align-middle" scope="col">Модель</th>
+            <th class="align-middle" scope="col">Номер</th>
+            <th class="align-middle" scope="col">Цвет</th>
+            <th class="align-middle"  scope="col">
+            </th>
+            <th class="align-middle"  scope="col"><a href="/dataEdit/auto/add"
+                                                                class="btn btn-primary stretched-link">
                     Добавить новый автомобиль</a></th>
         </tr>
         </thead>
         <tbody>
         <#list automobiles as automobile>
-            <tr class="row">
-                <th class="align-middle col-sm-3" scope="row">${automobile.getPerson().getFullName()}</th>
-                <td class="align-middle col-sm-2">${automobile.getModel()}</td>
-                <td class="align-middle col-sm-2">${automobile.getNumber()}</td>
-                <td class="align-middle col-sm-2">${automobile.getColor().getName()}</td>
-                <td class="align-middle col-sm-2"><a href="/dataEdit/auto/edit/${automobile.id}"
-                                        class="btn btn-primary stretched-link">Редактировать</a>
-                </td>
-                <td class="align-middle col-sm-1">
+            <tr>
+                <th class="align-middle" scope="row">${automobile.getPerson().getFullName()}</th>
+                <td class="align-middle">${automobile.getModel()}</td>
+                <td class="align-middle">${automobile.getNumber()}</td>
+                <td class="align-middle">${automobile.getColor().getName()}</td>
+                <td class="align-middle">
                     <button id="${automobile.getId()}" type="button" class="btn btn-primary askDelete"
                             data-toggle="modal">
                         Удалить
                     </button>
                 </td>
+                <td class="align-middle"><a href="/dataEdit/auto/edit/${automobile.id}"
+                                            class="btn btn-primary stretched-link">Редактировать</a>
+                </td>
+
             </tr>
         </#list>
         </tbody>
@@ -63,19 +62,37 @@
     </div>
 
     <script>
-        var userId;
+        var automobileId;
         jQuery(document).ready(function ($) {
             $('button.askDelete').click(function () {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
                 automobileId = $(this).attr('id');
             });
+
+            $('#autos').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Все"]],
+                columnDefs: [
+                    {width: '30%', targets: 0},
+                    {width: '20%', targets: 1},
+                    {width: '15%',  targets: 2},
+                    {width: '13%',  targets: 3},
+                    {width: '5%', "orderable": false, targets: 4},
+                    {width: '17%', "orderable": false, targets: 5},
+                ],
+                language: {
+                    url: '/static/localization/Russian.json'
+                },
+                fixedColumns: true
+            });
+            $('button#delete').click(function () {
+                window.location.href = '/dataEdit/auto/delete/' + automobileId;
+                return false;
+            });
         });
 
-        $('button#delete').click(function () {
-            window.location.href = '/dataEdit/auto/delete/' + automobileId;
-            return false;
-        });
+
+
     </script>
 
 </@c.page>

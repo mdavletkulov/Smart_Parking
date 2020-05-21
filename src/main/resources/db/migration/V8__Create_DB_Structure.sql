@@ -3,7 +3,7 @@ create table automobile
     id        bigint identity not null,
     model     varchar(50),
     number    varchar(12),
-    color_id  bigint not null,
+    color_id  bigint,
     person_id bigint,
     primary key (id)
 )

@@ -1,36 +1,32 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
-    <script type="text/javascript" src="/static/js/tableSearch.js"></script>
     <div><h5 class="mb-3">Кафедры</h5>
     </div>
-
-    <div class="form-group" style="margin-bottom: 5%">
-        <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
-    </div>
-    <table class="table table-striped text-center table-hover col-8" id="persons">
+    <table class="table table-striped text-center table-hover col-8" id="subdivisions" style="width:80%">
         <thead class="thead-dark">
-        <tr class="row">
-            <th class="align-middle col-sm-2" scope="col">Институт</th>
-            <th class="align-middle col-sm-5" scope="col">Кафедра</th>
-            <th class="align-middle col-sm-5" class="align-middle" colspan="2" scope="col">
+        <tr>
+            <th class="align-middle" scope="col">Институт</th>
+            <th class="align-middle" scope="col">Кафедра</th>
+            <th></th>
+            <th class="align-middle"  scope="col">
                 <a href="/dataEdit/subdivision/add" class="btn btn-primary stretched-link">
                     Добавить новую кафедру</a></th>
         </tr>
         </thead>
         <tbody>
         <#list subdivisions as subdivision>
-            <tr class="row">
-                <th class="align-middle col-sm-2" scope="row">${subdivision.getDivision().getName()}</th>
-                <td class="align-middle col-sm-5" scope="row">${subdivision.getName()}</td>
-                <td class="col-sm-3"><a href="/dataEdit/subdivision/edit/${subdivision.id}"
-                                        class="btn btn-primary stretched-link">Редактировать</a>
-                </td>
-                <td class="col-sm-2">
+            <tr>
+                <th class="align-middle" scope="row">${subdivision.getDivision().getName()}</th>
+                <td class="align-middle" scope="row">${subdivision.getName()}</td>
+                <td>
                     <button id="${subdivision.getId()}" type="button" class="btn btn-primary askDelete"
                             data-toggle="modal">
                         Удалить
                     </button>
+                </td>
+                <td><a href="/dataEdit/subdivision/edit/${subdivision.id}"
+                       class="btn btn-primary stretched-link">Редактировать</a>
                 </td>
             </tr>
         </#list>
@@ -59,13 +55,27 @@
     </div>
 
     <script>
-        var userId;
+        var subdivisionId;
         jQuery(document).ready(function ($) {
             $('button.askDelete').click(function () {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
                 subdivisionId = $(this).attr('id');
             });
+        });
+
+        $('#subdivisions').DataTable({
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Все"]],
+            columnDefs: [
+                {width: '15%', targets: 0},
+                {width: '50%', targets: 1},
+                {width: '20%', "orderable": false, targets: 2},
+                {width: '15%', "orderable": false, targets: 3},
+            ],
+            language: {
+                url: '/static/localization/Russian.json'
+            },
+            fixedColumns: true
         });
 
         $('button#delete').click(function () {

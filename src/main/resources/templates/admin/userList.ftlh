@@ -1,36 +1,32 @@
 <#import "../parts/common.ftlh" as c>
 
 <@c.page>
-    <script type="text/javascript" src="/static/js/tableSearch.js"></script>
-    <h5> Список пользователей </h5>
+    <h5 class="mb-3"> Список пользователей </h5>
     <#if message?has_content>
         <div class="alert alert-${messageType}" role="alert">
             ${message}
         </div>
     </#if>
-    <div class="form-group" style="margin-bottom: 5%">
-        <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
-    </div>
-    <table class="table table-striped text-center mt-5 table-hover" id="persons">
+    <table id="users" class="table table-striped no-border" style="width:100%">
         <thead class="thead-dark">
-        <tr class="row">
-            <th class="col-sm-3" scope="col">E-mail</th>
-            <th class="col-sm-4" scope="col">Пользователь</th>
-            <th class="col-sm-2" scope="col">Роль</th>
-            <th class="col-sm-2" scope="col"></th>
-            <th class="col-sm-1" scope="col"></th>
+        <tr>
+            <th scope="col">E-mail</th>
+            <th scope="col">Пользователь</th>
+            <th scope="col">Роль</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
         <#list users as user>
         <#if user.username != currentUser.username>
-        <tr class="row">
-            <td class="col-sm-3">${user.username}</td>
-            <td class="col-sm-4">${user.getFullName()}</td>
-            <td class="col-sm-2">${user.getRole()}</td>
-            <td class="col-sm-2"><a href="/user/edit/${user.id}" class="btn btn-primary stretched-link">Редактировать</a>
+        <tr>
+            <td>${user.username}</td>
+            <td>${user.getFullName()}</td>
+            <td>${user.getRole()}</td>
+            <td><a href="/user/edit/${user.id}" class="btn btn-primary stretched-link">Редактировать</a>
             </td>
-            <td class="col-sm-1">
+            <td>
                 <button id="${user.getId()}" type="button" class="btn btn-primary askDelete" data-toggle="modal">
                     Удалить
                 </button>
@@ -61,12 +57,34 @@
         </div>
     </div>
 
+    <style>
+        table#persons{
+            margin: 0 auto;
+            width: 100%;
+            clear: both;
+            border-collapse: collapse;
+            table-layout: fixed; // ***********add this
+        word-wrap:break-word; // ***********and this
+        }
+        </style>
+
     <script>
         var userId;
         jQuery(document).ready(function ($) {
 
-            $('#persons').DataTable( {
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+            $('#users').DataTable( {
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                columnDefs: [
+                    { width: '30%', targets: 0 },
+                    { width: '30%', targets: 1 },
+                    { width: '10%', targets: 2 },
+                    { width: '20%', "orderable": false, targets: 3 },
+                    { width: '10%', "orderable": false, targets: 4 },
+                ],
+                language: {
+                    url: 'static/localization/Russian.json'
+                },
+                fixedColumns: true
             } );
 
 

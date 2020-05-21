@@ -1,48 +1,72 @@
 <#import "../parts/reportNav.ftlh" as rN>
 <#import "../parts/dateReport.ftlh" as r>
 <@rN.reportNav>
-    <script type="text/javascript" src="/static/js/tableSearch.js"></script>
-    <div class="form-group" style="margin-bottom: 7%">
-        <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
-    </div>
-    <table class="table table-striped text-center table-hover" id="persons">
+    <table id="persons" class="table table-striped no-border text-center" style="width:100%">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">Водитель</th>
-            <th scope="col">Автомобиль</th>
-            <th scope="col">Номер</th>
-            <th scope="col">Статус</th>
-            <th scope="col">Подразделение</th>
-            <th scope="col">Должность</th>
-            <th scope="col">Институт</th>
-            <th scope="col">Группа</th>
-            <th scope="col">Курс</th>
-            <th scope="col">Пропуск</th>
-            <th scope="col">Дата истечения пропуска</th>
-            <th scope="col">Специальный статус</th>
-            <th scope="col"></th>
+            <th class="align-middle">Водитель</th>
+            <th class="align-middle">Автомобиль</th>
+            <th class="align-middle">Номер</th>
+            <th class="align-middle">Статус</th>
+            <th class="align-middle">Подразделение</th>
+            <th class="align-middle">Должность</th>
+            <th class="align-middle">Институт</th>
+            <th class="align-middle">Группа</th>
+            <th class="align-middle">Курс</th>
+            <th class="align-middle">Пропуск</th>
+            <th class="align-middle">Дата истечения пропуска</th>
+            <th class="align-middle">Специальный статус</th>
+            <th class="align-middle"></th>
         </tr>
         </thead>
         <tbody>
         <#list persons as person>
             <tr>
-                <th scope="row">${person.getFullName()}</th>
+                <th class="align-middle">${person.getFullName()}</th>
                 <#list automobiles as auto>
-                    <#if auto.getPerson().getId() == person.getId()><td>${auto.getModel()} </td></#if>
-                    <#if auto.getPerson().getId() == person.getId()><td>${auto.getNumber()} </td></#if>
+                    <#if auto.getPerson().getId() == person.getId()><td class="align-middle">${auto.getModel()} </td></#if>
+                    <#if auto.getPerson().getId() == person.getId()><td class="align-middle">${auto.getNumber()} </td></#if>
                 </#list>
-                <td><#if person.isStudent()>Студент</#if> <#if person.isEmployee()>Сотрудник</#if></td>
-                <td><#if person.getJobPosition()??>${person.getJobPosition().getTypeJobPosition()}<#else>&#x2716;</#if></td>
-                <td><#if person.getJobPosition()??>${person.getJobPosition().getNamePosition()}<#else>&#x2716;</#if></td>
-                <td><#if person.getSubdivision()??>${person.getSubdivision().getDivision().getName()}<#else>&#x2716;</#if></td>
-                <td><#if person.getGroupName()??>${person.getGroupName()}<#else>&#x2716;</#if></td>
-                <td><#if person.getCourse()??>${person.getCourse()}<#else>&#x2716;</#if></td>
-                <td><#if person.getPassNum()??>${person.getPassNum()}<#else>&#x2716;</#if></td>
-                <td><#if person.getPassEndDate()??>${person.getPassEndDate()}<#else>&#x2716;</#if></td>
-                <td><#if person.isSpecialStatus()>&#9745; <#else>&#x2716;</#if></td>
-                <td><a href="/report/person/${person.getId()}" class="btn btn-primary stretched-link">Отчет</a></td>
+                <td class="align-middle"><#if person.isStudent()>Студент</#if> <#if person.isEmployee()>Сотрудник</#if></td>
+                <td class="align-middle"><#if person.getJobPosition()??>${person.getJobPosition().getTypeJobPosition()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.getJobPosition()??>${person.getJobPosition().getNamePosition()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.getSubdivision()??>${person.getSubdivision().getDivision().getName()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.getGroupName()??>${person.getGroupName()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.getCourse()??>${person.getCourse()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.getPassNum()??>${person.getPassNum()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.getPassEndDate()??>${person.getPassEndDate()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.isSpecialStatus()>&#9745; <#else>&#x2716;</#if></td>
+                <td class="align-middle"><a href="/report/person/${person.getId()}" class="btn btn-primary stretched-link">Отчет</a></td>
             </tr>
         </#list>
         </tbody>
     </table>
+
+    <script>
+        jQuery(document).ready(function ($) {
+
+            $('#persons').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                columnDefs: [
+                    {width: '15%', targets: 0},
+                    {width: '10%', targets: 1},
+                    {width: '10%', targets: 2},
+                    {width: '5%', targets: 3},
+                    {width: '10%', targets: 4},
+                    {width: '5%', targets: 5},
+                    {width: '5%', targets: 6},
+                    {width: '5%', targets: 7},
+                    {width: '5%', targets: 8},
+                    {width: '5%', targets: 9},
+                    {width: '10%', targets: 10},
+                    {width: '5%', targets: 11},
+                    {width: '10%', "orderable": false, targets: 12},
+                ],
+                language: {
+                    url: '/static/localization/Russian.json'
+                },
+                fixedColumns: true
+            });
+        });
+            </script>
 </@rN.reportNav>

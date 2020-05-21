@@ -1,6 +1,11 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <script type="text/javascript" src="/static/js/tableSearch.js"></script>
     <div><h5 class="mb-3">Парковки</h5>
     </div>
@@ -82,7 +87,7 @@
             });
 
 
-            $('button.askDelete').click(function () {
+            $(document).on('click', 'button.askDelete', function(e) {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
                 parkingId = $(this).attr('id');

@@ -39,10 +39,10 @@ values (N'Промышленная теплотехника', 1),
        (N'Иностранные языки и профессиональная коммуникация', 7);
 
 insert into person(course, employee, first_name, second_name, middle_name, group_name, pass_end_date,
-                   pass_num,  special_status, student, job_position, subdivision)
-values (4, 0, N'Максим', N'Давлеткулов', N'Артурович', N'б2-ПИНФ41', null, null, 0, 1, null, 16),
-       (null, 1, N'Долинина', N'Ольга', N'Николаевна', null, DATEADD(month, 6, current_timestamp), 1, 0, 0, 2, 16),
-       (null, 1, N'Иванов', N'Иван', N'Иванович', null, DATEADD(month, 4, current_timestamp), 2, 1, 0, 6, null);
+                   pass_num,  special_status, student, job_position, subdivision, division)
+values (4, 0, N'Максим', N'Давлеткулов', N'Артурович', N'б2-ПИНФ41', null, null, 0, 1, null, 16, 4),
+       (null, 1, N'Долинина', N'Ольга', N'Николаевна', null, DATEADD(month, 6, current_timestamp), 1, 0, 0, 2, 16, 4),
+       (null, 1, N'Иванов', N'Иван', N'Иванович', null, DATEADD(month, 4, current_timestamp), 2, 1, 0, 6, null, null);
 
 insert into automobile(model, number, color_id, person_id)
 values ('Chevrolet Aveo', 'B008AK164', 4, 1),

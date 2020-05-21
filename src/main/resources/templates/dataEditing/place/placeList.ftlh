@@ -1,6 +1,11 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <div><h5 class="mb-3">Парковочные места</h5>
     </div>
 
@@ -77,7 +82,7 @@
                 fixedColumns: true
             });
 
-            $('button.askDelete').click(function () {
+            $(document).on('click', 'button.askDelete', function(e) {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
                 placeId = $(this).attr('id');

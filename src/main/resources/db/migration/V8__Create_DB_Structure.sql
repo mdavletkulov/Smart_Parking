@@ -43,7 +43,7 @@ create table parking_event
     end_time      datetime2,
     start_time    datetime2 not null,
     automobile_id bigint      ,
-    place_id      bigint       not null,
+    place_id      bigint   ,
     primary key (id)
 )
 
@@ -70,6 +70,7 @@ create table person
     special_status bit         not null,
     student        bit         not null,
     job_position   bigint,
+    division    bigint,
     subdivision    bigint,
     primary key (id)
 )
@@ -83,25 +84,28 @@ create table subdivision
 )
 
 alter table automobile
-    add constraint automobileColor_FK foreign key (color_id) references color
+    add constraint automobileColor_FK foreign key (color_id) references color on delete set null
 
 alter table automobile
-    add constraint personAutomobile_FK foreign key (person_id) references person
+    add constraint personAutomobile_FK foreign key (person_id) references person on delete set null
 
 alter table parking_event
-    add constraint eventAutomobile_FK foreign key (automobile_id) references automobile
+    add constraint eventAutomobile_FK foreign key (automobile_id) references automobile on delete set null
 
 alter table parking_event
-    add constraint evenPlace_FK foreign key (place_id) references parking_place
+    add constraint evenPlace_FK foreign key (place_id) references parking_place on delete set null
 
 alter table parking_place
-    add constraint placeParking_FK foreign key (parking_id) references parking
+    add constraint placeParking_FK foreign key (parking_id) references parking on delete cascade
 
 alter table person
-    add constraint personJob_FK foreign key (job_position) references job_position
+    add constraint personJob_FK foreign key (job_position) references job_position on delete set null
 
 alter table person
-    add constraint personSubdivision_FK foreign key (subdivision) references subdivision
+    add constraint personDivision_FK foreign key (division) references division on delete set null
+
+alter table person
+    add constraint personSubdivision_FK foreign key (subdivision) references subdivision on delete set null
 
 alter table subdivision
-    add constraint subdivision_division_FK foreign key (division_id) references division
+    add constraint subdivision_division_FK foreign key (division_id) references division on delete set null

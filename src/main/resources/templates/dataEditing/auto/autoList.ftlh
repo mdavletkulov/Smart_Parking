@@ -1,6 +1,11 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <div><h5 class="mb-3">Автомобили</h5>
     </div>
 
@@ -24,7 +29,7 @@
                 <th class="align-middle" scope="row">${automobile.getPerson().getFullName()}</th>
                 <td class="align-middle">${automobile.getModel()}</td>
                 <td class="align-middle">${automobile.getNumber()}</td>
-                <td class="align-middle">${automobile.getColor().getName()}</td>
+                <td class="align-middle"><#if automobile.getColor()??>${automobile.getColor().getName()} <#else>&#x2716;</#if></td>
                 <td class="align-middle">
                     <button id="${automobile.getId()}" type="button" class="btn btn-primary askDelete"
                             data-toggle="modal">
@@ -64,7 +69,7 @@
     <script>
         var automobileId;
         jQuery(document).ready(function ($) {
-            $('button.askDelete').click(function () {
+            $(document).on('click', 'button.askDelete', function(e) {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
                 automobileId = $(this).attr('id');

@@ -1,6 +1,8 @@
 package com.example.smartParking.model.domain;
 
+import com.example.smartParking.repos.AutomobileRepo;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "person")
 public class Person {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
@@ -27,6 +30,9 @@ public class Person {
     @ManyToOne
     @JoinColumn(name = "subdivision")
     private Subdivision subdivision;
+    @ManyToOne
+    @JoinColumn(name = "division")
+    private Division division;
     @NotBlank
     private boolean employee;
     @NotBlank
@@ -149,5 +155,13 @@ public class Person {
 
     public String getFullName() {
         return secondName + " " + firstName + " " + middleName;
+    }
+
+    public Division getDivision() {
+        return division;
+    }
+
+    public void setDivision(Division division) {
+        this.division = division;
     }
 }

@@ -1,6 +1,11 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <div><h5 class="mb-3">Цвета автомобилей</h5>
     </div>
     <table class="table table-striped text-center table-hover col-4" id="colors" style="width:45%">
@@ -68,7 +73,7 @@
                 fixedColumns: true
             });
 
-            $('button.askDelete').click(function () {
+            $(document).on('click', 'button.askDelete', function(e) {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
                 colorId = $(this).attr('id');

@@ -121,13 +121,7 @@ public class DataEditingService {
     public void deleteColor(Long colorId, Model model) {
         Optional<Color> color = colorRepo.findById(colorId);
         if (color.isPresent()) {
-            if (automobileRepo.findAllByColor(color.get().getName()).isEmpty()) {
                 colorRepo.deleteById(colorId);
-            } else {
-                model.addAttribute("messageType", "danger");
-                model.addAttribute("message", "Цвет не может быть удален, так как в базе существую автомобили с этим цветом!");
-                return;
-            }
         } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Цвет не найден");
@@ -169,13 +163,8 @@ public class DataEditingService {
     public void deletePerson(Long personId, Model model) {
         Optional<Person> person = personRepo.findById(personId);
         if (person.isPresent()) {
-            if (!automobileRepo.findByPersonId(personId).isEmpty()) {
-                model.addAttribute("messageType", "danger");
-                model.addAttribute("message", "Водитель не может быть удален, так как в базе существую автомобили этого водителя!");
-                return;
-            } else personRepo.deleteById(personId);
-        }
-        else {
+            personRepo.deleteById(personId);
+        } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Водитель не найден");
             return;
@@ -239,9 +228,8 @@ public class DataEditingService {
     public void deleteAuto(Long autoId, Model model) {
         Optional<Automobile> automobile = automobileRepo.findById(autoId);
         if (automobile.isPresent()) {
-             automobileRepo.deleteById(autoId);
-        }
-        else {
+            automobileRepo.deleteById(autoId);
+        } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Автомобиль не найден");
             return;
@@ -297,8 +285,7 @@ public class DataEditingService {
         Optional<Place> place = placeRepo.findById(placeId);
         if (place.isPresent()) {
             placeRepo.deleteById(placeId);
-        }
-        else {
+        } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Парковочное место не найдено");
             return;
@@ -353,8 +340,7 @@ public class DataEditingService {
         Optional<Division> division = divisionRepo.findById(divisionId);
         if (division.isPresent()) {
             divisionRepo.deleteById(divisionId);
-        }
-        else {
+        } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Институт не найден");
             return;
@@ -411,8 +397,7 @@ public class DataEditingService {
         Optional<JobPosition> jobPosition = jobPositionRepo.findById(jobId);
         if (jobPosition.isPresent()) {
             jobPositionRepo.deleteById(jobId);
-        }
-        else {
+        } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Должность не найдена");
             return;
@@ -470,8 +455,7 @@ public class DataEditingService {
         Optional<Parking> parking = parkingRepo.findById(parkingId);
         if (parking.isPresent()) {
             parkingRepo.deleteById(parkingId);
-        }
-        else {
+        } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Парковка не найдена");
             return;
@@ -525,8 +509,7 @@ public class DataEditingService {
         Optional<Subdivision> subdivision = subdivisionRepo.findById(subdivisionId);
         if (subdivision.isPresent()) {
             subdivisionRepo.deleteById(subdivisionId);
-        }
-        else {
+        } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Кафедра не найдена");
             return;

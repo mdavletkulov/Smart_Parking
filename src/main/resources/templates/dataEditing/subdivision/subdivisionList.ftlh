@@ -1,6 +1,11 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <div><h5 class="mb-3">Кафедры</h5>
     </div>
     <table class="table table-striped text-center table-hover col-8" id="subdivisions" style="width:80%">
@@ -17,7 +22,7 @@
         <tbody>
         <#list subdivisions as subdivision>
             <tr>
-                <th class="align-middle" scope="row">${subdivision.getDivision().getName()}</th>
+                <th class="align-middle" scope="row"><#if subdivision.getDivision()??>${subdivision.getDivision().getName()}<#else>&#x2716;</#if></th>
                 <td class="align-middle" scope="row">${subdivision.getName()}</td>
                 <td>
                     <button id="${subdivision.getId()}" type="button" class="btn btn-primary askDelete"
@@ -57,7 +62,7 @@
     <script>
         var subdivisionId;
         jQuery(document).ready(function ($) {
-            $('button.askDelete').click(function () {
+            $(document).on('click', 'button.askDelete', function(e) {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
                 subdivisionId = $(this).attr('id');

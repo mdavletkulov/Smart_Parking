@@ -1,6 +1,11 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <div><h5 class="mb-3">Институты</h5>
     </div>
     <table class="table table-striped text-center table-hover col-5" id="divisions" style="width:50%">
@@ -70,7 +75,7 @@
                 fixedColumns: true
             });
 
-            $('button.askDelete').click(function () {
+            $(document).on('click', 'button.askDelete', function(e) {
                 jQuery.noConflict();
                 $('#exampleModal').modal('show');
                 divisionId = $(this).attr('id');

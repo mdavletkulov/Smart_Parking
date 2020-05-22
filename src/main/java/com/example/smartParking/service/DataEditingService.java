@@ -112,16 +112,26 @@ public class DataEditingService {
         return colorRepo.findById(id);
     }
 
-    public boolean updateColor(Color color, String colorName, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return false;
+    public boolean updateColor(Long colorId, String colorName, BindingResult bindingResult, Model model) {
+        Optional<Color> colorDB = getColor(colorId);
+        boolean success = true;
+        if (colorDB.isPresent()) {
+            Color color = colorDB.get();
+            if (ControllerUtils.hasError(model, bindingResult)) {
+                success = false;
+            } else {
+                color.setName(colorName);
+                colorRepo.save(color);
+            }
         } else {
-            color.setName(colorName);
-            colorRepo.save(color);
-            return true;
+            model.addAttribute("message", "Такого цвета не существует");
+            success = false;
         }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        return success;
     }
 
     public void deleteColor(Long colorId, Model model) {
@@ -218,27 +228,37 @@ public class DataEditingService {
         return correct;
     }
 
-    public boolean updatePerson(Person person, Person personChange, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return false;
+    public boolean updatePerson(Long personId, Person personChange, BindingResult bindingResult, Model model) {
+        Optional<Person> personDB = personRepo.findById(personId);
+        boolean success = true;
+        if (personDB.isPresent()) {
+            Person person = personDB.get();
+            if (ControllerUtils.hasError(model, bindingResult)) {
+                success = false;
+            } else {
+                person.setFirstName(personChange.getFirstName());
+                person.setSecondName(personChange.getSecondName());
+                person.setMiddleName(personChange.getMiddleName());
+                person.setCourse(personChange.getCourse());
+                person.setEmployee(personChange.isEmployee());
+                person.setStudent(personChange.isStudent());
+                person.setSubdivision(personChange.getSubdivision());
+                person.setJobPosition(personChange.getJobPosition());
+                person.setGroupName(personChange.getGroupName());
+                person.setPassNum(personChange.getPassNum());
+                person.setPassEndDate(personChange.getPassEndDate());
+                person.setSpecialStatus(personChange.isSpecialStatus());
+                personRepo.save(person);
+            }
         } else {
-            person.setFirstName(personChange.getFirstName());
-            person.setSecondName(personChange.getSecondName());
-            person.setMiddleName(personChange.getMiddleName());
-            person.setCourse(personChange.getCourse());
-            person.setEmployee(personChange.isEmployee());
-            person.setStudent(personChange.isStudent());
-            person.setSubdivision(personChange.getSubdivision());
-            person.setJobPosition(personChange.getJobPosition());
-            person.setGroupName(personChange.getGroupName());
-            person.setPassNum(personChange.getPassNum());
-            person.setPassEndDate(personChange.getPassEndDate());
-            person.setSpecialStatus(personChange.isSpecialStatus());
-            personRepo.save(person);
-            return true;
+            model.addAttribute("message", "Такого водителя не существует");
+            success = false;
         }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        return success;
     }
 
     public boolean validatePersonFields(Person person, String passEndDate, String passNum, String
@@ -333,20 +353,30 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateAuto(Automobile automobile, Automobile autoChange, BindingResult bindingResult, Model
+    public boolean updateAuto(Long automobileId, Automobile autoChange, BindingResult bindingResult, Model
             model) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return false;
+        Optional<Automobile> autoDB = automobileRepo.findById(automobileId);
+        boolean success = true;
+        if (autoDB.isPresent()) {
+            Automobile automobile = autoDB.get();
+            if (ControllerUtils.hasError(model, bindingResult)) {
+                success = false;
+            } else {
+                automobile.setModel(autoChange.getModel());
+                automobile.setNumber(autoChange.getNumber());
+                automobile.setColor(autoChange.getColor());
+                automobile.setPerson(autoChange.getPerson());
+                automobileRepo.save(automobile);
+            }
         } else {
-            automobile.setModel(autoChange.getModel());
-            automobile.setNumber(autoChange.getNumber());
-            automobile.setColor(autoChange.getColor());
-            automobile.setPerson(autoChange.getPerson());
-            automobileRepo.save(automobile);
-            return true;
+            model.addAttribute("message", "Такого автомобиля не существует");
+            success = false;
         }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        return success;
     }
 
     //------------------------------------------------------------------//
@@ -392,18 +422,28 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updatePlace(Place place, Place placeChange, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return false;
+    public boolean updatePlace(Long placeId, Place placeChange, BindingResult bindingResult, Model model) {
+        Optional<Place> placeDB = placeRepo.findById(placeId);
+        boolean success = true;
+        if (placeDB.isPresent()) {
+            Place place = placeDB.get();
+            if (ControllerUtils.hasError(model, bindingResult)) {
+                success = false;
+            } else {
+                place.setParking(placeChange.getParking());
+                place.setPlaceNumber(placeChange.getPlaceNumber());
+                place.setSpecialStatus(place.isSpecialStatus());
+                placeRepo.save(place);
+            }
         } else {
-            place.setParking(placeChange.getParking());
-            place.setPlaceNumber(placeChange.getPlaceNumber());
-            place.setSpecialStatus(place.isSpecialStatus());
-            placeRepo.save(place);
-            return true;
+            model.addAttribute("message", "Такого парковочного места не существует");
+            success = false;
         }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        return success;
     }
 
     //------------------------------------------------------------------//
@@ -449,17 +489,27 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateDivision(Division division, Division divisionChange, BindingResult bindingResult, Model
+    public boolean updateDivision(Long divisionId, Division divisionChange, BindingResult bindingResult, Model
             model) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return false;
+        Optional<Division> divisionDB = divisionRepo.findById(divisionId);
+        boolean success = true;
+        if (divisionDB.isPresent()) {
+            Division division = divisionDB.get();
+            if (ControllerUtils.hasError(model, bindingResult)) {
+                success = false;
+            } else {
+                division.setName(divisionChange.getName());
+                divisionRepo.save(division);
+            }
         } else {
-            division.setName(divisionChange.getName());
-            divisionRepo.save(division);
-            return true;
+            model.addAttribute("message", "Такого института не существует");
+            success = false;
         }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        return success;
     }
 
     //------------------------------------------------------------------//
@@ -509,18 +559,28 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateJob(JobPosition jobPosition, JobPosition jobPositionChange, BindingResult
+    public boolean updateJob(Long jobId, JobPosition jobPositionChange, BindingResult
             bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return false;
+        Optional<JobPosition> jobDB = jobPositionRepo.findById(jobId);
+        boolean success = true;
+        if (jobDB.isPresent()) {
+            JobPosition jobPosition = jobDB.get();
+            if (ControllerUtils.hasError(model, bindingResult)) {
+                success = false;
+            } else {
+                jobPosition.setNamePosition(jobPositionChange.getNamePosition());
+                jobPosition.setTypeJobPosition(TypeJobPosition.valueOf(jobPositionChange.getTypeJobPosition()));
+                jobPositionRepo.save(jobPosition);
+            }
         } else {
-            jobPosition.setNamePosition(jobPositionChange.getNamePosition());
-            jobPosition.setTypeJobPosition(TypeJobPosition.valueOf(jobPositionChange.getTypeJobPosition()));
-            jobPositionRepo.save(jobPosition);
-            return true;
+            model.addAttribute("message", "Такого института не существует");
+            success = false;
         }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        return success;
     }
 
     //------------------------------------------------------------------//
@@ -570,17 +630,26 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateParking(Parking parking, Parking parkingChange, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return false;
+    public boolean updateParking(Long parkingId, Parking parkingChange, BindingResult bindingResult, Model model) {
+        Optional<Parking> parkingDB = parkingRepo.findById(parkingId);
+        boolean success = true;
+        if (parkingDB.isPresent()) {
+            Parking parking = parkingDB.get();
+            if (ControllerUtils.hasError(model, bindingResult)) {
+                success = false;
+            } else {
+                parking.setDescription(parkingChange.getDescription());
+                parkingRepo.save(parking);
+            }
         } else {
-            parking.setDescription(parkingChange.getDescription());
-//            parking.setPlaceNumber(parkingChange.getPlaceNumber());
-            parkingRepo.save(parking);
-            return true;
+            model.addAttribute("message", "Такого института не существует");
+            success = false;
         }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        return success;
     }
 
     //------------------------------------------------------------------//
@@ -626,18 +695,28 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateSubdivision(Subdivision subdivision, Subdivision subdivisionChange, BindingResult
+    public boolean updateSubdivision(Long subdivisionId, Subdivision subdivisionChange, BindingResult
             bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return false;
+        Optional<Subdivision> subdivisionDB = subdivisionRepo.findById(subdivisionId);
+        boolean success = true;
+        if (subdivisionDB.isPresent()) {
+            Subdivision subdivision = subdivisionDB.get();
+            if (ControllerUtils.hasError(model, bindingResult)) {
+                success = false;
+            } else {
+                subdivision.setDivision(subdivisionChange.getDivision());
+                subdivision.setName(subdivisionChange.getName());
+                subdivisionRepo.save(subdivision);
+            }
         } else {
-            subdivision.setDivision(subdivisionChange.getDivision());
-            subdivision.setName(subdivisionChange.getName());
-            subdivisionRepo.save(subdivision);
-            return true;
+            model.addAttribute("message", "Такого института не существует");
+            success = false;
         }
+        if (success) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", "Успешно");
+        }
+        return success;
     }
 
     //------------------------------------------------------------------//

@@ -46,7 +46,7 @@ public class ProfileController {
     @GetMapping("/changePassword")
     public String changePassword(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("user", user);
-        return "profileChangePassword";
+        return "admin/profileChangePassword";
     }
 
     @PostMapping("/changePassword")

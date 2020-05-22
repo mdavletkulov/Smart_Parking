@@ -1,5 +1,6 @@
 package com.example.smartParking.controllers.edit;
 
+import com.example.smartParking.model.domain.Division;
 import com.example.smartParking.model.domain.JobPosition;
 import com.example.smartParking.model.domain.Parking;
 import com.example.smartParking.service.DataEditingService;
@@ -51,20 +52,12 @@ public class JobEditController {
 
     @PostMapping("job/edit/{jobId}")
     public String editJob(@PathVariable Long jobId, @Valid JobPosition changedJob, BindingResult bindingResult, Model model) {
-        Optional<JobPosition> jobDB = dataEditingService.getJob(jobId);
-        boolean success;
-        if (jobDB.isPresent()) {
-            success = dataEditingService.updateJob(jobDB.get(), changedJob, bindingResult, model);
-        } else {
-            model.addAttribute("message", "Такой должности не существует");
-            return getJobEdit(model);
-        }
+        boolean success = dataEditingService.updateJob(jobId, changedJob, bindingResult, model);;
         if (success) {
-            model.addAttribute("messageType", "success");
-            model.addAttribute("message", "Успешно");
+            Optional<JobPosition> jobPosition = dataEditingService.getJob(jobId);
+            return editJob(jobPosition.get(), model);
         }
-        jobDB = dataEditingService.getJob(jobId);
-        return editJob(jobDB.get(), model);
+        else return getJobEdit(model);
     }
 
     @GetMapping("job/delete/{jobId}")

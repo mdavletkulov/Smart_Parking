@@ -1,6 +1,10 @@
 ﻿<#import "../parts/common.ftlh" as c>
 
 <@c.page>
+    <div>
+        <a href="/user/edit/${user.getId()}"
+           class="btn btn-primary stretched-link">Назад</a>
+    </div>
     <h5>${user.username}</h5>
     <h6>Изменение пароля</h6>
     <#if message?has_content>

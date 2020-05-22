@@ -63,20 +63,12 @@ public class ParkingEditController {
 
     @PostMapping("parking/edit/{parkingId}")
     public String editParking(@PathVariable Long parkingId, @Valid Parking changedParking, BindingResult bindingResult, Model model) {
-        Optional<Parking> parkingDB = dataEditingService.getParking(parkingId);
-        boolean success;
-        if (parkingDB.isPresent()) {
-            success = dataEditingService.updateParking(parkingDB.get(), changedParking, bindingResult, model);
-        } else {
-            model.addAttribute("message", "Такой парковки не существует");
-            return getParkingsEdit(model);
-        }
+        boolean success = dataEditingService.updateParking(parkingId, changedParking, bindingResult, model);;
         if (success) {
-            model.addAttribute("messageType", "success");
-            model.addAttribute("message", "Успешно");
+            Optional<Parking> parking = dataEditingService.getParking(parkingId);
+            return editParking(parking.get(), model);
         }
-        parkingDB = dataEditingService.getParking(parkingId);
-        return editParking(parkingDB.get(), model);
+        else return getParkingsEdit(model);
     }
 
     @GetMapping("parking/delete/{parkingId}")

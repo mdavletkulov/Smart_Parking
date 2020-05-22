@@ -1,5 +1,6 @@
 package com.example.smartParking.Utils;
 
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -15,5 +16,14 @@ public class ControllerUtils {
                 FieldError::getDefaultMessage
         );
         return bindingResult.getFieldErrors().stream().collect(collector);
+    }
+
+    public static boolean hasError(Model model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return false;
+        }
+        return true;
     }
 }

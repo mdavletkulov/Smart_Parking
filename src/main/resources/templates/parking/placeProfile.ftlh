@@ -1,5 +1,9 @@
 <#import "../parts/common.ftlh" as c>
 <@c.page>
+    <div>
+        <a href="/parking/${parkingEvent.getPlace().getParking()}"
+           class="btn btn-primary stretched-link">Назад</a>
+    </div>
     <h4>${parkingName}</h4>
     <h5 class="mt-3">Парковочное место номер ${placeNum}</h5>
     <table class="table table-borderless table-striped col-4 table-hover">

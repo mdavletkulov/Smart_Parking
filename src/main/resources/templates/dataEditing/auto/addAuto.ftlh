@@ -1,11 +1,17 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+
+    <div>
+    <a href="/dataEdit/auto"
+       class="btn btn-primary stretched-link">Назад</a>
+    </div>
     <#if message?has_content>
         <div class="alert alert-${messageType} col-4" role="alert">
             ${message}
         </div>
     </#if>
+
     <h5>Автомобиль</h5>
     <form action="/dataEdit/auto/add" method="post" class="mt-2">
         <div class="form-group">

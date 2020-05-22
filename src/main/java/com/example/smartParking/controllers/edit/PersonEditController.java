@@ -1,5 +1,6 @@
 package com.example.smartParking.controllers.edit;
 
+import com.example.smartParking.model.domain.Parking;
 import com.example.smartParking.model.domain.Person;
 import com.example.smartParking.service.DataEditingService;
 import com.example.smartParking.service.ReportService;
@@ -56,20 +57,12 @@ public class PersonEditController {
 
     @PostMapping("person/edit/{personId}")
     public String editPerson(@PathVariable Long personId, @Valid Person changedPerson, BindingResult bindingResult, Model model) {
-        Optional<Person> personDB = dataEditingService.getPerson(personId);
-        boolean success;
-        if (personDB.isPresent()) {
-            success = dataEditingService.updatePerson(personDB.get(), changedPerson, bindingResult, model);
-        } else {
-            model.addAttribute("message", "Такого водителя не существует");
-            return getPersonsEdit(model);
-        }
+        boolean success = dataEditingService.updatePerson(personId, changedPerson, bindingResult, model);;
         if (success) {
-            model.addAttribute("messageType", "success");
-            model.addAttribute("message", "Успешно");
+            Optional<Person> person = dataEditingService.getPerson(personId);
+            return editPerson(person.get(), model);
         }
-        personDB = dataEditingService.getPerson(personId);
-        return editPerson(personDB.get(), model);
+        else return getPersonsEdit(model);
     }
 
     @GetMapping("person/delete/{personId}")

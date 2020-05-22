@@ -1,6 +1,9 @@
 <#import "../parts/common.ftlh" as c>
 <@c.page>
-
+    <div>
+        <a href="/parking"
+           class="btn btn-primary stretched-link">Назад</a>
+    </div>
     <div class="card-deck">
         <#list places as place>
             <#if (place.getId()%5==1) || (place.getId()==1)>

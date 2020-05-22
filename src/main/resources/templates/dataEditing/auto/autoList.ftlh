@@ -1,6 +1,10 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <div>
+        <a href="/dataEdit"
+           class="btn btn-primary stretched-link">Назад</a>
+    </div>
     <#if message?has_content>
         <div class="alert alert-${messageType} col-4" role="alert">
             ${message}

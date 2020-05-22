@@ -55,20 +55,12 @@ public class AutoEditController {
 
     @PostMapping("auto/edit/{autoId}")
     public String editAuto(@PathVariable Long autoId, @Valid Automobile changedAuto, BindingResult bindingResult, Model model) {
-        Optional<Automobile> auto = dataEditingService.getAuto(autoId);
-        boolean success;
-        if (auto.isPresent()) {
-            success = dataEditingService.updateAuto(auto.get(), changedAuto, bindingResult, model);
-        } else {
-            model.addAttribute("message", "Такого автомобиля не существует");
-            return getAutosEdit(model);
-        }
+        boolean success = dataEditingService.updateAuto(autoId, changedAuto, bindingResult, model);;
         if (success) {
-            model.addAttribute("messageType", "success");
-            model.addAttribute("message", "Успешно");
+            Optional<Automobile> auto = dataEditingService.getAuto(autoId);
+            return editAuto(auto.get(), model);
         }
-        auto = dataEditingService.getAuto(autoId);
-        return editAuto(auto.get(), model);
+        else return getAutosEdit(model);
     }
 
     @GetMapping("auto/delete/{autoId}")

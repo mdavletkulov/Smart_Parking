@@ -54,20 +54,12 @@ public class PlaceEditController {
 
     @PostMapping("place/edit/{placeId}")
     public String editPlace(@PathVariable Long placeId, @Valid Place changedPlace, BindingResult bindingResult, Model model) {
-        Optional<Place> placeDB = dataEditingService.getPlace(placeId);
-        boolean success;
-        if (placeDB.isPresent()) {
-            success = dataEditingService.updatePlace(placeDB.get(), changedPlace, bindingResult, model);
-        } else {
-            model.addAttribute("message", "Такого парковочного места не существует");
-            return getPlacesEdit(model);
-        }
+        boolean success = dataEditingService.updatePlace(placeId, changedPlace, bindingResult, model);;
         if (success) {
-            model.addAttribute("messageType", "success");
-            model.addAttribute("message", "Успешно");
+            Optional<Place> place = dataEditingService.getPlace(placeId);
+            return editPlace(place.get(), model);
         }
-        placeDB = dataEditingService.getPlace(placeId);
-        return editPlace(placeDB.get(), model);
+        else return getPlacesEdit(model);
     }
 
     @GetMapping("place/delete/{placeId}")

@@ -1,5 +1,6 @@
 package com.example.smartParking.controllers.edit;
 
+import com.example.smartParking.model.domain.Automobile;
 import com.example.smartParking.model.domain.Color;
 import com.example.smartParking.model.domain.Division;
 import com.example.smartParking.model.domain.JobPosition;
@@ -51,20 +52,12 @@ public class DivisionEditController {
 
     @PostMapping("division/edit/{divisionId}")
     public String editDivision(@PathVariable Long divisionId, @Valid Division changedDivision, BindingResult bindingResult, Model model) {
-        Optional<Division> divisionDB = dataEditingService.getDivision(divisionId);
-        boolean success;
-        if (divisionDB.isPresent()) {
-            success = dataEditingService.updateDivision(divisionDB.get(), changedDivision, bindingResult, model);
-        } else {
-            model.addAttribute("message", "Такого института не существует");
-            return getDivisionsEdit(model);
-        }
+        boolean success = dataEditingService.updateDivision(divisionId, changedDivision, bindingResult, model);;
         if (success) {
-            model.addAttribute("messageType", "success");
-            model.addAttribute("message", "Успешно");
+            Optional<Division> division = dataEditingService.getDivision(divisionId);
+            return editDivision(division.get(), model);
         }
-        divisionDB = dataEditingService.getDivision(divisionId);
-        return editDivision(divisionDB.get(), model);
+        else return getDivisionsEdit(model);
     }
 
     @GetMapping("division/delete/{divisionId}")

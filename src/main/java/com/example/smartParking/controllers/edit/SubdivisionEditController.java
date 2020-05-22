@@ -51,20 +51,12 @@ public class SubdivisionEditController {
 
     @PostMapping("subdivision/edit/{subdivisionId}")
     public String editSubdivision(@PathVariable Long subdivisionId, @Valid Subdivision changedSubdivision, BindingResult bindingResult, Model model) {
-        Optional<Subdivision> subdivisionDB = dataEditingService.getSubdivision(subdivisionId);
-        boolean success;
-        if (subdivisionDB.isPresent()) {
-            success = dataEditingService.updateSubdivision(subdivisionDB.get(), changedSubdivision, bindingResult, model);
-        } else {
-            model.addAttribute("message", "Такой кафедры не существует");
-            return getSubdivisionsEdit(model);
-        }
+        boolean success = dataEditingService.updateSubdivision(subdivisionId, changedSubdivision, bindingResult, model);;
         if (success) {
-            model.addAttribute("messageType", "success");
-            model.addAttribute("message", "Успешно");
+            Optional<Subdivision> subdivision = dataEditingService.getSubdivision(subdivisionId);
+            return editSubdivision(subdivision.get(), model);
         }
-        subdivisionDB = dataEditingService.getSubdivision(subdivisionId);
-        return editSubdivision(subdivisionDB.get(), model);
+        else return getSubdivisionsEdit(model);
     }
 
     @GetMapping("subdivision/delete/{subdivisionId}")

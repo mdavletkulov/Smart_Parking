@@ -1,6 +1,10 @@
 <#import "../parts/common.ftlh" as c>
 
 <@c.page>
+    <div>
+        <a href="/user"
+           class="btn btn-primary stretched-link">Назад</a>
+    </div>
     <h6> Редактирование пользователя</h6>
     <h6> ${user.getFullName()}</h6>
     <#if message?has_content>

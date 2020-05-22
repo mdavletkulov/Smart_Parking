@@ -37,7 +37,7 @@ public class Person {
     private boolean employee;
     @NotNull(message = "Водитель должен иметь какой-либо статус")
     private boolean student;
-    @Digits(message = "Номер пропуска может содержать только одно целое число", integer = 1, fraction = 0)
+    @Digits(message = "Поле группы может содержать только одно целое число", integer = 1, fraction = 0)
     private Integer course;
     @Length(max = 10, message = "Значение группы слишком длинное")
     private String groupName;
@@ -140,7 +140,8 @@ public class Person {
     }
 
     public Date getPassEndDate() {
-        return passEndDate;
+        if (passNum == null) return null;
+        else return passEndDate;
     }
 
     public void setPassEndDate(Date passEndDate) {

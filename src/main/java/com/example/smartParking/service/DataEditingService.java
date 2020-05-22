@@ -7,7 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -182,24 +188,34 @@ public class DataEditingService {
 
     }
 
-    public boolean addPerson(Person person, BindingResult bindingResult, Model model) {
-        Optional<Person> personFromDB = personRepo.findById(person.getId());
+    public boolean addPerson(Person person, BindingResult bindingResult, Model model, boolean correct) {
+        if (person.getPassNum() != null) {
+            Optional<Person> personFromDB = personRepo.findByPassNum(person.getPassNum());
 
-        if (personFromDB.isPresent()) {
-            model.addAttribute("messageType", "danger");
-            model.addAttribute("message", "Такой пользователь уже существует");
-            return false;
+            if (personFromDB.isPresent()) {
+                model.addAttribute("messageType", "danger");
+                model.addAttribute("message", "Такой пользователь уже существует");
+                return false;
+            }
         }
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return false;
+            if ((errors.size() == 1 && errors.containsKey("subdivisionError")) ||
+                    (errors.size() == 1 && errors.containsKey("passEndDateError"))
+                    || (errors.size() == 2 && errors.containsKey("passEndDateError") && errors.containsKey("subdivisionError"))) {
+            } else {
+                correct = false;
+                model.mergeAttributes(errors);
+                return false;
+            }
         }
-        personRepo.save(person);
-        model.addAttribute("messageType", "success");
-        model.addAttribute("message", String.format("Водитель %s создан!", person.getFullName()));
-        return true;
+        if (correct) {
+            personRepo.save(person);
+            model.addAttribute("messageType", "success");
+            model.addAttribute("message", String.format("Водитель %s создан!", person.getFullName()));
+        }
+        return correct;
     }
 
     public boolean updatePerson(Person person, Person personChange, BindingResult bindingResult, Model model) {
@@ -223,6 +239,55 @@ public class DataEditingService {
             personRepo.save(person);
             return true;
         }
+    }
+
+    public boolean validatePersonFields(Person person, String passEndDate, String passNum, String
+            subdivisionName, Model model) {
+        boolean correct = true;
+        if (passEndDate != null && !passEndDate.isBlank()) {
+            Date passDate = convertToDate(passEndDate);
+            person.setPassEndDate(passDate);
+        } else {
+            person.setPassEndDate(null);
+        }
+        if (passNum != null && !passNum.isBlank()) {
+            if (!passNum.matches("^[0-9]*$")) {
+                model.addAttribute("passError", "Номер пропуска может содержать только цифры");
+                correct = false;
+            }
+        }
+        if (passEndDate != null && !passEndDate.isBlank() && (passNum == null || passNum.isBlank())) {
+            model.addAttribute("passError", "Заполните поле номера пропуска");
+            correct = false;
+        }
+        if ((passEndDate == null || passEndDate.isBlank()) && passNum != null && !passNum.isBlank()) {
+            model.addAttribute("passDateError", "Заполните поле истечения срока пропуска");
+            correct = false;
+        }
+        if (subdivisionName != null && !subdivisionName.isBlank()) {
+            Optional<Subdivision> subdivision = subdivisionRepo.findByName(subdivisionName);
+            subdivision.ifPresent(person::setSubdivision);
+        }
+        if (person.getGroupName() != null && person.getGroupName().isBlank()) {
+            person.setGroupName(null);
+        }
+        if (!person.isStudent() && !person.isEmployee()) {
+            model.addAttribute("statusError", "Водитель должен быть либо студентом, либо сотрудником");
+            correct = false;
+        }
+        if (person.isStudent() && (person.getDivision() == null || person.getSubdivision() == null)) {
+            model.addAttribute("divisionErr", "Студент должен относить к определенному институту и кафедре");
+            correct = false;
+        }
+        if (person.isStudent() && ((person.getGroupName() == null || person.getGroupName().isBlank()) || (person.getCourse() == null))) {
+            model.addAttribute("statusError", "Студент должен иметь группу и курс");
+            correct = false;
+        }
+        if (person.isEmployee() && person.getJobPosition() == null) {
+            model.addAttribute("statusError", "Сотрудник должен иметь должность");
+            correct = false;
+        }
+        return correct;
     }
 
     //------------------------------------------------------------------//
@@ -268,7 +333,8 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateAuto(Automobile automobile, Automobile autoChange, BindingResult bindingResult, Model model) {
+    public boolean updateAuto(Automobile automobile, Automobile autoChange, BindingResult bindingResult, Model
+            model) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
@@ -383,7 +449,8 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateDivision(Division division, Division divisionChange, BindingResult bindingResult, Model model) {
+    public boolean updateDivision(Division division, Division divisionChange, BindingResult bindingResult, Model
+            model) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
@@ -442,7 +509,8 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateJob(JobPosition jobPosition, JobPosition jobPositionChange, BindingResult bindingResult, Model model) {
+    public boolean updateJob(JobPosition jobPosition, JobPosition jobPositionChange, BindingResult
+            bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
@@ -558,7 +626,8 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateSubdivision(Subdivision subdivision, Subdivision subdivisionChange, BindingResult bindingResult, Model model) {
+    public boolean updateSubdivision(Subdivision subdivision, Subdivision subdivisionChange, BindingResult
+            bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
@@ -569,6 +638,16 @@ public class DataEditingService {
             subdivisionRepo.save(subdivision);
             return true;
         }
+    }
+
+    //------------------------------------------------------------------//
+
+    public Date convertToDate(String date) {
+        String pattern = "dd/MM/yyyy";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        LocalDate localDate = LocalDate.from(formatter.parse(date));
+        localDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+        return Date.valueOf(localDate);
     }
 
 }

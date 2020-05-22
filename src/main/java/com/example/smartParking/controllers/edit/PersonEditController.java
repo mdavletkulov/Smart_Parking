@@ -2,17 +2,16 @@ package com.example.smartParking.controllers.edit;
 
 import com.example.smartParking.model.domain.Person;
 import com.example.smartParking.service.DataEditingService;
+import com.example.smartParking.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Date;
 import java.util.Optional;
 
 @Controller
@@ -38,8 +37,13 @@ public class PersonEditController {
     }
 
     @PostMapping("person/add")
-    public String addPerson(@Valid Person person, BindingResult bindingResult, Model model) {
-        if (dataEditingService.addPerson(person, bindingResult, model)) {
+    public String addPerson(@Valid Person person, BindingResult bindingResult,
+                            @RequestParam String passEndDate,
+                            @RequestParam String passNum,
+                            @RequestParam String subdivision,
+                            Model model) {
+        boolean correct = dataEditingService.validatePersonFields(person, passEndDate, passNum, subdivision, model);
+        if (dataEditingService.addPerson(person, bindingResult, model, correct)) {
             return getPersonsEdit(model);
         } else return addPerson(model);
     }

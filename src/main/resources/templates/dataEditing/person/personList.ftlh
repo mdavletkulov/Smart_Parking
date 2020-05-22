@@ -103,7 +103,7 @@
                     },
                 });
 
-                $(document).on('click', '.button.askDelete', function(e) {
+                $('button.askDelete').click(function () {
                     jQuery.noConflict();
                     $('#exampleModal').modal('show');
                     personId = $(this).attr('id');

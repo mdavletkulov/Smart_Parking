@@ -47,56 +47,55 @@
                 </div>
             </#if>
         </div>
+        <div>
         <div class="btn-group btn-group-toggle form-group" data-toggle="buttons">
-            <label class="btn btn-secondary">
+            <label class="btn btn-secondary student">
                 <input type="radio" name="student" id="student"> Студент
             </label>
-            <label class="btn btn-secondary">
-            <input type="radio" name="employee" id="employee"> Сотрудник
+            <label class="btn btn-secondary employee">
+                <input type="radio" name="employee" id="employee"> Сотрудник
             </label>
-        <#if studentError??>
+        </div>
+        <#if statusError??>
             <div class="invalid-feedback mb-3" style="display: block">
-                ${studentError}
-            </div>
-        </#if>
-        <#if employeeError??>
-            <div class="invalid-feedback mb-3" style="display: block">
-                ${employeeError}
+                ${statusError}
             </div>
         </#if>
         </div>
-        <div class="form-group" hidden="hidden">
-            <label for="courseError">Курс</label>
-            <input type="text" class="form-control ${(courseError??)?string('is-invalid', '')} col-sm-4"
-                   id="courseError"
-                   value="<#if person??>${person.course}</#if>"
+        <div class="form-group">
+            <label class="course" for="course" hidden="hidden">Курс</label>
+            <input type="text" class="course form-control ${(courseError??)?string('is-invalid', '')} col-sm-4"
+                   id="course"
+                   value="<#if person?? && person.getCourse()??>${person.course}</#if>"
                    placeholder="Введите курс водителя"
-                   name="courseError">
+                   name="course"
+                   hidden="hidden">
             <#if courseError??>
                 <div class="invalid-feedback">
                     ${courseError}
                 </div>
             </#if>
         </div>
-        <div class="form-group" hidden="hidden">
-            <label for="groupName">Группа</label>
-            <input type="text" class="form-control ${(groupNameError??)?string('is-invalid', '')} col-sm-4"
+        <div class="form-group">
+            <label class="group" for="groupName" hidden="hidden">Группа</label>
+            <input type="text" class="group form-control ${(groupNameError??)?string('is-invalid', '')} col-sm-4"
                    id="groupName"
-                   value="<#if person??>${person.groupName}</#if>"
+                   value="<#if person?? && person.getGroupName()??>${person.groupName}</#if>"
                    placeholder="Введите группу водителя"
-                   name="groupName">
+                   name="groupName"
+                   hidden="hidden">
             <#if groupNameError??>
                 <div class="invalid-feedback">
                     ${groupNameError}
                 </div>
             </#if>
         </div>
-        <div class="form-group jobPosition" hidden="hidden">
-            <label for="jobPosition">Должность</label>
-            <select class="form-control jobPosition col-4" name="jobPosition">
+        <div class="form-group jobPosition">
+            <label class="jobPosition" for="jobPosition" hidden="hidden">Должность</label>
+            <select class="form-control jobPosition col-4" name="jobPosition" hidden="hidden">
                 <option selected="selected" value=""/>
                 <#list jobPositions as jobPosition>
-                    <option>${jobPosition.getNamePosition()}</option>
+                    <option value="${jobPosition.getId()}">${jobPosition.getNamePosition()}</option>
                 </#list>
             </select>
             </label>
@@ -111,31 +110,32 @@
             <select class="form-control division col-4" name="division">
                 <option selected="selected" value=""/>
                 <#list divisions as division>
-                    <option>${division.getName()}</option>
+                    <option value="${division.getId()}" >${division.getName()}</option>
                 </#list>
             </select>
-        </div>
-        <div class="form-group subdivision">
-            <label class="subdivision" for="subdivision" hidden="hidden">Кафедра</label>
-            <select class="form-control subdivision col-4" name="subdivision" hidden="hidden">
-                <option selected="selected" value=""/>
-            </select>
-            <#if subdivisionError??>
+            <#if divisionErr??>
                 <div class="invalid-feedback mb-3" style="display: block">
-                    ${subdivisionError}
+                    ${divisionErr}
                 </div>
             </#if>
         </div>
+
+        <div class="form-group subdivision">
+            <label class="subdivision" for="subdivision" hidden="hidden">Кафедра</label>
+            <select class="form-control subdivision col-4" name="subdivision" hidden="hidden">
+                <option selected="selected" value=""></option>
+            </select>
+        </div>
         <div class="form-group">
             <label for="passNum">Номер пропуска</label>
-            <input type="text" class="form-control ${(passNumError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(passError??)?string('is-invalid', '')} col-sm-4"
                    id="passNum"
-                   value="<#if person??>${person.passNum}</#if>"
+                   value="<#if person?? && person.getPassNum()??>${person.passNum}</#if>"
                    placeholder="Введите номер пропуска водителя"
                    name="passNum">
-            <#if passNumError??>
+            <#if passError??>
                 <div class="invalid-feedback">
-                    ${passNumError}
+                    ${passError}
                 </div>
             </#if>
         </div>
@@ -144,18 +144,18 @@
             <label for="passEndDate">Срок истечения пропуска</label>
             <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
                 <input type="text" id="passEndDate" name="passEndDate"
-                       class="form-control col-4 ${(passEndDateError??)?string('is-invalid', '')} datetimepicker-input"
+                       class="form-control col-4 datetimepicker-input ${(passDateError??)?string('is-invalid', '')}"
                        data-target="#datetimepicker2" placeholder="Введите дату истечения пропуска"
-                       value="<#if person??>${person.passEndDate}</#if> "/>
+                       value="<#if person?? && person.getPassEndDate()??>${person.passEndDate}</#if> "/>
                 <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                 </div>
-                <#if passEndDateError??>
-                    <div class="invalid-feedback">
-                        ${passEndDateError}
-                    </div>
-                </#if>
             </div>
+            <#if passDateError??>
+                <div style="display: block" class="invalid-feedback">
+                    ${passDateError}
+                </div>
+            </#if>
         </div>
 
         <div class="form-check">
@@ -179,11 +179,49 @@
         var divisionsLabel = $("label.division");
         var subdivisionSelect = $("select.subdivision");
         var subdivisionLabel = $("label.subdivision");
+        var jobSelect = $("select.jobPosition");
+        var jobLabel = $("label.jobPosition");
+        var groupInput = $("input.group");
+        var groupLabel = $("label.group");
+        var courseInput = $("input.course");
+        var courseLabel = $("label.course");
+        var jobs = [<#list jobPositions as jobPosition>['${jobPosition.getNamePosition()}', "${jobPosition.getId()}"], </#list>];
+        var error = "${(passDateError??)?string('yes', 'no')}";
 
         $(document).ready(function () {
+
+            $("label.student").click(function () {
+                jobSelect.empty();
+                jobSelect.attr("hidden", "hidden");
+                jobLabel.attr("hidden", "hidden");
+                courseInput.empty();
+                courseInput.removeAttr("hidden");
+                courseLabel.removeAttr("hidden");
+                groupInput.empty();
+                groupInput.removeAttr("hidden");
+                groupLabel.removeAttr("hidden");
+            });
+
+            $("label.employee").click(function () {
+                courseInput.empty();
+                courseInput.attr("hidden", "hidden");
+                courseLabel.attr("hidden", "hidden");
+                groupInput.empty();
+                groupInput.attr("hidden", "hidden");
+                groupLabel.attr("hidden", "hidden");
+                jobSelect.empty();
+                jobSelect.removeAttr("hidden");
+                jobLabel.removeAttr("hidden");
+                jobSelect.append('<option selected="selected" value=""/>');
+                console.log(jobs);
+                for (var i = 0; i < jobs.length; i++) {
+                    populateJob('select.jobPosition', jobs[i][0], jobs[i][1]);
+                }
+            });
+
             divisionsSelect.change(function () {
                 if (!isEmpty($(this).children("option:selected"))) {
-                    var selectedDivision = $(this).children("option:selected").val();
+                    var selectedDivision = $(this).children("option:selected").text();
                     subdivision(selectedDivision);
                 } else {
                     subdivisionSelect.empty();
@@ -220,14 +258,21 @@
                 .append('<option value="' + name + '">' + name + '</option>')
         }
 
+        function populateJob(selector, name, id) {
+            $(selector)
+                .append('<option value="' + id + '">' + name + '</option>')
+        }
+
         function isEmpty(el) {
             return !$.trim(el.html())
         }
 
-
         $(function () {
             $('#datetimepicker2').datetimepicker({
-                locale: 'ru'
+                locale: 'ru',
+                viewMode: 'days',
+                format: 'DD/MM/YYYY',
+                minDate: new Date()
             });
         });
     </script>

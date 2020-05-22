@@ -1,20 +1,21 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
-    <div>
-        <a href="/dataEdit/subdivision"
-           class="btn btn-primary stretched-link">Назад</a>
-    </div>
+
     <#if message?has_content>
         <div class="alert alert-${messageType} col-4" role="alert">
             ${message}
         </div>
     </#if>
+    <div>
+        <a href="/dataEdit/subdivision"
+           class="btn btn-primary stretched-link my-3">Назад</a>
+    </div>
     <h5>Кафедра</h5>
     <form action="/dataEdit/subdivision/edit/${subdivision.getId()}" method="post" class="mt-2">
-        <div class="form-group col-4 division">
+        <div class="form-group division">
             <label class="division" for="division">Институты</label>
-            <select id="division" class="form-control division" name="division" >
+            <select id="division" class="form-control division col-4 " name="division" >
                 <#list divisions as division>
                     <option <#if subdivision.getDivision() == division> selected="selected" </#if>value="${division.getId()}">${division.getName()}</option>
                 </#list>

@@ -47,17 +47,22 @@ public class JobEditController {
     @GetMapping("job/edit/{job}")
     public String editJob(@PathVariable JobPosition job, Model model) {
         model.addAttribute("job", job);
+        model.addAttribute("typeJobPositions", dataEditingService.getTypeJobs());
         return "dataEditing/job/editJob";
     }
 
     @PostMapping("job/edit/{jobId}")
     public String editJob(@PathVariable Long jobId, @Valid JobPosition changedJob, BindingResult bindingResult, Model model) {
+        Optional<JobPosition> jobPosition = dataEditingService.getJob(jobId);
+        if (jobPosition.isEmpty()) {
+            model.addAttribute("message", "Такого института не существует");
+            return getJobEdit(model);
+        }
         boolean success = dataEditingService.updateJob(jobId, changedJob, bindingResult, model);;
         if (success) {
-            Optional<JobPosition> jobPosition = dataEditingService.getJob(jobId);
-            return editJob(jobPosition.get(), model);
+            return getJobEdit(model);
         }
-        else return getJobEdit(model);
+        else return editJob(jobPosition.get(), model);
     }
 
     @GetMapping("job/delete/{jobId}")

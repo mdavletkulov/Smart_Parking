@@ -1,20 +1,21 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
-    <div>
-        <a href="/dataEdit/place"
-           class="btn btn-primary stretched-link">Назад</a>
-    </div>
+
     <#if message?has_content>
         <div class="alert alert-${messageType} col-4" role="alert">
             ${message}
         </div>
     </#if>
+    <div>
+        <a href="/dataEdit/place"
+           class="btn btn-primary stretched-link my-3">Назад</a>
+    </div>
     <h5>Парковочное место</h5>
     <form action="/dataEdit/place/add" method="post" class="mt-2">
-        <div class="form-group col-4 parking">
+        <div class="form-group  parking">
             <label class="parking" for="parking">Парковки</label>
-            <select class="form-control parking" name="parking">
+            <select class="form-control parking col-4" name="parking">
                 <#list parkings as parking>
                     <option value="${parking.getId()}">${parking.getDescription()}</option>
                 </#list>

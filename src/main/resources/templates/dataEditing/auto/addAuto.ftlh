@@ -2,16 +2,17 @@
 
 <@c.page>
 
-    <div>
-    <a href="/dataEdit/auto"
-       class="btn btn-primary stretched-link">Назад</a>
-    </div>
+
     <#if message?has_content>
         <div class="alert alert-${messageType} col-4" role="alert">
             ${message}
         </div>
     </#if>
 
+    <div>
+        <a href="/dataEdit/auto"
+           class="btn btn-primary stretched-link my-3">Назад</a>
+    </div>
     <h5>Автомобиль</h5>
     <form action="/dataEdit/auto/add" method="post" class="mt-2">
         <div class="form-group">
@@ -55,6 +56,15 @@
             </#if>
         </div>
         <div class="form-group">
+            <label for="person1">Владелец</label>
+            <input type="text" class="form-control col-sm-4"
+                   id="person1"
+                   value="<#if automobile??> ${automobile.getPerson().getFullName()}</#if>"
+                   name="person1"
+                   disabled="disabled">
+
+        </div>
+        <div class="form-group">
             <button class="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseExample"
                     aria-expanded="false" aria-controls="collapseExample">
                 Показать водителей
@@ -89,7 +99,7 @@
                                 <td class="align-middle"><#if person.getCourse()??>${person.getCourse()}<#else>&#x2716;</#if></td>
                                 <td class="align-middle"><#if person.isSpecialStatus()>&#9745; <#else>&#x2716;</#if></td>
                                 <td class="align-middle">
-                                    <button id="${person.getId()}" type="button" class="btn btn-primary choose"
+                                    <button id="${person.getId()}" data-at="${person.getFullName()}" type="button" class="btn btn-primary choose"
                                             data-toggle="modal">
                                         Выбрать водителя
                                     </button>
@@ -120,7 +130,9 @@
             $('button.choose').click(function () {
                 jQuery.noConflict();
                 personId = $(this).attr('id');
+                personName = $(this).attr('data-at');
                 $('input#person').val(personId);
+                $('input#person1').val(personName);
             });
         });
 

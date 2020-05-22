@@ -37,7 +37,6 @@ public class SubdivisionEditController {
 
     @PostMapping("subdivision/add")
     public String addSubdivision(@Valid Subdivision subdivision, BindingResult bindingResult, Model model) {
-//        subdivision.setDivision(division);
         if (dataEditingService.addSubdivision(subdivision, bindingResult, model)) {
             return getSubdivisionsEdit(model);
         } else return addSubdivision(model);
@@ -45,18 +44,23 @@ public class SubdivisionEditController {
 
     @GetMapping("subdivision/edit/{subdivision}")
     public String editSubdivision(@PathVariable Subdivision subdivision, Model model) {
+        model.addAttribute("divisions", dataEditingService.getAllDivisions());
         model.addAttribute("subdivision", subdivision);
         return "dataEditing/subdivision/editSubdivision";
     }
 
     @PostMapping("subdivision/edit/{subdivisionId}")
     public String editSubdivision(@PathVariable Long subdivisionId, @Valid Subdivision changedSubdivision, BindingResult bindingResult, Model model) {
-        boolean success = dataEditingService.updateSubdivision(subdivisionId, changedSubdivision, bindingResult, model);;
-        if (success) {
-            Optional<Subdivision> subdivision = dataEditingService.getSubdivision(subdivisionId);
-            return editSubdivision(subdivision.get(), model);
+        Optional<Subdivision> subdivision = dataEditingService.getSubdivision(subdivisionId);
+        if (subdivision.isEmpty()) {
+            model.addAttribute("message", "Такого института не существует");
+            return getSubdivisionsEdit(model);
         }
-        else return getSubdivisionsEdit(model);
+        boolean success = dataEditingService.updateSubdivision(subdivisionId, changedSubdivision, bindingResult, model);
+        if (success) {
+            return getSubdivisionsEdit(model);
+        }
+        else return editSubdivision(subdivision.get(), model);
     }
 
     @GetMapping("subdivision/delete/{subdivisionId}")

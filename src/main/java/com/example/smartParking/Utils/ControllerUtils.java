@@ -22,8 +22,8 @@ public class ControllerUtils {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }

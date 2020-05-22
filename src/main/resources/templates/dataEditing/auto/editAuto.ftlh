@@ -2,16 +2,16 @@
 
 <@c.page>
 
-    <div>
-        <a href="/dataEdit/auto"
-           class="btn btn-primary stretched-link">Назад</a>
-    </div>
+
     <#if message?has_content>
         <div class="alert alert-${messageType} col-4" role="alert">
             ${message}
         </div>
     </#if>
-
+    <div>
+        <a href="/dataEdit/auto"
+           class="btn btn-primary stretched-link my-3">Назад</a>
+    </div>
     <h5>Автомобиль</h5>
     <form action="/dataEdit/auto/edit/${automobile.getId()}" method="post" class="mt-2">
         <div class="form-group">
@@ -45,7 +45,8 @@
             <select class="form-control parking col-sm-4" name="color">
                 <option selected="selected" value=""/>
                 <#list colors as color>
-                    <option <#if automobile.getColor()?? && automobile.getColor() == color> </#if> value="${color.getId()}">${color.getName()}</option>
+                    <option <#if automobile.getColor()?? && automobile.getColor() == color> </#if>
+                            value="${color.getId()}">${color.getName()}</option>
                 </#list>
             </select>
             <#if colorError??>
@@ -53,6 +54,16 @@
                     ${colorError}
                 </div>
             </#if>
+        </div>
+
+        <div class="form-group">
+            <label for="person1">Владелец</label>
+            <input type="text" class="form-control col-sm-4"
+                   id="person1"
+                   value="${automobile.getPerson().getFullName()}"
+                   name="person1"
+            disabled="disabled">
+
         </div>
         <div class="form-group">
             <button class="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseExample"
@@ -72,14 +83,14 @@
                             <th class="align-middle" scope="col">Группа</th>
                             <th class="align-middle" scope="col">Курс</th>
                             <th class="align-middle" scope="col">Специальный статус</th>
-                            <th class="align-middle"  scope="col"></th>
+                            <th class="align-middle" scope="col"></th>
 
                         </tr>
                         </thead>
                         <tbody>
                         <#list persons as person>
                             <#assign hasAuto = 0>
-                            <tr>
+                            <tr<#if automobile.getPerson() == person> class="table-success"</#if>>
                                 <th class="align-middle" scope="row">${person.getFullName()}</th>
                                 <td class="align-middle"><#if person.isStudent()>Студент</#if> <#if person.isEmployee()>Сотрудник</#if></td>
                                 <td class="align-middle"><#if person.getJobPosition()??>${person.getJobPosition().getTypeJobPosition()}<#else>&#x2716;</#if></td>
@@ -89,7 +100,7 @@
                                 <td class="align-middle"><#if person.getCourse()??>${person.getCourse()}<#else>&#x2716;</#if></td>
                                 <td class="align-middle"><#if person.isSpecialStatus()>&#9745; <#else>&#x2716;</#if></td>
                                 <td class="align-middle">
-                                    <button id="${person.getId()}" type="button" class="btn btn-primary choose"
+                                    <button id="${person.getId()}" data-at="${person.getFullName()}" type="button" class="btn btn-primary choose"
                                             data-toggle="modal">
                                         Выбрать водителя
                                     </button>
@@ -102,13 +113,15 @@
             </div>
         </div>
 
-        <input type="hidden" id="person" name="person" <#if automobile.getPerson()??>value="${automobile.getPerson().getId()}"</#if>/>
+        <input type="hidden" id="person" name="person"
+               <#if automobile.getPerson()??>value="${automobile.getPerson().getId()}"</#if>/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit" class="btn btn-primary mt-3">Обновить</button>
     </form>
 
     <script>
         var personId;
+        var personName;
         jQuery(document).ready(function ($) {
             $('#persons').DataTable({
                 "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Все"]],
@@ -120,7 +133,9 @@
             $('button.choose').click(function () {
                 jQuery.noConflict();
                 personId = $(this).attr('id');
+                personName = $(this).attr('data-at');
                 $('input#person').val(personId);
+                $('input#person1').val(personName);
             });
         });
 

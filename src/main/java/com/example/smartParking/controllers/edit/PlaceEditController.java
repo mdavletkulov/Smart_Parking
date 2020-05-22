@@ -49,22 +49,26 @@ public class PlaceEditController {
     @GetMapping("place/edit/{place}")
     public String editPlace(@PathVariable Place place, Model model) {
         model.addAttribute("place", place);
+        model.addAttribute("parkings", dataEditingService.getAllParking());
         return "dataEditing/place/editPlace";
     }
 
     @PostMapping("place/edit/{placeId}")
-    public String editPlace(@PathVariable Long placeId, @Valid Place changedPlace, @RequestParam String placeNumber, BindingResult bindingResult, Model model) {
+    public String editPlace(@PathVariable Long placeId, @Valid Place changedPlace,  BindingResult bindingResult, @RequestParam(required = false) String placeNumber, Model model) {
+        Optional<Place> place = dataEditingService.getPlace(placeId);
+        if (place.isEmpty()) {
+            model.addAttribute("message", "Такого парковочного места не существует");
+            return getPlacesEdit(model);
+        }
         if (!placeNumber.matches("^[0-9]*$")) {
-            Optional<Place> place = dataEditingService.getPlace(placeId);
             model.addAttribute("placeNumberError", "Номер парковочного места может содержать только цифры");
             return editPlace(place.get(), model);
         }
         boolean success = dataEditingService.updatePlace(placeId, changedPlace, bindingResult, model);
         if (success) {
-            Optional<Place> place = dataEditingService.getPlace(placeId);
-            return editPlace(place.get(), model);
+            return getPlacesEdit(model);
         }
-        else return getPlacesEdit(model);
+        else return editPlace(place.get(), model);
     }
 
     @GetMapping("place/delete/{placeId}")

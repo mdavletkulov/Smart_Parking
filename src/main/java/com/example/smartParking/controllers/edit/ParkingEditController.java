@@ -63,12 +63,16 @@ public class ParkingEditController {
 
     @PostMapping("parking/edit/{parkingId}")
     public String editParking(@PathVariable Long parkingId, @Valid Parking changedParking, BindingResult bindingResult, Model model) {
+        Optional<Parking> parking = dataEditingService.getParking(parkingId);
+        if (parking.isEmpty()) {
+            model.addAttribute("message", "Такого института не существует");
+            return getParkingsEdit(model);
+        }
         boolean success = dataEditingService.updateParking(parkingId, changedParking, bindingResult, model);;
         if (success) {
-            Optional<Parking> parking = dataEditingService.getParking(parkingId);
-            return editParking(parking.get(), model);
+            return getParkingsEdit(model);
         }
-        else return getParkingsEdit(model);
+        else return editParking(parking.get(), model);
     }
 
     @GetMapping("parking/delete/{parkingId}")

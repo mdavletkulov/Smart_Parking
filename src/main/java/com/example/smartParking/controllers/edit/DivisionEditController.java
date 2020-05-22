@@ -52,12 +52,16 @@ public class DivisionEditController {
 
     @PostMapping("division/edit/{divisionId}")
     public String editDivision(@PathVariable Long divisionId, @Valid Division changedDivision, BindingResult bindingResult, Model model) {
+        Optional<Division> division = dataEditingService.getDivision(divisionId);
+        if (division.isEmpty()) {
+            model.addAttribute("message", "Такого института не существует");
+            return getDivisionsEdit(model);
+        }
         boolean success = dataEditingService.updateDivision(divisionId, changedDivision, bindingResult, model);;
         if (success) {
-            Optional<Division> division = dataEditingService.getDivision(divisionId);
-            return editDivision(division.get(), model);
+            return getDivisionsEdit(model);
         }
-        else return getDivisionsEdit(model);
+        else return editDivision(division.get(), model);
     }
 
     @GetMapping("division/delete/{divisionId}")

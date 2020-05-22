@@ -1,15 +1,16 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
-    <div>
-        <a href="/dataEdit/person"
-           class="btn btn-primary stretched-link">Назад</a>
-    </div>
+
     <#if message?has_content>
         <div class="alert alert-${messageType} col-4" role="alert">
             ${message}
         </div>
     </#if>
+    <div>
+        <a href="/dataEdit/person"
+           class="btn btn-primary stretched-link my-3">Назад</a>
+    </div>
     <h5>Водитель</h5>
     <form action="/dataEdit/person/edit/${person.getId()}" method="post" class="mt-2">
         <div class="form-group">

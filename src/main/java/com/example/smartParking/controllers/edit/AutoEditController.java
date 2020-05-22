@@ -50,17 +50,23 @@ public class AutoEditController {
     @GetMapping("auto/edit/{auto}")
     public String editAuto(@PathVariable Automobile auto, Model model) {
         model.addAttribute("automobile", auto);
+        model.addAttribute("colors", dataEditingService.getAllColors());
+        model.addAttribute("persons", dataEditingService.getAllPersons());
         return "dataEditing/auto/editAuto";
     }
 
     @PostMapping("auto/edit/{autoId}")
     public String editAuto(@PathVariable Long autoId, @Valid Automobile changedAuto, BindingResult bindingResult, Model model) {
+        Optional<Automobile> auto = dataEditingService.getAuto(autoId);
+        if (auto.isEmpty()) {
+            model.addAttribute("message", "Такого автомобиля не существует");
+            return getAutosEdit(model);
+        }
         boolean success = dataEditingService.updateAuto(autoId, changedAuto, bindingResult, model);;
         if (success) {
-            Optional<Automobile> auto = dataEditingService.getAuto(autoId);
-            return editAuto(auto.get(), model);
+            return getAutosEdit(model);
         }
-        else return getAutosEdit(model);
+        else return editAuto(auto.get(), model);
     }
 
     @GetMapping("auto/delete/{autoId}")

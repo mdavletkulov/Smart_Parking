@@ -49,13 +49,17 @@ public class ColorEditController {
     }
 
     @PostMapping("color/edit/{colorId}")
-    public String editColor(@PathVariable Long colorId, @Valid Division changedColor, BindingResult bindingResult, Model model) {
+    public String editColor(@PathVariable Long colorId, @Valid Color changedColor, BindingResult bindingResult, Model model) {
+        Optional<Color> color = dataEditingService.getColor(colorId);
+        if (color.isEmpty()) {
+            model.addAttribute("message", "Такого цвета не существует");
+            return getColorsEdit(model);
+        }
         boolean success = dataEditingService.updateColor(colorId, changedColor.getName(), bindingResult, model);;
         if (success) {
-            Optional<Color> color = dataEditingService.getColor(colorId);
-            return editColor(color.get(), model);
+            return getColorsEdit(model);
         }
-        else return getColorsEdit(model);
+        else return editColor(color.get(), model);
 
     }
 

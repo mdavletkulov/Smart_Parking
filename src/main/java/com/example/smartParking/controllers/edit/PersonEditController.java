@@ -58,12 +58,16 @@ public class PersonEditController {
 
     @PostMapping("person/edit/{personId}")
     public String editPerson(@PathVariable Long personId, @Valid Person changedPerson, BindingResult bindingResult, Model model) {
+        Optional<Person> person = dataEditingService.getPerson(personId);
+        if (person.isEmpty()) {
+            model.addAttribute("message", "Такого водителя не существует");
+            return getPersonsEdit(model);
+        }
         boolean success = dataEditingService.updatePerson(personId, changedPerson, bindingResult, model);;
         if (success) {
-            Optional<Person> person = dataEditingService.getPerson(personId);
-            return editPerson(person.get(), model);
+            return getPersonsEdit(model);
         }
-        else return getPersonsEdit(model);
+        else return editPerson(person.get(), model);
     }
 
     @GetMapping("person/delete/{personId}")

@@ -1,14 +1,18 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <h5>Парковочное место</h5>
     <form action="/dataEdit/place/add" method="post" class="mt-2">
         <div class="form-group col-4 parking">
             <label class="parking" for="parking">Парковки</label>
             <select class="form-control parking" name="parking">
-                <option selected="selected" value=""/>
                 <#list parkings as parking>
-                    <option>${parking.getDescription()}</option>
+                    <option value="${parking.getId()}">${parking.getDescription()}</option>
                 </#list>
             </select>
             <#if parkingError??>
@@ -21,7 +25,7 @@
             <label for="placeNumber">Номер места</label>
             <input type="text" class="form-control ${(placeNumberError??)?string('is-invalid', '')} col-sm-4"
                    id="placeNumber"
-                   value="<#if place??>${place.placeNumber}</#if>"
+                   value="<#if place?? && place.getPlaceNumber()??>${place.placeNumber}</#if>"
                    placeholder="Введите номер парковочного места"
                    name="placeNumber">
             <#if placeNumberError??>

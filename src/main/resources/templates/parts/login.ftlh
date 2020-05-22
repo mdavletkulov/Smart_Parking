@@ -89,7 +89,7 @@
             </#if>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
+            <label for="password">Пароль:</label>
             <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} col-sm-4"
                    id="password" placeholder="Введите пароль"
                    name="password">
@@ -100,7 +100,7 @@
             </#if>
         </div>
         <div class="form-group">
-            <label for="password2">Password Confirmation:</label>
+            <label for="password2">Подтверждение пароля:</label>
             <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')} col-sm-4"
                    id="password2" placeholder="Повторите пароль"
                    name="password2">

@@ -1,6 +1,11 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <h5>Водитель</h5>
     <form action="/dataEdit/person/add" method="post" class="mt-2">
         <div class="form-group">
@@ -44,8 +49,10 @@
         </div>
         <div class="btn-group btn-group-toggle form-group" data-toggle="buttons">
             <label class="btn btn-secondary">
-                <input type="radio" name="student" id="student" value=""> Студент
-                <input type="radio" name="employee" id="employee" value=""> Сотрудник
+                <input type="radio" name="student" id="student"> Студент
+            </label>
+            <label class="btn btn-secondary">
+            <input type="radio" name="employee" id="employee"> Сотрудник
             </label>
         <#if studentError??>
             <div class="invalid-feedback mb-3" style="display: block">
@@ -84,12 +91,12 @@
                 </div>
             </#if>
         </div>
-        <div class="form-group col-4 jobPosition">
+        <div class="form-group jobPosition" hidden="hidden">
             <label for="jobPosition">Должность</label>
-            <select class="form-control division" name="jobPosition">
+            <select class="form-control jobPosition col-4" name="jobPosition">
                 <option selected="selected" value=""/>
                 <#list jobPositions as jobPosition>
-                    <option>${jobPosition.getName()}</option>
+                    <option>${jobPosition.getNamePosition()}</option>
                 </#list>
             </select>
             </label>
@@ -99,18 +106,18 @@
                 </div>
             </#if>
         </div>
-        <div class="form-group col-4 division">
+        <div class="form-group division">
             <label class="division" for="division">Институт</label>
-            <select class="form-control division" name="division">
+            <select class="form-control division col-4" name="division">
                 <option selected="selected" value=""/>
                 <#list divisions as division>
                     <option>${division.getName()}</option>
                 </#list>
             </select>
         </div>
-        <div class="form-group col-4 subdivision">
+        <div class="form-group subdivision">
             <label class="subdivision" for="subdivision" hidden="hidden">Кафедра</label>
-            <select class="form-control subdivision" name="subdivision" hidden="hidden">
+            <select class="form-control subdivision col-4" name="subdivision" hidden="hidden">
                 <option selected="selected" value=""/>
             </select>
             <#if subdivisionError??>
@@ -133,11 +140,11 @@
             </#if>
         </div>
 
-        <div class="form-group col-4">
+        <div class="form-group ">
             <label for="passEndDate">Срок истечения пропуска</label>
             <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
                 <input type="text" id="passEndDate" name="passEndDate"
-                       class="form-control ${(passEndDateError??)?string('is-invalid', '')} datetimepicker-input"
+                       class="form-control col-4 ${(passEndDateError??)?string('is-invalid', '')} datetimepicker-input"
                        data-target="#datetimepicker2" placeholder="Введите дату истечения пропуска"
                        value="<#if person??>${person.passEndDate}</#if> "/>
                 <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">

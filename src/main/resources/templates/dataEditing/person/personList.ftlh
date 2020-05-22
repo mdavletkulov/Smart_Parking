@@ -12,11 +12,10 @@
         <thead class="thead-dark">
         <tr>
             <th class="align-middle" scope="col">Водитель</th>
-            <th class="align-middle" scope="col">Автомобиль</th>
-            <th class="align-middle" scope="col">Номер</th>
             <th class="align-middle" scope="col">Статус</th>
             <th class="align-middle" scope="col">Должность</th>
             <th class="align-middle" scope="col">Институт</th>
+            <th class="align-middle" scope="col">Кафедра</th>
             <th class="align-middle" scope="col">Группа</th>
             <th class="align-middle" scope="col">Курс</th>
             <th class="align-middle" scope="col">Пропуск</th>
@@ -34,21 +33,10 @@
             <#assign hasAuto = 0>
             <tr>
                 <th class="align-middle" scope="row">${person.getFullName()}</th>
-                <#list automobiles as auto>
-                    <#if auto.getPerson()??>
-                        <#if auto.getPerson().getId() == person.getId()>
-                                                <#assign hasAuto = 1>
-                            <td class="align-middle">${auto.getModel()} </td>
-                            <td class="align-middle">${auto.getNumber()} </td></#if>
-                    </#if>
-                </#list>
-                <#if hasAuto = 0>
-                    <td class="align-middle">&#x2716;</td>
-                    <td class="align-middle">&#x2716;</td>
-                </#if>
                 <td class="align-middle"><#if person.isStudent()>Студент</#if> <#if person.isEmployee()>Сотрудник</#if></td>
                 <td class="align-middle"><#if person.getJobPosition()??>${person.getJobPosition().getNamePosition()}<#else>&#x2716;</#if></td>
                 <td class="align-middle"><#if person.getDivision()??>${person.getDivision().getName()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.getSubdivision()??>${person.getSubdivision().getName()}<#else>&#x2716;</#if></td>
                 <td class="align-middle"><#if person.getGroupName()??>${person.getGroupName()}<#else>&#x2716;</#if></td>
                 <td class="align-middle"><#if person.getCourse()??>${person.getCourse()}<#else>&#x2716;</#if></td>
                 <td class="align-middle"><#if person.getPassNum()??>${person.getPassNum()}<#else>&#x2716;</#if></td>
@@ -96,19 +84,18 @@
                 $('#persons').DataTable({
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Все"]],
                     columnDefs: [
-                        {width: '15%', targets: 0},
-                        {width: '10%', targets: 1},
-                        {width: '10%', targets: 2},
+                        {width: '20%', targets: 0},
+                        {width: '5%', targets: 1},
+                        {width: '5%', targets: 2},
                         {width: '5%', targets: 3},
                         {width: '5%', targets: 4},
-                        {width: '5%', targets: 5},
+                        {width: '10%', targets: 5},
                         {width: '5%', targets: 6},
                         {width: '5%', targets: 7},
-                        {width: '5%', targets: 8},
+                        {width: '15%', targets: 8},
                         {width: '10%', targets: 9},
-                        {width: '10%', targets: 10},
-                        {width: '5%', "orderable": false, targets: 11},
-                        {width: '10%', "orderable": false, targets: 12},
+                        {width: '5%', "orderable": false, targets: 10},
+                        {width: '10%', "orderable": false, targets: 11},
                     ],
                     "bAutoWidth": false,
                     language: {

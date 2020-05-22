@@ -1,7 +1,9 @@
 package com.example.smartParking.model.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "parking_place")
@@ -12,9 +14,10 @@ public class Place {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parking_id")
     private Parking parking;
-    @NotBlank(message = "Номер места не может быть пустым")
+    @Digits(message = "Номер места может содержать только целые числа", integer = 6, fraction = 0)
+    @NotNull(message = "Номер места не может быть пустым")
     private Integer placeNumber;
-    @NotBlank(message = "Статус парковочного места не может быть пустым")
+    @NotNull(message = "Статус парковочного места не может быть пустым")
     private boolean specialStatus;
 
     public Integer getPlaceNumber() {

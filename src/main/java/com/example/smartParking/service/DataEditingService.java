@@ -121,7 +121,7 @@ public class DataEditingService {
     public void deleteColor(Long colorId, Model model) {
         Optional<Color> color = colorRepo.findById(colorId);
         if (color.isPresent()) {
-                colorRepo.deleteById(colorId);
+            colorRepo.deleteById(colorId);
         } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Цвет не найден");
@@ -250,7 +250,7 @@ public class DataEditingService {
     }
 
     public boolean addAuto(Automobile automobile, BindingResult bindingResult, Model model) {
-        Optional<Automobile> autoFromDB = automobileRepo.findById(automobile.getId());
+        Optional<Automobile> autoFromDB = automobileRepo.findByNumber(automobile.getNumber());
 
         if (autoFromDB.isPresent()) {
             model.addAttribute("messageType", "danger");

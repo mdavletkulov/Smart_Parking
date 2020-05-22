@@ -1,6 +1,11 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <h5>Кафедра</h5>
     <form action="/dataEdit/subdivision/add" method="post" class="mt-2">
         <div class="form-group col-4 division">

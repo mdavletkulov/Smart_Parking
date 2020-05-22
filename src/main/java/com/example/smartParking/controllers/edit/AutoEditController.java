@@ -36,6 +36,7 @@ public class AutoEditController {
     public String addAuto(Model model) {
         model.addAttribute("persons", dataEditingService.getAllPersons());
         model.addAttribute("automobiles", dataEditingService.getAllAutos());
+        model.addAttribute("colors", dataEditingService.getAllColors());
         return "dataEditing/auto/addAuto";
     }
 

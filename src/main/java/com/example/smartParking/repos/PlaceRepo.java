@@ -14,7 +14,7 @@ public interface PlaceRepo extends CrudRepository<Place, Long> {
     List<Place> findByParkingId(Long parkingId);
 
     @Query(
-            value = "Select * FROM parking_place WHERE place_num = ?1 and parking_id = ?2",
+            value = "Select * FROM parking_place WHERE place_number = ?1 and parking_id = ?2",
             nativeQuery = true)
     List<Place> findByParkingAndNum(Integer placeNum, Long parkingId);
 

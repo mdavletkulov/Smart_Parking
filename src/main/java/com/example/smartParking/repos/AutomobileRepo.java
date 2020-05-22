@@ -20,4 +20,6 @@ public interface AutomobileRepo extends CrudRepository<Automobile, Long> {
             value = "SELECT * FROM automobile LEFT JOIN person p on automobile.person_id = p.id  where p.id = ?1",
             nativeQuery = true)
     List<Automobile> findByPersonId(Long personId);
+
+    Optional<Automobile> findByNumber(String number);
 }

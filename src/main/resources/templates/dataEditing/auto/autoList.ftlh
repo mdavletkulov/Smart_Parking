@@ -26,7 +26,7 @@
         <tbody>
         <#list automobiles as automobile>
             <tr>
-                <th class="align-middle" scope="row">${automobile.getPerson().getFullName()}</th>
+                <th class="align-middle" scope="row"><#if automobile.getPerson()??>${automobile.getPerson().getFullName()}<#else>&#x2716;</#if></th>
                 <td class="align-middle">${automobile.getModel()}</td>
                 <td class="align-middle">${automobile.getNumber()}</td>
                 <td class="align-middle"><#if automobile.getColor()??>${automobile.getColor().getName()} <#else>&#x2716;</#if></td>

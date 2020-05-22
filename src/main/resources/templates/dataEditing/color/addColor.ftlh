@@ -1,6 +1,11 @@
 <#import "../../parts/common.ftlh" as c>
 
 <@c.page>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
     <h5>Цвет</h5>
     <form action="/dataEdit/color/add" method="post" class="mt-2">
         <div class="form-group">

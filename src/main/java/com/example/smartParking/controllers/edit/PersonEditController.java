@@ -34,7 +34,6 @@ public class PersonEditController {
     public String addPerson(Model model) {
         model.addAttribute("jobPositions", dataEditingService.getAllJobs());
         model.addAttribute("divisions", dataEditingService.getAllDivisions());
-        model.addAttribute("divisions", dataEditingService.getAllDivisions());
         return "dataEditing/person/addPerson";
     }
 

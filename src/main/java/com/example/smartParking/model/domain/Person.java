@@ -3,7 +3,9 @@ package com.example.smartParking.model.domain;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -31,16 +33,18 @@ public class Person {
     @ManyToOne
     @JoinColumn(name = "division")
     private Division division;
-    @NotBlank(message = "Водитель должен иметь какой-либо статус")
+    @NotNull(message = "Водитель должен иметь какой-либо статус")
     private boolean employee;
-    @NotBlank(message = "Водитель должен иметь какой-либо статус")
+    @NotNull(message = "Водитель должен иметь какой-либо статус")
     private boolean student;
+    @Digits(message = "Номер пропуска может содержать только одно целое число", integer = 1, fraction = 0)
     private Integer course;
     @Length(max = 10, message = "Значение группы слишком длинное")
     private String groupName;
+    @Digits(message = "Номер пропуска может содержать только целые числа", integer = 10, fraction = 0)
     private Integer passNum;
     private Date passEndDate;
-    @NotBlank(message = "Водитель должен иметь или не иметь специального статуса")
+    @NotNull(message = "Водитель должен иметь или не иметь специального статуса")
     private boolean specialStatus;
 
     public Long getId() {

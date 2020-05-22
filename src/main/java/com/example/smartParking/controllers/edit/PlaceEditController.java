@@ -10,10 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -39,7 +36,11 @@ public class PlaceEditController {
     }
 
     @PostMapping("place/add")
-    public String addPlace(@Valid Place place, BindingResult bindingResult, Model model) {
+    public String addPlace(@Valid Place place, BindingResult bindingResult, @RequestParam String placeNumber, Model model) {
+        if (!placeNumber.matches("^[0-9]*$")) {
+            model.addAttribute("placeNumberError", "Номер парковочного места может содержать только цифры");
+            return addPlace(model);
+        }
         if (dataEditingService.addPlace(place, bindingResult, model)) {
             return getPlacesEdit(model);
         } else return addPlace(model);

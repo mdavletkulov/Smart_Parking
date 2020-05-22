@@ -49,7 +49,7 @@ public class AutoEditController {
 
     @GetMapping("auto/edit/{auto}")
     public String editAuto(@PathVariable Automobile auto, Model model) {
-        model.addAttribute("auto", auto);
+        model.addAttribute("automobile", auto);
         return "dataEditing/auto/editAuto";
     }
 

@@ -45,63 +45,6 @@ public class DataEditingService {
     @Autowired
     SubdivisionRepo subdivisionRepo;
 
-    public List<Automobile> getAllAutos() {
-        return automobileRepo.findAll();
-    }
-
-    public Optional<Automobile> getAuto(Long id) {
-        return automobileRepo.findById(id);
-    }
-
-    public List<Division> getAllDivisions() {
-        return divisionRepo.findAll();
-    }
-
-    public Optional<Division> getDivision(Long id) {
-        return divisionRepo.findById(id);
-    }
-
-    public Iterable<JobPosition> getAllJobs() {
-        return jobPositionRepo.findAll();
-    }
-
-    public Optional<JobPosition> getJob(Long id) {
-        return jobPositionRepo.findById(id);
-    }
-
-    public Iterable<Parking> getAllParking() {
-        return parkingRepo.findAll();
-    }
-
-    public Optional<Parking> getParking(Long id) {
-        return parkingRepo.findById(id);
-    }
-
-    public List<Person> getAllPersons() {
-        return personRepo.findAll();
-    }
-
-    public Optional<Person> getPerson(Long id) {
-        return personRepo.findById(id);
-    }
-
-    public Iterable<Place> getAllPlaces() {
-        return placeRepo.findAll();
-    }
-
-    public Optional<Place> getPlace(Long id) {
-        return placeRepo.findById(id);
-    }
-
-    public List<Subdivision> getAllSubdivisions() {
-        return subdivisionRepo.findAll();
-    }
-
-    public Optional<Subdivision> getSubdivision(Long id) {
-        return subdivisionRepo.findById(id);
-    }
-
-
     //------------------------- Color --------------------------------//
 
     public Iterable<Color> getAllColors() {
@@ -177,6 +120,14 @@ public class DataEditingService {
     //------------------------------------------------------------------//
 
     //---------------------------- Person -----------------------------//
+
+    public List<Person> getAllPersons() {
+        return personRepo.findAll();
+    }
+
+    public Optional<Person> getPerson(Long id) {
+        return personRepo.findById(id);
+    }
 
     public void deletePerson(Long personId, Model model) {
         Optional<Person> person = personRepo.findById(personId);
@@ -314,6 +265,14 @@ public class DataEditingService {
 
     //--------------------------- Automobile ----------------------------//
 
+    public List<Automobile> getAllAutos() {
+        return automobileRepo.findAll();
+    }
+
+    public Optional<Automobile> getAuto(Long id) {
+        return automobileRepo.findById(id);
+    }
+
     public void deleteAuto(Long autoId, Model model) {
         Optional<Automobile> automobile = automobileRepo.findById(autoId);
         if (automobile.isPresent()) {
@@ -383,6 +342,14 @@ public class DataEditingService {
 
     //----------------------------- Place ------------------------------//
 
+    public Iterable<Place> getAllPlaces() {
+        return placeRepo.findAll();
+    }
+
+    public Optional<Place> getPlace(Long id) {
+        return placeRepo.findById(id);
+    }
+
     public void deletePlace(Long placeId, Model model) {
         Optional<Place> place = placeRepo.findById(placeId);
         if (place.isPresent()) {
@@ -450,6 +417,14 @@ public class DataEditingService {
 
     //---------------------------- Division -----------------------------//
 
+    public List<Division> getAllDivisions() {
+        return divisionRepo.findAll();
+    }
+
+    public Optional<Division> getDivision(Long id) {
+        return divisionRepo.findById(id);
+    }
+
     public void deleteDivision(Long divisionId, Model model) {
         Optional<Division> division = divisionRepo.findById(divisionId);
         if (division.isPresent()) {
@@ -515,6 +490,15 @@ public class DataEditingService {
     //------------------------------------------------------------------//
 
     //------------------------------ Job -------------------------------//
+
+
+    public Iterable<JobPosition> getAllJobs() {
+        return jobPositionRepo.findAll();
+    }
+
+    public Optional<JobPosition> getJob(Long id) {
+        return jobPositionRepo.findById(id);
+    }
 
     public List<String> getTypeJobs() {
         return jobPositionRepo.findAllPositionNames();
@@ -587,6 +571,14 @@ public class DataEditingService {
 
     //---------------------------- Parking -----------------------------//
 
+    public Iterable<Parking> getAllParking() {
+        return parkingRepo.findAll();
+    }
+
+    public Optional<Parking> getParking(Long id) {
+        return parkingRepo.findById(id);
+    }
+
     public Integer getPlaceNumbersOfParking(Long parkingId) {
         return parkingRepo.countOfPlacesByParking(parkingId);
     }
@@ -655,6 +647,18 @@ public class DataEditingService {
     //------------------------------------------------------------------//
 
     //--------------------------- Subdivision ----------------------------//
+
+    public List<Subdivision> getSubdivisionsByDivision(String divisionName) {
+        return subdivisionRepo.findByDivision(divisionName);
+    }
+
+    public List<Subdivision> getAllSubdivisions() {
+        return subdivisionRepo.findAll();
+    }
+
+    public Optional<Subdivision> getSubdivision(Long id) {
+        return subdivisionRepo.findById(id);
+    }
 
     public void deleteSubdivision(Long subdivisionId, Model model) {
         Optional<Subdivision> subdivision = subdivisionRepo.findById(subdivisionId);

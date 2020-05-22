@@ -16,7 +16,7 @@
             <label for="name">Название института</label>
             <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} col-sm-4"
                    id="name"
-                   value="<#if place??>${subdivision.name}</#if>"
+                   value="<#if division??>${division.name}</#if>"
                    placeholder="Введите название института"
                    name="name">
             <#if nameError??>

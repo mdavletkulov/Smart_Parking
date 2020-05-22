@@ -1,0 +1,31 @@
+<#import "../../parts/common.ftlh" as c>
+
+<@c.page>
+    <div>
+        <a href="/dataEdit/color"
+           class="btn btn-primary stretched-link">Назад</a>
+    </div>
+    <#if message?has_content>
+        <div class="alert alert-${messageType} col-4" role="alert">
+            ${message}
+        </div>
+    </#if>
+    <h5>Цвет</h5>
+    <form action="/dataEdit/color/edit/${color.getId()}" method="post" class="mt-2">
+        <div class="form-group">
+            <label for="name">Название цвета</label>
+            <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} col-sm-4"
+                   id="name"
+                   value="${color.name}"
+                   placeholder="Введите название цвета"
+                   name="name">
+            <#if nameError??>
+                <div class="invalid-feedback">
+                    ${nameError}
+                </div>
+            </#if>
+        </div>
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <button type="submit" class="btn btn-primary mt-3">Обновить</button>
+    </form>
+</@c.page>

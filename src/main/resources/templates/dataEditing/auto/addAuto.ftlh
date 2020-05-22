@@ -15,28 +15,28 @@
     <h5>Автомобиль</h5>
     <form action="/dataEdit/auto/add" method="post" class="mt-2">
         <div class="form-group">
-            <label for="number">Марка и модель автомобиля</label>
-            <input type="text" class="form-control ${(numberError??)?string('is-invalid', '')} col-sm-4"
-                   id="number"
-                   value="<#if place??>${subdivision.name}</#if>"
-                   placeholder="Введите марку и модель автомобиля"
-                   name="number">
-            <#if numberError??>
-                <div class="invalid-feedback">
-                    ${numberError}
-                </div>
-            </#if>
-        </div>
-        <div class="form-group">
-            <label for="model">Номер автомобиля</label>
+            <label for="model">Марка и модель автомобиля</label>
             <input type="text" class="form-control ${(modelError??)?string('is-invalid', '')} col-sm-4"
                    id="model"
-                   value="<#if place??>${subdivision.name}</#if>"
-                   placeholder="Введите номер автомобиля"
+                   value="<#if automobile??>${automobile.model}</#if>"
+                   placeholder="Введите марку и модель автомобиля"
                    name="model">
             <#if modelError??>
                 <div class="invalid-feedback">
                     ${modelError}
+                </div>
+            </#if>
+        </div>
+        <div class="form-group">
+            <label for="number">Номер автомобиля</label>
+            <input type="text" class="form-control ${(numberError??)?string('is-invalid', '')} col-sm-4"
+                   id="number"
+                   value="<#if automobile??>${automobile.number}</#if>"
+                   placeholder="Введите номер автомобиля"
+                   name="number">
+            <#if numberError??>
+                <div class="invalid-feedback">
+                    ${numberError}
                 </div>
             </#if>
         </div>

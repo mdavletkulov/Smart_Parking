@@ -52,6 +52,7 @@ public class PersonEditController {
     @GetMapping("person/edit/{person}")
     public String editPerson(@PathVariable Person person, Model model) {
         model.addAttribute("person", person);
+        model.addAttribute("subdivisions", dataEditingService.getSubdivisionsByDivision(person.getDivision().getName()));
         return "dataEditing/person/editPerson";
     }
 

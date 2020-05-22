@@ -36,8 +36,8 @@ public class SubdivisionEditController {
     }
 
     @PostMapping("subdivision/add")
-    public String addSubdivision(@Valid Subdivision subdivision, BindingResult bindingResult, @RequestParam Division division, Model model) {
-        subdivision.setDivision(division);
+    public String addSubdivision(@Valid Subdivision subdivision, BindingResult bindingResult, Model model) {
+//        subdivision.setDivision(division);
         if (dataEditingService.addSubdivision(subdivision, bindingResult, model)) {
             return getSubdivisionsEdit(model);
         } else return addSubdivision(model);

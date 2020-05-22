@@ -16,7 +16,7 @@
             <label for="name">Название цвета</label>
             <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} col-sm-4"
                    id="name"
-                   value="<#if place??>${subdivision.name}</#if>"
+                   value="<#if color??>${color.name}</#if>"
                    placeholder="Введите название цвета"
                    name="name">
             <#if nameError??>

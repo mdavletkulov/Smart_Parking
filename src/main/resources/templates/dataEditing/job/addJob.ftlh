@@ -31,7 +31,7 @@
             <label for="namePosition">Название должности</label>
             <input type="text" class="form-control ${(namePositionError??)?string('is-invalid', '')} col-sm-4"
                    id="namePosition"
-                   value="<#if place??>${parking.description}</#if>"
+                   value="<#if jobPosition??>${jobPosition.namePosition}</#if>"
                    placeholder="Введите Название должности"
                    name="namePosition">
             <#if namePositionError??>
@@ -40,7 +40,6 @@
                 </div>
             </#if>
         </div>
-        <input type="hidden" name="division"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit" class="btn btn-primary mt-3">Создать</button>
     </form>

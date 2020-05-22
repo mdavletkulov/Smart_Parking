@@ -16,7 +16,7 @@
             <label for="description">Название парковки</label>
             <input type="text" class="form-control ${(descriptionError??)?string('is-invalid', '')} col-sm-4"
                    id="description"
-                   value="<#if place??>${parking.description}</#if>"
+                   value="<#if parking??>${parking.description}</#if>"
                    placeholder="Введите название парковки"
                    name="description">
             <#if descriptionError??>

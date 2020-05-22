@@ -53,8 +53,13 @@ public class PlaceEditController {
     }
 
     @PostMapping("place/edit/{placeId}")
-    public String editPlace(@PathVariable Long placeId, @Valid Place changedPlace, BindingResult bindingResult, Model model) {
-        boolean success = dataEditingService.updatePlace(placeId, changedPlace, bindingResult, model);;
+    public String editPlace(@PathVariable Long placeId, @Valid Place changedPlace, @RequestParam String placeNumber, BindingResult bindingResult, Model model) {
+        if (!placeNumber.matches("^[0-9]*$")) {
+            Optional<Place> place = dataEditingService.getPlace(placeId);
+            model.addAttribute("placeNumberError", "Номер парковочного места может содержать только цифры");
+            return editPlace(place.get(), model);
+        }
+        boolean success = dataEditingService.updatePlace(placeId, changedPlace, bindingResult, model);
         if (success) {
             Optional<Place> place = dataEditingService.getPlace(placeId);
             return editPlace(place.get(), model);

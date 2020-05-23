@@ -48,8 +48,11 @@ public class ParkingEditController {
     }
 
     @PostMapping("parking/add")
-    public String addParking(@Valid Parking parking, BindingResult bindingResult, Model model) {
-        if (dataEditingService.addParking(parking, bindingResult, model)) {
+    public String addParking(@Valid Parking parking,
+                             BindingResult bindingResult,
+                             Model model,
+                             @RequestParam("image") MultipartFile image) throws IOException {
+        if (dataEditingService.addParking(parking, bindingResult, model, image)) {
             return getParkingsEdit(model);
         } else return addParking(model);
     }

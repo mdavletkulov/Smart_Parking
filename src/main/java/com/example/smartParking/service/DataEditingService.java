@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -616,7 +617,7 @@ public class DataEditingService {
 
     }
 
-    public boolean addParking(Parking parking, BindingResult bindingResult, Model model) {
+    public boolean addParking(Parking parking, BindingResult bindingResult, Model model, MultipartFile file) throws IOException {
         Optional<Parking> parkingDB = parkingRepo.findByDescription(parking.getDescription());
 
         if (parkingDB.isPresent()) {
@@ -627,6 +628,32 @@ public class DataEditingService {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
+            return false;
+        }
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            String mimetype = file.getContentType();
+            String type = mimetype.split("/")[0];
+            if (!type.equals("image")) {
+                model.addAttribute("messageType", "danger");
+                model.addAttribute("message", "Загруженный файл не фото");
+                return false;
+            }
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/parking/" + resultFileName));
+            parking.setImageName(resultFileName);
+            parking.setDescription(parking.getDescription());
+            parkingRepo.save(parking);
+        } else {
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Фото не было загружено");
             return false;
         }
         parkingRepo.save(parking);
@@ -642,10 +669,17 @@ public class DataEditingService {
             Parking parking = parkingDB.get();
             if (ControllerUtils.hasError(model, bindingResult)) {
                 success = false;
-            } else {
-                if (file != null && !file.getOriginalFilename().isEmpty()) {
+            }
+            if (file != null && !file.getOriginalFilename().isEmpty()) {
+                String mimetype = file.getContentType();
+                String type = mimetype.split("/")[0];
+                if (!type.equals("image")) {
+                    model.addAttribute("messageType", "danger");
+                    model.addAttribute("message", "Загруженный файл не фото");
+                    success = false;
+                }
+                else {
                     File uploadDir = new File(uploadPath);
-
                     if (!uploadDir.exists()) {
                         uploadDir.mkdir();
                     }
@@ -657,10 +691,11 @@ public class DataEditingService {
                     parking.setImageName(resultFileName);
                     parking.setDescription(parkingChange.getDescription());
                     parkingRepo.save(parking);
-                } else {
-                    model.addAttribute("message", "Невозможно обновить фото");
-                    success = false;
                 }
+            } else {
+                model.addAttribute("messageType", "danger");
+                model.addAttribute("message", "Фото не может быть пустым");
+                success = false;
             }
         } else {
             model.addAttribute("message", "Такой парковки не существует");

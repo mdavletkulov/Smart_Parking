@@ -1,7 +1,7 @@
 <#import "../parts/common.ftlh" as c>
 <@c.page>
     <div>
-        <a href="/parking/${parkingEvent.getPlace().getParking()}"
+        <a href="/parking/${parkingEvent.getPlace().getParking().getId()}"
            class="btn btn-primary stretched-link">Назад</a>
     </div>
     <h4>${parkingName}</h4>
@@ -14,6 +14,7 @@
         </tr>
         </thead>
         <tbody>
+        <#if automobile??>
         <tr class="d-flex">
             <th scope="row">Номер автомобиля</th>
             <td>${automobile.getNumber()}</td>
@@ -22,6 +23,8 @@
             <th scope="row">Автомобиль</th>
             <td>${automobile.getInfo()}</td>
         </tr>
+        </#if>
+        <#if person??>
         <tr class="d-flex">
             <th scope="row">Владелец</th>
             <td>${person.getFullName()}</td>
@@ -60,7 +63,7 @@
                 <td>${person.getGroupName()}</td>
             </tr>
         </#if>
-
+        </#if>
 
 
         <tr class="d-flex">
@@ -75,6 +78,7 @@
                 <td content="\2612">&#x2716;</td>
             </#if>
         </tr>
+           <#if person??>
         <#if person.getPassNum()??>
             <tr class="d-flex">
                 <th scope="row">Пропуск номер:</th>
@@ -85,6 +89,7 @@
                 <th scope="row" class="bg-danger">Пропуск</th>
                 <td class="bg-danger">Пропуска нет или он просрочен!</td>
             </tr>
+        </#if>
         </#if>
         <tr class="d-flex">
             <#if violation>

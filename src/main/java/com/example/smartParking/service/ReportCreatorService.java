@@ -70,13 +70,12 @@ public class ReportCreatorService {
             }
 
             String fileName = "report" + UUID.randomUUID().toString() + ".docx";
-            String filePath = uploadDir +"\\"+  fileName;
+            String filePath = uploadDir + "\\" + fileName;
             FileOutputStream outputStream = new FileOutputStream(filePath);
             docxModel.write(outputStream);
             outputStream.close();
             Path file = Paths.get(uploadPath, fileName);
-            if (Files.exists(file))
-            {
+            if (Files.exists(file)) {
                 model.addAttribute("fileName", fileName);
                 return true;
             }
@@ -88,7 +87,8 @@ public class ReportCreatorService {
 
     private void generateReportText(ReportEntity reportEntity, XWPFRun paragraphConfig, XWPFParagraph bodyParagraph) {
         String parkingName = reportEntity.getParkingName();
-        String placeNum = reportEntity.getPlaceNum().toString();
+        String placeNum = null;
+        if (reportEntity.getPlaceNum() != null) placeNum = reportEntity.getPlaceNum().toString();
         String autoNum = reportEntity.getAutoNum();
         String personName = reportEntity.getPersonName();
         String startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(reportEntity.getStartTime());
@@ -99,13 +99,18 @@ public class ReportCreatorService {
         String group = reportEntity.getGroup();
         String course = reportEntity.getCourse();
         String autoModel = reportEntity.getAutoModel();
-        writeLine("Название парковки: ", parkingName, paragraphConfig, bodyParagraph);
-        writeLine("Номер места: ", placeNum, paragraphConfig, bodyParagraph);
-        writeLine("Номер автомобиля: ", autoNum, paragraphConfig, bodyParagraph);
-        writeLine("Марка автомобиля: ", autoModel, paragraphConfig, bodyParagraph);
+        if (parkingName != null && !parkingName.isBlank())
+            writeLine("Название парковки: ", parkingName, paragraphConfig, bodyParagraph);
+        if (placeNum != null && !placeNum.isBlank())
+            writeLine("Номер места: ", placeNum, paragraphConfig, bodyParagraph);
+        if (autoNum != null && !autoNum.isBlank())
+            writeLine("Номер автомобиля: ", autoNum, paragraphConfig, bodyParagraph);
+        if (autoModel != null && !autoModel.isBlank())
+            writeLine("Марка автомобиля: ", autoModel, paragraphConfig, bodyParagraph);
         writeLine("Время начала парковки: ", startTime, paragraphConfig, bodyParagraph);
         writeLine("Время окончания парковки: ", endTime, paragraphConfig, bodyParagraph);
-        writeLine("Владелец автомобиля: ", personName, paragraphConfig, bodyParagraph);
+        if (personName != null && !personName.isBlank())
+            writeLine("Владелец автомобиля: ", personName, paragraphConfig, bodyParagraph);
         appendIfNotNull("Институт: ", division, paragraphConfig, bodyParagraph);
         appendIfNotNull("Кафедра: ", subdivision, paragraphConfig, bodyParagraph);
         appendIfNotNull("Должность: ", jobPosition, paragraphConfig, bodyParagraph);

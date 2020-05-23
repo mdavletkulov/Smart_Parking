@@ -35,14 +35,18 @@ public class ParkingService {
 
     public Map<String, ?> getParkingEventAttributes(Model model, Place place) {
         Event event = eventRepo.findActivePlaceEvent(place.getId());
-        Automobile automobile = event.getAutomobile();
-        Person person = automobile.getPerson();
-        return new HashMap<String, Object>() {{
-            put("violation", event.isSpecialStatusViolation());
-            put("automobile", automobile);
-            put("person", person);
-            put("parkingEvent", event);
-        }};
+        Map<String, Object> attributes = new HashMap<>();
+        if (event.getAutomobile() != null) {
+            Automobile automobile = event.getAutomobile();
+            attributes.put("automobile", automobile);
+            if (event.getPerson() != null) {
+                Person person = event.getPerson();
+                attributes.put("person", person);
+            }
+        }
+        attributes.put("violation", event.getStatusViolation());
+        attributes.put("parkingEvent", event);
+        return attributes;
     }
 
     public List<Event> getActualEvents(Long parkingId) {

@@ -21,6 +21,9 @@ public class Event {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "automobile_id")
     private Automobile automobile;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id")
+    private Person person;
     @NotBlank(message = "Время начала парковки не может быть пустым")
     private Timestamp startTime;
     private Timestamp endTime;
@@ -78,7 +81,7 @@ public class Event {
     }
 
     public Boolean isSpecialStatusViolation() {
-        if (place != null) {
+        if (place != null && automobile != null && automobile.getPerson() != null ) {
             return place.isSpecialStatus() && !automobile.getPerson().isSpecialStatus();
         }
         else return null;
@@ -125,5 +128,19 @@ public class Event {
             this.passNumViolation = isPassViolation();
         }
         this.passNumViolation = passNumViolation;
+    }
+
+    public Person getPerson() {
+        if (automobile != null && automobile.getPerson() != null) {
+            return automobile.getPerson();
+        }
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        if (automobile != null && automobile.getPerson() != null) {
+            this.person = automobile.getPerson();
+        }
+        this.person = person;
     }
 }

@@ -46,6 +46,7 @@ create table parking_event
     place_id      bigint   ,
     status_violation       bit default null,
     pass_num_violation        bit default null,
+    person_id bigint default null,
     primary key (id)
 )
 
@@ -93,6 +94,9 @@ alter table automobile
 
 alter table parking_event
     add constraint eventAutomobile_FK foreign key (automobile_id) references automobile on delete set null
+
+alter table parking_event
+    add constraint eventPerson_FK foreign key (person_id) references person on delete set null
 
 alter table parking_event
     add constraint evenPlace_FK foreign key (place_id) references parking_place on delete set null

@@ -84,7 +84,7 @@ public class ParkingController {
         for (Event event : actualEvents) {
             updateParkings.stream().peek(updateParking -> {
                 if (updateParking.getPlaceId().equals(event.getPlace().getId())) {
-                    updateParking.setViolation(event.isPassViolation() || event.isSpecialStatusViolation());
+                    updateParking.setViolation(event.getPassNumViolation() || event.getStatusViolation());
                     updateParking.setActive(true);
                 }
             }).collect(Collectors.toList());

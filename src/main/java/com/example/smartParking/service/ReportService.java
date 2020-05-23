@@ -48,15 +48,23 @@ public class ReportService {
     public List<ReportEntity> createReportEntities(List<Event> events) {
         List<ReportEntity> reportEntities = new ArrayList<>();
         for (Event event : events) {
-            Person person = event.getAutomobile().getPerson();
+            Person person = new Person();
             ReportEntity reportEntity = new ReportEntity();
-            reportEntity.setParkingName(event.getPlace().getParking().getDescription());
-            reportEntity.setPlaceNum(event.getPlace().getPlaceNumber());
-            reportEntity.setAutoNum(event.getAutomobile().getNumber());
-            reportEntity.setPersonName(person.getFullName());
+            if (event.getAutomobile() != null) {
+                reportEntity.setAutoNum(event.getAutomobile().getNumber());
+                reportEntity.setAutoModel(event.getAutomobile().getModel());
+            }
+            if (event.getPerson() != null) {
+                person = event.getPerson();
+                reportEntity.setPersonName(person.getFullName());
+            }
+            if (event.getPlace() != null) {
+                reportEntity.setParkingName(event.getPlace().getParking().getDescription());
+                reportEntity.setPlaceNum(event.getPlace().getPlaceNumber());
+            }
             reportEntity.setStartTime(event.getStartTime());
             reportEntity.setEndTime(event.getEndTime());
-            reportEntity.setAutoModel(event.getAutomobile().getModel());
+
             if (person.getCourse() != null) reportEntity.setCourse(person.getCourse().toString());
             if (person.getCourse() != null) reportEntity.setGroup(person.getGroupName());
             if (person.getSubdivision() != null) {
@@ -64,8 +72,8 @@ public class ReportService {
                 reportEntity.setSubdivision(person.getSubdivision().getName());
             }
             if (person.getJobPosition() != null) reportEntity.setJobPosition(person.getJobPosition().getNamePosition());
-            if (event.isPassViolation()) reportEntity.setPassViolation("Пропуск просрочен или не существует!");
-            if (event.isSpecialStatusViolation())
+            if (event.getPassNumViolation()) reportEntity.setPassViolation("Пропуск просрочен или не существует!");
+            if (event.getStatusViolation())
                 reportEntity.setStatusViolation("Нарушение правил парковки на место для людей со специальным статусом!");
             reportEntities.add(reportEntity);
         }

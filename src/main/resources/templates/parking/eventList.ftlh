@@ -24,7 +24,7 @@
             <tr>
                 <th class="align-middle" scope="row"><#if event.getPlace()??>${event.getPlace().getParking().getDescription()}</#if></th>
                 <td class="align-middle" scope="row"><#if event.getPlace()??>${event.getPlace().getPlaceNumber()}</#if></td>
-                <td class="align-middle" scope="row"><#if event.getAutomobile()?? && event.getAutomobile().getPerson()??>${event.getAutomobile().getPerson().getFullName()}</#if></td>
+                <td class="align-middle" scope="row"><#if event.getPerson()??>${event.getPerson().getFullName()}</#if></td>
                 <td class="align-middle" scope="row"><#if event.getAutomobile()??>${event.getAutomobile().getModel()}</#if></td>
                 <td class="align-middle" scope="row"><#if event.getAutomobile()??>${event.getAutomobile().getNumber()}</#if></td>
                 <td class="align-middle" scope="row">${event.getStartDateString()}</td>

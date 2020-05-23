@@ -41,7 +41,7 @@
             <label for="firstName">Имя</label>
             <input type="text" class="form-control ${(firstNameError??)?string('is-invalid', '')} col-sm-4"
                    id="firstName"
-                   value="<#if user??>${user.firstName}</#if>"
+                   value="<#if userTemp??>${userTemp.firstName}</#if>"
                    placeholder="Введите имя пользователя"
                    name="firstName">
             <#if firstNameError??>
@@ -54,7 +54,7 @@
             <label for="secondName">Фамилия</label>
             <input type="text" class="form-control ${(secondNameError??)?string('is-invalid', '')} col-sm-4"
                    id="secondName"
-                   value="<#if user??>${user.secondName}</#if>"
+                   value="<#if userTemp??>${userTemp.secondName}</#if>"
                    placeholder="Введите фамилию"
                    name="secondName">
             <#if secondNameError??>
@@ -67,7 +67,7 @@
             <label for="middleName">Отчество</label>
             <input type="text" class="form-control ${(middleNameError??)?string('is-invalid', '')} col-sm-4"
                    id="middleName"
-                   value="<#if user??>${user.middleName}</#if>"
+                   value="<#if userTemp??>${userTemp.middleName}</#if>"
                    placeholder="Введите отчество"
                    name="middleName">
             <#if middleNameError??>
@@ -79,7 +79,7 @@
         <div class="form-group">
             <label for="username">E-mail:</label>
             <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')} col-sm-4" id="username"
-                   value="<#if user??>${user.username}</#if>"
+                   value="<#if userTemp??>${userTemp.username}</#if>"
                    placeholder="Введите e-mail"
                    name="username">
             <#if usernameError??>

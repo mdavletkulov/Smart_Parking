@@ -3,7 +3,9 @@ package com.example.smartParking.service;
 import com.example.smartParking.Utils.ControllerUtils;
 import com.example.smartParking.model.domain.Role;
 import com.example.smartParking.model.domain.User;
+import com.example.smartParking.model.domain.UserTemp;
 import com.example.smartParking.repos.UserRepo;
+import com.example.smartParking.repos.UserTempRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,9 @@ public class UserService implements UserDetailsService {
     private UserRepo userRepo;
 
     @Autowired
+    private UserTempRepo userTempRepo;
+
+    @Autowired
     private MailSender mailSender;
 
     @Autowired
@@ -41,7 +46,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void addUser(User user, Model model) {
+    public void addUser(UserTemp user, Model model) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
@@ -53,7 +58,7 @@ public class UserService implements UserDetailsService {
         String password = user.getPassword();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        userRepo.save(user);
+        userTempRepo.save(user);
 
         boolean sended = sendMessage(user, password);
 
@@ -86,15 +91,41 @@ public class UserService implements UserDetailsService {
         } else return false;
     }
 
+    private boolean sendMessage(UserTemp user, String password) {
+        if (!user.getUsername().isEmpty()) {
+            String message = String.format(
+                    "Здравствуйте, %s! \n" +
+                            "Добро пожаловать в систему Умная парковка. Ваш пароль: %s. Пожалуйста, пройдите по ссылке для окончания регистрации" +
+                            ":http://localhost:8080/activate/%s",
+                    user.getFullName(),
+                    password,
+                    user.getActivationCode()
+            );
+            try {
+                mailSender.send(user.getUsername(), "Activation code", message);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        } else return false;
+    }
+
     public boolean activateUser(String code) {
-        User user = userRepo.findByActivationCode(code);
-        if (user == null) {
+        UserTemp userTemp = userTempRepo.findByActivationCode(code);
+        if (userTemp == null) {
             return false;
         }
-
-        user.setActivationCode(null);
+        User user = new User();
+        user.setUsername(userTemp.getUsername());
+        user.setFirstName(userTemp.getFirstName());
+        user.setSecondName(userTemp.getSecondName());
+        user.setMiddleName(userTemp.getMiddleName());
+        user.setPassword(userTemp.getPassword());
         user.setEnabled(true);
+        user.setActivationCode(null);
+        user.setRole(userTemp.getRole());
         userRepo.save(user);
+        userTempRepo.delete(userTemp);
 
         return true;
     }

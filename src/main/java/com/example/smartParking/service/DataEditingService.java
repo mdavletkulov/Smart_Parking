@@ -4,22 +4,27 @@ import com.example.smartParking.Utils.ControllerUtils;
 import com.example.smartParking.model.domain.*;
 import com.example.smartParking.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class DataEditingService {
+
+    @Value("${upload.img.path}")
+    private String uploadPath;
 
     @Autowired
     AutomobileRepo automobileRepo;
@@ -630,7 +635,7 @@ public class DataEditingService {
         return true;
     }
 
-    public boolean updateParking(Long parkingId, Parking parkingChange, BindingResult bindingResult, Model model) {
+    public boolean updateParking(Long parkingId, Parking parkingChange, BindingResult bindingResult, Model model, MultipartFile file) throws IOException {
         Optional<Parking> parkingDB = parkingRepo.findById(parkingId);
         boolean success = true;
         if (parkingDB.isPresent()) {
@@ -638,11 +643,27 @@ public class DataEditingService {
             if (ControllerUtils.hasError(model, bindingResult)) {
                 success = false;
             } else {
-                parking.setDescription(parkingChange.getDescription());
-                parkingRepo.save(parking);
+                if (file != null && !file.getOriginalFilename().isEmpty()) {
+                    File uploadDir = new File(uploadPath);
+
+                    if (!uploadDir.exists()) {
+                        uploadDir.mkdir();
+                    }
+
+                    String uuidFile = UUID.randomUUID().toString();
+                    String resultFileName = uuidFile + "." + file.getOriginalFilename();
+
+                    file.transferTo(new File(uploadPath + "/parking/" + resultFileName));
+                    parking.setImageName(resultFileName);
+                    parking.setDescription(parkingChange.getDescription());
+                    parkingRepo.save(parking);
+                } else {
+                    model.addAttribute("message", "Невозможно обновить фото");
+                    success = false;
+                }
             }
         } else {
-            model.addAttribute("message", "Такого института не существует");
+            model.addAttribute("message", "Такой парковки не существует");
             success = false;
         }
         if (success) {

@@ -27,5 +27,5 @@ values (N'Заведующий кафедрой', N'ППС'),
        (N'Первый проректор', N'АУП'),
        (N'Ректор', N'АУП');
 
-insert into parking(description)
-values (N'Парковка у первого корпуса');
+insert into parking(description, image_name)
+values (N'Парковка у первого корпуса', 'first_Parking.jpg');

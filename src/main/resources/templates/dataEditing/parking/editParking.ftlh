@@ -12,10 +12,10 @@
            class="btn btn-primary stretched-link my-3">Назад</a>
     </div>
     <h5>Парковка</h5>
-    <form action="/dataEdit/parking/edit/${parking.getId()}" method="post" class="mt-2">
-        <div class="form-group">
+    <form action="/dataEdit/parking/edit/${parking.getId()}" method="post" class="mt-2" enctype="multipart/form-data">
+        <div class="form-group col-sm-4">
             <label for="description">Название парковки</label>
-            <input type="text" class="form-control ${(descriptionError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(descriptionError??)?string('is-invalid', '')} "
                    id="description"
                    value="${parking.description}"
                    placeholder="Введите название парковки"
@@ -26,7 +26,14 @@
                 </div>
             </#if>
         </div>
+        <div class="form-group col-sm-4">
+            <label for="file">Выберите фото парковки</label>
+            <input name="image" type="file" class="filestyle">
+        </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit" class="btn btn-primary mt-3">Обновить</button>
     </form>
+    <script>
+        $(".filestyle").filestyle({text: "Выберите фото"});
+    </script>
 </@c.page>

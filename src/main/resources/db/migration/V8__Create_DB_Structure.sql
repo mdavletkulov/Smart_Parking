@@ -34,6 +34,7 @@ create table parking
 (
     id           bigint identity not null,
     description  varchar(150),
+    image_name varchar(255),
     primary key (id)
 )
 

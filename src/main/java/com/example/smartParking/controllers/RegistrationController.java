@@ -3,6 +3,7 @@ package com.example.smartParking.controllers;
 import com.example.smartParking.Utils.ControllerUtils;
 import com.example.smartParking.model.domain.Role;
 import com.example.smartParking.model.domain.User;
+import com.example.smartParking.model.domain.UserTemp;
 import com.example.smartParking.model.domain.dto.CaptchaResponseDto;
 import com.example.smartParking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class RegistrationController {
     @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     @PostMapping("/registration")
     public String addUser(@RequestParam("g-recaptcha-response") String captchaResponse,
-                          @Valid User user,
+                          @Valid UserTemp user,
                           BindingResult bindingResult,
                           Model model) {
         model.addAttribute("roles", Role.values());
@@ -104,10 +105,10 @@ public class RegistrationController {
         boolean isActivated = userService.activateUser(code);
         if (isActivated) {
             model.addAttribute("messageType", "success");
-            model.addAttribute("message", "User successfully activated");
+            model.addAttribute("message", "Пользователь успешно активирован");
         } else {
             model.addAttribute("messageType", "danger");
-            model.addAttribute("message", "Activation code in not found");
+            model.addAttribute("message", "Каод активации не найден");
         }
 
         return "login";

@@ -34,7 +34,9 @@
         <script type="text/javascript"
                 src="https://cdn.datatables.net/plug-ins/1.10.21/sorting/date-eu.js"></script>
         <script type="text/javascript"
-                src="//cdn.datatables.net/plug-ins/1.10.21/sorting/date-de.js"></script>
+                src="https://cdn.datatables.net/plug-ins/1.10.21/sorting/date-de.js"></script>
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/2.1.0/bootstrap-filestyle.min.js"></script>
 
 
         <script src='https://www.google.com/recaptcha/api.js'></script>

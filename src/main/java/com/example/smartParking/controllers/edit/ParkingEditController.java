@@ -11,12 +11,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,13 +61,17 @@ public class ParkingEditController {
     }
 
     @PostMapping("parking/edit/{parkingId}")
-    public String editParking(@PathVariable Long parkingId, @Valid Parking changedParking, BindingResult bindingResult, Model model) {
+    public String editParking(@PathVariable Long parkingId,
+                              @Valid Parking changedParking,
+                              BindingResult bindingResult,
+                              Model model,
+                              @RequestParam("image") MultipartFile image) throws IOException {
         Optional<Parking> parking = dataEditingService.getParking(parkingId);
         if (parking.isEmpty()) {
             model.addAttribute("message", "Такого института не существует");
             return getParkingsEdit(model);
         }
-        boolean success = dataEditingService.updateParking(parkingId, changedParking, bindingResult, model);;
+        boolean success = dataEditingService.updateParking(parkingId, changedParking, bindingResult, model, image);
         if (success) {
             return getParkingsEdit(model);
         }

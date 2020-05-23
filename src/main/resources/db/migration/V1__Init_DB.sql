@@ -24,5 +24,19 @@ create table usr
     primary key (id)
 )
 
+create table usr_temp
+(
+    id              bigint identity not null,
+    activation_code varchar(255),
+    enabled         bit    not null,
+    first_name      varchar(255) not null ,
+    middle_name     varchar(255),
+    password        varchar(255) not null ,
+    role            varchar(255) not null ,
+    second_name     varchar(255) not null,
+    username        varchar(255) not null,
+    primary key (id)
+)
+
 alter table message
     add constraint user_message_fk foreign key (user_id) references usr

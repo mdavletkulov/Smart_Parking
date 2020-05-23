@@ -16,6 +16,8 @@ public class Parking {
     @Length(max = 150, message = "Описание парковки слишком велико")
     private String description;
 
+    private String imageName;
+
     public Long getId() {
         return Id;
     }
@@ -30,5 +32,13 @@ public class Parking {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }

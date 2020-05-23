@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
+@PreAuthorize("hasAnyAuthority('ADMIN')")
 @RequestMapping("/dataEdit")
 public class DataEditingController {
 

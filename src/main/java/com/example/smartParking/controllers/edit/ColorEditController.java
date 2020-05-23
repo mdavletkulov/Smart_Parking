@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
+@PreAuthorize("hasAnyAuthority('ADMIN')")
 @RequestMapping("/dataEdit")
 public class ColorEditController {
 

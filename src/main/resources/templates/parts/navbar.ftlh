@@ -33,7 +33,7 @@
                 <a class="nav-link" href="/user">Список пользователей</a>
             </li>
             </#if>
-            <#if isAdmin || isManager>
+            <#if isAdmin>
                 <li class="nav-item">
                     <a class="nav-link" href="/dataEdit">Редактирование данных</a>
                 </li>

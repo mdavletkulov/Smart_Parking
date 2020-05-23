@@ -135,7 +135,7 @@
             <label for="passNum">Номер пропуска</label>
             <input type="text" class="form-control ${(passError??)?string('is-invalid', '')} col-sm-4"
                    id="passNum"
-                   value="<#if person?? && person.getPassNum()??>${person.passNum}</#if>"
+                   value="<#if person?? && person.getPassNum()??>${person.getPassNumString()}</#if>"
                    placeholder="Введите номер пропуска водителя"
                    name="passNum">
             <#if passError??>

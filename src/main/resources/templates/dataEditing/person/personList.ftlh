@@ -44,8 +44,8 @@
                 <td class="align-middle"><#if person.getSubdivision()??>${person.getSubdivision().getName()}<#else>&#x2716;</#if></td>
                 <td class="align-middle"><#if person.getGroupName()??>${person.getGroupName()}<#else>&#x2716;</#if></td>
                 <td class="align-middle"><#if person.getCourse()??>${person.getCourse()}<#else>&#x2716;</#if></td>
-                <td class="align-middle"><#if person.getPassNum()??>${person.getPassNum()}<#else>&#x2716;</#if></td>
-                <td class="align-middle"><#if person.getPassEndDate()??>${person.getPassEndDate()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.getPassNum()??>${person.getPassNumString()}<#else>&#x2716;</#if></td>
+                <td class="align-middle"><#if person.getPassEndDate()??>${person.getStringPassEndDate()}<#else>&#x2716;</#if></td>
                 <td class="align-middle"><#if person.isSpecialStatus()>&#9745; <#else>&#x2716;</#if></td>
                 <td class="align-middle">
                     <button id="${person.getId()}" type="button" class="btn btn-primary askDelete" data-toggle="modal">
@@ -86,6 +86,54 @@
             var personId;
             jQuery(document).ready(function ($) {
 
+                jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                    "date-eu-pre": function ( date ) {
+                        date = date.replace(" ", "");
+                        console.log(date);
+
+                        if (date == '✖') {
+                            return 0;
+                        }
+
+                        if ( ! date ) {
+                            return 0;
+                        }
+
+                        var year;
+                        var eu_date = date.split(/[\.\-\/]/);
+
+                        /*year (optional)*/
+                        if ( eu_date[2] ) {
+                            year = eu_date[2];
+                        }
+                        else {
+                            year = 0;
+                        }
+
+                        /*month*/
+                        var month = eu_date[1];
+                        if ( month.length == 1 ) {
+                            month = 0+month;
+                        }
+
+                        /*day*/
+                        var day = eu_date[0];
+                        if ( day.length == 1 ) {
+                            day = 0+day;
+                        }
+
+                        return (year + month + day) * 1;
+                    },
+
+                    "date-eu-asc": function ( a, b ) {
+                        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                    },
+
+                    "date-eu-desc": function ( a, b ) {
+                        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                    }
+                } );
+
                 $('#persons').DataTable({
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Все"]],
                     columnDefs: [
@@ -97,7 +145,7 @@
                         {width: '10%', targets: 5},
                         {width: '5%', targets: 6},
                         {width: '5%', targets: 7},
-                        {width: '15%', targets: 8},
+                        {width: '15%', type: 'date-eu', targets: 8},
                         {width: '10%', targets: 9},
                         {width: '5%', "orderable": false, targets: 10},
                         {width: '10%', "orderable": false, targets: 11},

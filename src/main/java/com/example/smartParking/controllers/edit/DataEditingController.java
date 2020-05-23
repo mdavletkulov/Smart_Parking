@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/dataEdit")
 public class DataEditingController {
 
-    @Autowired
-    DataEditingService dataEditingService;
-
     @GetMapping
     public String getMainPage() {
         return "dataEditing/chooseData";

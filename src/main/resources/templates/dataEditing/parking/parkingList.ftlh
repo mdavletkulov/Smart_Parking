@@ -11,13 +11,9 @@
         <a href="/dataEdit"
            class="btn btn-primary stretched-link my-3">Назад</a>
     </div>
-    <script type="text/javascript" src="/static/js/tableSearch.js"></script>
     <div><h5 class="mb-3">Парковки</h5>
     </div>
 
-    <div class="form-group" style="margin-bottom: 5%">
-        <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
-    </div>
     <table class="table table-striped text-center table-hover col-5" id="parkings" style="width: 50%">
         <thead class="thead-dark">
         <tr>

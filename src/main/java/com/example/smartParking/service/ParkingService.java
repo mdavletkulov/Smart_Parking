@@ -49,5 +49,7 @@ public class ParkingService {
         return eventRepo.findActiveParkingEvent(parkingId);
     }
 
+    public Iterable<Event> getAllEvents() {return eventRepo.findAll();}
+
 
 }

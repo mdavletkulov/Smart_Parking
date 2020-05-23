@@ -89,7 +89,7 @@
                         <tbody>
                         <#list persons as person>
                             <#assign hasAuto = 0>
-                            <tr>
+                            <tr id="${person.getId()}" <#if automobile?? && automobile.getPerson() == person> class="table-success" </#if>>
                                 <th class="align-middle" scope="row">${person.getFullName()}</th>
                                 <td class="align-middle"><#if person.isStudent()>Студент</#if> <#if person.isEmployee()>Сотрудник</#if></td>
                                 <td class="align-middle"><#if person.getJobPosition()??>${person.getJobPosition().getTypeJobPosition()}<#else>&#x2716;</#if></td>
@@ -119,6 +119,8 @@
 
     <script>
         var personId;
+        var rows = $('table#persons').find('> tbody > tr');
+
         jQuery(document).ready(function ($) {
             $('#persons').DataTable({
                 "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Все"]],
@@ -129,8 +131,10 @@
 
             $('button.choose').click(function () {
                 jQuery.noConflict();
+                rows.removeClass('table-success');
                 personId = $(this).attr('id');
                 personName = $(this).attr('data-at');
+                $("tr#"+personId).addClass("table-success");
                 $('input#person').val(personId);
                 $('input#person1').val(personName);
             });

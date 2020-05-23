@@ -32,6 +32,12 @@ public class ParkingController {
     @Autowired
     DataEditingService dataEditingService;
 
+    @GetMapping("events")
+    public String getAllEvents(Model model) {
+        model.addAttribute("events", parkingService.getAllEvents());
+        return "parking/eventList";
+    }
+
     @GetMapping
     public String getAllParking(Model model) {
         ArrayList<Parking> parkings = Lists.newArrayList(parkingService.findAllParking());
@@ -64,7 +70,8 @@ public class ParkingController {
     }
 
     @GetMapping(value = "updateStatus/{parkingId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<UpdateParking> updateStatus(@PathVariable Long parkingId) {
+    public @ResponseBody
+    List<UpdateParking> updateStatus(@PathVariable Long parkingId) {
         List<Event> actualEvents = parkingService.getActualEvents(parkingId);
         List<Place> parkingPlaces = parkingService.findPlaceByParkingId(parkingId);
         List<UpdateParking> updateParkings = new ArrayList<>();
@@ -76,10 +83,10 @@ public class ParkingController {
         }
         for (Event event : actualEvents) {
             updateParkings.stream().peek(updateParking -> {
-               if (updateParking.getPlaceId().equals(event.getPlace().getId())) {
-                   updateParking.setViolation(event.isPassViolation() || event.isSpecialStatusViolation());
-                   updateParking.setActive(true);
-               }
+                if (updateParking.getPlaceId().equals(event.getPlace().getId())) {
+                    updateParking.setViolation(event.isPassViolation() || event.isSpecialStatusViolation());
+                    updateParking.setActive(true);
+                }
             }).collect(Collectors.toList());
 
         }

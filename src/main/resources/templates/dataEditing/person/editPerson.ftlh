@@ -55,10 +55,12 @@
         <div>
             <div class="btn-group btn-group-toggle form-group" data-toggle="buttons">
                 <label class="btn btn-secondary student <#if person.isStudent()> focus active </#if>">
-                    <input <#if person.isStudent()> checked="checked"</#if> type="radio" name="student" id="student"> Студент
+                    <input <#if person.isStudent()> checked="checked"</#if> type="radio" name="student" id="student">
+                    Студент
                 </label>
                 <label class="btn btn-secondary employee <#if person.isEmployee()> focus active </#if>">
-                    <input <#if person.isEmployee()> checked="checked"</#if> type="radio" name="employee" id="employee"> Сотрудник
+                    <input <#if person.isEmployee()> checked="checked"</#if> type="radio" name="employee" id="employee">
+                    Сотрудник
                 </label>
             </div>
             <#if statusError??>
@@ -96,11 +98,14 @@
             </#if>
         </div>
         <div class="form-group jobPosition">
-            <label class="jobPosition" for="jobPosition" <#if !person.isEmployee()>hidden="hidden"</#if>>Должность</label>
-            <select class="form-control jobPosition col-4" name="jobPosition" <#if !person.isEmployee()>hidden="hidden"</#if>>
+            <label class="jobPosition" for="jobPosition"
+                   <#if !person.isEmployee()>hidden="hidden"</#if>>Должность</label>
+            <select class="form-control jobPosition col-4" name="jobPosition"
+                    <#if !person.isEmployee()>hidden="hidden"</#if>>
                 <option value=""/>
                 <#list jobPositions as jobPosition>
-                    <option <#if person.getJobPosition() == jobPosition> selected="selected"</#if> value="${jobPosition.getId()}">${jobPosition.getNamePosition()}</option>
+                    <option <#if person.getJobPosition()?? && person.getJobPosition() == jobPosition> selected="selected"</#if>
+                            value="${jobPosition.getId()}">${jobPosition.getNamePosition()}</option>
                 </#list>
             </select>
             </label>
@@ -115,7 +120,8 @@
             <select class="form-control division col-4" name="division">
                 <option selected="selected" value=""/>
                 <#list divisions as division>
-                    <option <#if person.getDivision() == division> selected="selected"</#if> value="${division.getId()}" >${division.getName()}</option>
+                    <option <#if person.getDivision()?? && person.getDivision() == division> selected="selected"</#if>
+                            value="${division.getId()}">${division.getName()}</option>
                 </#list>
             </select>
             <#if divisionErr??>
@@ -126,21 +132,27 @@
         </div>
 
         <div class="form-group subdivision">
-            <label class="subdivision" for="subdivision" hidden="hidden">Кафедра</label>
-            <select class="form-control subdivision col-4" name="subdivision" hidden="hidden">
+            <label class="subdivision" for="subdivision"
+                   <#if !person.getSubdivision()??>hidden="hidden"</#if> >Кафедра</label>
+            <select class="form-control subdivision col-4" name="subdivision"
+                    <#if !person.getSubdivision()??>hidden="hidden"</#if>>
                 <option selected="selected" value=""></option>
+                <#if subdivisions??>
                 <#list subdivisions as subdivision>
-                    <option <#if person.getSubdivision() == subdivision> selected="selected"</#if> value="${subdivision.getId()}" >${subdivision.getName()}</option>
+                    <option <#if person.getSubdivision()?? && person.getSubdivision() == subdivision> selected="selected"</#if>
+                            value="${subdivision.getId()}">${subdivision.getName()}</option>
                 </#list>
+                </#if>
             </select>
         </div>
         <div class="form-group">
             <label for="passNum">Номер пропуска</label>
             <input type="text" class="form-control ${(passError??)?string('is-invalid', '')} col-sm-4"
                    id="passNum"
-                   value="<#if person.getPassNum()??>${person.passNum}</#if>"
+                   value="<#if person.getPassNum()??>${person.getPassNumString()}</#if>"
                    placeholder="Введите номер пропуска водителя"
-                   name="passNum">
+                   name="passNum"
+                   onblur="this.value=removeSpaces(this.value);">
             <#if passError??>
                 <div class="invalid-feedback">
                     ${passError}
@@ -154,7 +166,7 @@
                 <input type="text" id="passEndDate" name="passEndDate"
                        class="form-control col-4 datetimepicker-input ${(passDateError??)?string('is-invalid', '')}"
                        data-target="#datetimepicker2" placeholder="Введите дату истечения пропуска"
-                       value="<#if person.getPassEndDate()??>${person.passEndDate}</#if> "/>
+                       value="<#if person.getPassEndDate()??>${person.getStringPassEndDate()}</#if> "/>
                 <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                 </div>
@@ -197,6 +209,10 @@
         var error = "${(passDateError??)?string('yes', 'no')}";
 
         $(document).ready(function () {
+
+            function removeSpaces(string) {
+                return string.split(' ').join('');
+            }
 
             $("label.student").click(function () {
                 jobSelect.empty();

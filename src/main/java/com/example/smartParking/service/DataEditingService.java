@@ -179,14 +179,22 @@ public class DataEditingService {
         return correct;
     }
 
-    public boolean updatePerson(Long personId, Person personChange, BindingResult bindingResult, Model model) {
+    public boolean updatePerson(Long personId, Person personChange, BindingResult bindingResult, Model model, boolean success) {
         Optional<Person> personDB = personRepo.findById(personId);
-        boolean success = true;
         if (personDB.isPresent()) {
             Person person = personDB.get();
-            if (ControllerUtils.hasError(model, bindingResult)) {
-                success = false;
-            } else {
+            if (bindingResult.hasErrors()) {
+                Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+                if ((errors.size() == 1 && errors.containsKey("subdivisionError")) ||
+                        (errors.size() == 1 && errors.containsKey("passEndDateError"))
+                        || (errors.size() == 2 && errors.containsKey("passEndDateError") && errors.containsKey("subdivisionError"))) {
+                } else {
+                    success = false;
+                    model.mergeAttributes(errors);
+                    return false;
+                }
+            }
+            if (success) {
                 person.setFirstName(personChange.getFirstName());
                 person.setSecondName(personChange.getSecondName());
                 person.setMiddleName(personChange.getMiddleName());

@@ -52,18 +52,27 @@ public class PersonEditController {
     @GetMapping("person/edit/{person}")
     public String editPerson(@PathVariable Person person, Model model) {
         model.addAttribute("person", person);
-        model.addAttribute("subdivisions", dataEditingService.getSubdivisionsByDivision(person.getDivision().getName()));
+        if (person.getDivision() != null) {
+            model.addAttribute("subdivisions", dataEditingService.getSubdivisionsByDivision(person.getDivision().getName()));
+        }
+        model.addAttribute("jobPositions", dataEditingService.getAllJobs());
+        model.addAttribute("divisions", dataEditingService.getAllDivisions());
         return "dataEditing/person/editPerson";
     }
 
     @PostMapping("person/edit/{personId}")
-    public String editPerson(@PathVariable Long personId, @Valid Person changedPerson, BindingResult bindingResult, Model model) {
+    public String editPerson(@PathVariable Long personId, @Valid Person changedPerson, BindingResult bindingResult,
+                             @RequestParam String passEndDate,
+                             @RequestParam String passNum,
+                             @RequestParam String subdivision,
+                             Model model) {
         Optional<Person> person = dataEditingService.getPerson(personId);
         if (person.isEmpty()) {
             model.addAttribute("message", "Такого водителя не существует");
             return getPersonsEdit(model);
         }
-        boolean success = dataEditingService.updatePerson(personId, changedPerson, bindingResult, model);;
+        boolean correct = dataEditingService.validatePersonFields(changedPerson, passEndDate, passNum, subdivision, model);
+        boolean success = dataEditingService.updatePerson(personId, changedPerson, bindingResult, model, correct);;
         if (success) {
             return getPersonsEdit(model);
         }

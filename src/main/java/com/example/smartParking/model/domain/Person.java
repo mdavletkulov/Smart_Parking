@@ -6,6 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -135,6 +140,11 @@ public class Person {
         return passNum;
     }
 
+    public String getPassNumString() {
+        if (passNum != null) return getPassNum().toString();
+        else return null;
+    }
+
     public void setPassNum(Integer passNum) {
         this.passNum = passNum;
     }
@@ -166,5 +176,11 @@ public class Person {
 
     public void setDivision(Division division) {
         this.division = division;
+    }
+
+    public String getStringPassEndDate() {
+        Date date = passEndDate;
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(date);
     }
 }

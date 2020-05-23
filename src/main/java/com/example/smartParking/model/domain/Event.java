@@ -2,7 +2,10 @@ package com.example.smartParking.model.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -21,6 +24,10 @@ public class Event {
     @NotBlank(message = "Время начала парковки не может быть пустым")
     private Timestamp startTime;
     private Timestamp endTime;
+    @NotNull
+    private Boolean statusViolation;
+    @NotNull
+    private Boolean passNumViolation;
 
     public Long getId() {
         return Id;
@@ -62,12 +69,61 @@ public class Event {
         this.endTime = endTime;
     }
 
-    public boolean isPassViolation() {
-        return automobile.getPerson().getPassNum() == null
-                || automobile.getPerson().getPassEndDate().getTime() < getStartTime().getTime();
+    public Boolean isPassViolation() {
+        if (automobile != null) {
+            return automobile.getPerson().getPassNum() == null
+                    || automobile.getPerson().getPassEndDate().getTime() < getStartTime().getTime();
+        }
+        else return null;
     }
 
-    public boolean isSpecialStatusViolation() {
-        return place.isSpecialStatus() && !automobile.getPerson().isSpecialStatus();
+    public Boolean isSpecialStatusViolation() {
+        if (place != null) {
+            return place.isSpecialStatus() && !automobile.getPerson().isSpecialStatus();
+        }
+        else return null;
+    }
+
+    private String getDateString(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.YYYY HH:mm");
+        return dateFormat.format(date);
+    }
+
+    public String getStartDateString() {
+        return getDateString(startTime);
+    }
+
+    public String getEndDateString() {
+        if (endTime != null)
+            return getDateString(endTime);
+        else return null;
+    }
+
+    public void setStatusViolation(Boolean statusViolation) {
+        if (isSpecialStatusViolation() != null) {
+            this.statusViolation = isSpecialStatusViolation();
+        }
+        this.statusViolation = statusViolation;
+    }
+
+    public Boolean getStatusViolation() {
+        if (isSpecialStatusViolation() != null) {
+            return isSpecialStatusViolation();
+        }
+        return statusViolation;
+    }
+
+    public Boolean getPassNumViolation() {
+        if (isPassViolation() != null) {
+            return isPassViolation();
+        }
+        return passNumViolation;
+    }
+
+    public void setPassNumViolation(Boolean passNumViolation) {
+        if (isPassViolation() != null) {
+            this.passNumViolation = isPassViolation();
+        }
+        this.passNumViolation = passNumViolation;
     }
 }

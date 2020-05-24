@@ -9,25 +9,27 @@
     </#if>
     <h5>Добавление парковочного события</h5>
     <form action="/parking/addEvent" method="post" class="mt-2" enctype="multipart/form-data">
-        <div class="form-group  parking">
+        <div>
+        <div class="form-group col-sm-4 parking">
             <label class="parkings" for="parking">Парковки</label>
-            <select class="form-control parkings col-4" name="parking">
+            <select class="form-control parkings" name="parking">
                 <#list parkings as parking>
                     <option id="${parking.getId()}" value="${parking.getId()}">${parking.getDescription()}</option>
                 </#list>
             </select>
+        </div>
             <#if parkingError??>
-                <div class="invalid-feedback">
+                <div class="invalid-feedback" style="display: block">
                     ${parkingError}
                 </div>
             </#if>
         </div>
-        <div class="form-group place">
+        <div class="form-group place col-sm-4">
             <label class="place" for="place">Парковочное место</label>
-            <select class="form-control place col-4" name="place">
+            <select class="form-control place" name="place">
             </select>
             <#if placeError??>
-                <div class="invalid-feedback">
+                <div class="invalid-feedback" style="display: block">
                     ${placeError}
                 </div>
             </#if>
@@ -48,6 +50,7 @@
         $(".filestyle").filestyle({text: "Выберите фото"});
 
         $(document).ready(function () {
+
 
             getDefaultPlaces();
 

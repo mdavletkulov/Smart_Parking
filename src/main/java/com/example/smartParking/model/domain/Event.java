@@ -24,7 +24,7 @@ public class Event {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     private Person person;
-    @NotBlank(message = "Время начала парковки не может быть пустым")
+    @NotNull(message = "Время начала парковки не может быть пустым")
     private Timestamp startTime;
     private Timestamp endTime;
     @NotNull
@@ -76,15 +76,13 @@ public class Event {
         if (automobile != null) {
             return automobile.getPerson().getPassNum() == null
                     || automobile.getPerson().getPassEndDate().getTime() < getStartTime().getTime();
-        }
-        else return null;
+        } else return null;
     }
 
     public Boolean isSpecialStatusViolation() {
-        if (place != null && automobile != null && automobile.getPerson() != null ) {
+        if (place != null && automobile != null && automobile.getPerson() != null) {
             return place.isSpecialStatus() && !automobile.getPerson().isSpecialStatus();
-        }
-        else return null;
+        } else return null;
     }
 
     private String getDateString(Date date) {
@@ -105,8 +103,9 @@ public class Event {
     public void setStatusViolation(Boolean statusViolation) {
         if (isSpecialStatusViolation() != null) {
             this.statusViolation = isSpecialStatusViolation();
+        } else {
+            this.statusViolation = statusViolation;
         }
-        this.statusViolation = statusViolation;
     }
 
     public Boolean getStatusViolation() {
@@ -126,8 +125,10 @@ public class Event {
     public void setPassNumViolation(Boolean passNumViolation) {
         if (isPassViolation() != null) {
             this.passNumViolation = isPassViolation();
+        } else {
+            this.passNumViolation = passNumViolation;
         }
-        this.passNumViolation = passNumViolation;
+
     }
 
     public Person getPerson() {

@@ -22,6 +22,8 @@
             <th class="align-middle" scope="col">Дата начала</th>
             <th class="align-middle" scope="col">Дата окончания</th>
             <th class="align-middle" scope="col">Правомерность парковки</th>
+            <th class="align-middle" scope="col"><a href="/parking/addEvent"
+                                                            class="btn btn-primary stretched-link my-3">Добавить</a></th>
         </tr>
         </thead>
         <tbody>
@@ -35,6 +37,8 @@
                 <td class="align-middle" scope="row">${event.getStartDateString()}</td>
                 <td class="align-middle" scope="row"><#if event.getEndTime()??>${event.getEndDateString()}</#if></td>
                 <td class="align-middle" scope="row"><#if event.getPassNumViolation() || event.getStatusViolation()>&#x2716;<#else>&#9745;</#if></td>
+                <td class="align-middle" scope="row"><#if !event.getEndTime()??><a href="/parking/event/stop/${event.getId()}"
+                                                                                  class="btn btn-primary stretched-link my-3">Закончить</a></#if></td>
             </tr>
         </#list>
         </tbody>
@@ -155,11 +159,12 @@
                     {width: '15%', targets: 0},
                     {width: '5%', targets: 1},
                     {width: '15%', targets: 2},
-                    {width: '15%', targets: 3},
+                    {width: '10%', targets: 3},
                     {width: '10%', targets: 4},
                     {width: '10%', type: 'de_datetime', targets: 5},
-                    {width: '15%', type: 'de_datetime', targets: 6},
+                    {width: '13%', type: 'de_datetime', targets: 6},
                     {width: '15%', targets: 7},
+                    {width: '7%', "orderable": false, targets: 8},
                 ],
                 "order": [[ 5, "desc" ]],
                 language: {

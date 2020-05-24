@@ -287,6 +287,15 @@ public class DataEditingService {
         return automobileRepo.findById(id);
     }
 
+    private boolean validateNumber(String number) {
+        for (char character : number.toLowerCase().toCharArray()) {
+            if (!((character >= 'a' && character <= 'z') || (character >= '0' && character <= '9'))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void deleteAuto(Long autoId, Model model) {
         Optional<Automobile> automobile = automobileRepo.findById(autoId);
         if (automobile.isPresent()) {
@@ -318,6 +327,13 @@ public class DataEditingService {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
+            if (!validateNumber(automobile.getNumber())) {
+                model.addAttribute("numberError", "Номер машины должен содержать английские буквы и цифры");
+            }
+            return false;
+        }
+        if (!validateNumber(automobile.getNumber())) {
+            model.addAttribute("numberError", "Номер машины должен содержать английские буквы и цифры");
             return false;
         }
         automobileRepo.save(automobile);
@@ -328,26 +344,39 @@ public class DataEditingService {
 
     public boolean updateAuto(Long automobileId, Automobile autoChange, BindingResult bindingResult, Model
             model) {
-        Optional<Automobile> autoDB = automobileRepo.findById(automobileId);
         boolean success = true;
-        if (autoDB.isPresent()) {
-            Automobile automobile = autoDB.get();
-            if (ControllerUtils.hasError(model, bindingResult)) {
-                success = false;
+        Optional<Automobile> autoDB = automobileRepo.findById(automobileId);
+        Optional<Automobile> autoFromDB = automobileRepo.findByNumber(autoChange.getNumber());
+        if (autoFromDB.isEmpty()) {
+            if (autoDB.isPresent()) {
+                Automobile automobile = autoDB.get();
+                if (!validateNumber(autoChange.getNumber())) {
+                    model.addAttribute("numberError", "Номер машины должен содержать английские буквы и цифры");
+                    success = false;
+                }
+                if (ControllerUtils.hasError(model, bindingResult)) {
+                    success = false;
+                }
+                if (success) {
+                    automobile.setModel(autoChange.getModel());
+                    automobile.setNumber(autoChange.getNumber());
+                    automobile.setColor(autoChange.getColor());
+                    automobile.setPerson(autoChange.getPerson());
+                    automobileRepo.save(automobile);
+                }
             } else {
-                automobile.setModel(autoChange.getModel());
-                automobile.setNumber(autoChange.getNumber());
-                automobile.setColor(autoChange.getColor());
-                automobile.setPerson(autoChange.getPerson());
-                automobileRepo.save(automobile);
+                model.addAttribute("message", "Такого автомобиля не существует");
+                success = false;
             }
-        } else {
-            model.addAttribute("message", "Такого автомобиля не существует");
-            success = false;
+            if (success) {
+                model.addAttribute("messageType", "success");
+                model.addAttribute("message", "Успешно");
+            }
         }
-        if (success) {
-            model.addAttribute("messageType", "success");
-            model.addAttribute("message", "Успешно");
+        else {
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("message", "Автомобиль с таким номером уже существует");
+            success = false;
         }
         return success;
     }
@@ -677,8 +706,7 @@ public class DataEditingService {
                     model.addAttribute("messageType", "danger");
                     model.addAttribute("message", "Загруженный файл не фото");
                     success = false;
-                }
-                else {
+                } else {
                     File uploadDir = new File(uploadPath);
                     if (!uploadDir.exists()) {
                         uploadDir.mkdir();

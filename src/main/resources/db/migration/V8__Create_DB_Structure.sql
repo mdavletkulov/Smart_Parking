@@ -45,8 +45,8 @@ create table parking_event
     start_time    datetime2 not null,
     automobile_id bigint      ,
     place_id      bigint   ,
-    status_violation       bit default null,
-    pass_num_violation        bit default null,
+    status_violation       bit default 0,
+    pass_num_violation        bit default 0,
     person_id bigint default null,
     primary key (id)
 )

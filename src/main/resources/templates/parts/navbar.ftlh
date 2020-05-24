@@ -13,10 +13,16 @@
                 <a class="nav-link" href="/parking">Парковки</a>
             </li>
             </#if>
+            <#if isAdmin>
+                <li class="nav-item">
+                    <a class="nav-link" href="/parking/adminEvents">Парковочные события</a>
+                </li>
+                <#else>
             <#if user??>
                 <li class="nav-item">
                     <a class="nav-link" href="/parking/events">Парковочные события</a>
                 </li>
+            </#if>
             </#if>
             <#if isAdmin || isManager>
                 <li class="nav-item">
@@ -30,7 +36,7 @@
             </#if>
             <#if isAdmin || isManager>
             <li class="nav-item">
-                <a class="nav-link" href="/user">Список пользователей</a>
+                <a class="nav-link" href="/user">Пользователи</a>
             </li>
             </#if>
             <#if isAdmin>

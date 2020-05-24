@@ -1,23 +1,22 @@
 package com.example.smartParking.controllers;
 
-import com.example.smartParking.model.domain.Event;
-import com.example.smartParking.model.domain.Parking;
-import com.example.smartParking.model.domain.Place;
+import com.example.smartParking.model.domain.*;
 import com.example.smartParking.model.domain.dto.UpdateParking;
 import com.example.smartParking.service.DataEditingService;
 import com.example.smartParking.service.ParkingService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -34,6 +33,13 @@ public class ParkingController {
     public String getAllEvents(Model model) {
         model.addAttribute("events", parkingService.getAllEvents());
         return "parking/eventList";
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @GetMapping("adminEvents")
+    public String getAllEventsAdmin(Model model) {
+        model.addAttribute("events", parkingService.getAllEvents());
+        return "parking/eventListAdmin";
     }
 
     @GetMapping
@@ -102,22 +108,32 @@ public class ParkingController {
         return places;
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("addEvent")
     public String addEventPage(Model model) {
         model.addAttribute("parkings", parkingService.findAllParking());
         return "admin/addParkingPhoto";
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("addEvent")
-    public String addEvent(@RequestParam String parking,
-                           @RequestParam String place,
+    public String addEvent(@AuthenticationPrincipal User currentUser,
+                           @RequestParam(required = false) String parking,
+                           @RequestParam(required = false) String place,
                            Model model,
-                           @RequestParam("image") MultipartFile image) {
+                           @RequestParam("image") MultipartFile image) throws IOException {
         Event event = new Event();
         boolean success = parkingService.processEvent(parking, place, image, model, event);
-        if (success) return getAllEvents(model);
+        if (success) return getAllEventsAdmin(model);
         else return addEventPage(model);
+    }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @GetMapping("event/stop/{eventId}")
+    public String stopEvent(@PathVariable String eventId, Model model) {
+        parkingService.processStopEvent(eventId, model);
+        model.addAttribute("events", parkingService.getAllEvents());
+        return "parking/eventListAdmin";
     }
 
 }

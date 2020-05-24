@@ -6,20 +6,26 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 public interface EventRepo extends CrudRepository<Event, Long> {
 
     @Query(
             value = "Select * FROM parking_event WHERE place_id = ?1 and end_time IS NULL",
             nativeQuery = true)
-    Event findActivePlaceEvent(Long parkingPlaceId);
+    Optional<Event> findActivePlaceEvent(Long parkingPlaceId);
 
     @Query(
             value = "Select * FROM parking_event LEFT JOIN" +
                     " parking_place ON parking_event.place_id = parking_place.id " +
                     "WHERE parking_place.parking_id = ?1 and end_time IS NULL",
             nativeQuery = true)
-    List<Event> findActiveParkingEvent(Long parkingPlaceId);
+    List<Event> findActiveParkingEvent(Long parkingId);
+
+    @Query(
+            value = "Select * FROM parking_event LEFT JOIN automobile a on parking_event.automobile_id = a.id where a.number =?1 and end_time IS NULL",
+            nativeQuery = true)
+    Optional<Event> findActiveAutoEvent(String number);
 
     @Query(
             value = "Select * FROM parking_event WHERE start_time >= ?1 and end_time <= ?2",
@@ -96,4 +102,6 @@ public interface EventRepo extends CrudRepository<Event, Long> {
                     "WHERE start_time >= ?1 and end_time <= ?2 and p.id = ?3",
             nativeQuery = true)
     List<Event> findAllPersonParkingBetweenDates(Timestamp startDateTime, Timestamp endDateTime, Long personIdL);
+
+
 }

@@ -9,13 +9,13 @@
     </#if>
     <div>
         <a href="/dataEdit/subdivision"
-           class="btn btn-primary stretched-link my-3">Назад</a>
+           class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <h5>Кафедра</h5>
-    <form action="/dataEdit/subdivision/add" method="post" class="mt-2">
+    <form action="/dataEdit/subdivision/add" method="post" class="mt-2 col-sm-4">
         <div class="form-group  division">
             <label class="division" for="division">Институты</label>
-            <select id="division" class="form-control division col-4" name="division" >
+            <select id="division" class="form-control division " name="division" >
 
                 <#list divisions as division>
                     <option value="${division.getId()}">${division.getName()}</option>
@@ -29,7 +29,7 @@
         </div>
         <div class="form-group">
             <label for="name">Название кафедры</label>
-            <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} "
                    id="name"
                    value="<#if subdivision??>${subdivision.name}</#if>"
                    placeholder="Введите название кафедры"

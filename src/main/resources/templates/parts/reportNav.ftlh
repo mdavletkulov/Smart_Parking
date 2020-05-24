@@ -3,38 +3,38 @@
     <@c.page>
         <h5>Генерация отчетов</h5>
         <ul class="nav nav-pills mb-5">
-            <li class="nav-item">
-                <a class="nav-link report-a <#if simple??>active</#if>" href="/report/simple">Общий отчет в промежуток
+            <li class="nav-item text-white bg-dark">
+                <a class="nav-link report-a text-white bg-dark <#if simple??>active</#if>" href="/report/simple">Общий отчет в промежуток
                     времени</a>
             </li>
-            <li class="nav-item report-a">
-                <a class="nav-link report-a <#if person??>active</#if>" href="/report/person">Отчет по отдельным водителям</a>
+            <li class="nav-item report-a text-white bg-dark">
+                <a class=" text-white bg-dark nav-link report-a <#if person??>active</#if>" href="/report/person">Отчет по отдельным водителям</a>
             </li>
-            <li class="nav-item dropdown report-a">
-                <a class="nav-link dropdown-toggle report-a <#if criteria??>active</#if>" data-toggle="dropdown"
+            <li class="nav-item dropdown report-a text-white bg-dark">
+                <a class=" text-white bg-dark nav-link dropdown-toggle report-a <#if criteria??>active</#if>" data-toggle="dropdown"
                    href="#"
                    role="button" aria-haspopup="true" aria-expanded="false">Отчет по подразделениям</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item report-a  <#if criteria_common??>active</#if>"
+                <div class="text-white bg-dark dropdown-menu">
+                    <a class=" text-white bg-dark dropdown-item report-a  <#if criteria_common??>active</#if>"
                        href="/report/common">Общий</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item report-a <#if criteria_employee??>active</#if>"
+                    <div class="text-white bg-dark dropdown-divider"></div>
+                    <a class=" text-white bg-dark dropdown-item report-a <#if criteria_employee??>active</#if>"
                        href="/report/common/employee">Сотрудники</a>
-                    <a class="dropdown-item report-a <#if criteria_student??>active</#if>"
+                    <a class=" text-white bg-dark dropdown-item report-a <#if criteria_student??>active</#if>"
                        href="/report/common/student">Студенты</a>
                 </div>
             </li>
-            <li class="nav-item dropdown report-a">
-                <a class="nav-link dropdown-toggle report-a <#if violation??>active</#if>" data-toggle="dropdown"
+            <li class="text-white bg-dark nav-item dropdown report-a">
+                <a class="text-white bg-dark nav-link dropdown-toggle report-a <#if violation??>active</#if>" data-toggle="dropdown"
                    href="#"
                    role="button" aria-haspopup="true" aria-expanded="false">Отчет о нарушениях</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item report-a  <#if violation_common??>active</#if>"
+                <div class=" text-white bg-dark dropdown-menu">
+                    <a class="text-white bg-dark dropdown-item report-a  <#if violation_common??>active</#if>"
                        href="/report/common/violation">Общий</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item report-a <#if violation_employee??>active</#if>"
+                    <div class="text-white bg-dark dropdown-divider"></div>
+                    <a class="text-white bg-dark dropdown-item report-a <#if violation_employee??>active</#if>"
                        href="/report/common/employee/violation">Сотрудники</a>
-                    <a class="dropdown-item report-a <#if violation_student??>active</#if>"
+                    <a class="text-white bg-dark dropdown-item report-a <#if violation_student??>active</#if>"
                        href="/report/common/student/violation">Студенты</a>
                 </div>
             </li>

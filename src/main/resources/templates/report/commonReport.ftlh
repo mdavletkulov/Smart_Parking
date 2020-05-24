@@ -7,8 +7,8 @@
             ${message}
         </div>
     </#if>
-    <form method="post" action="/report/common">
-    <div class="form-group col-4 typesJob">
+    <form method="post" action="/report/common" class="col-sm-4">
+    <div class="form-group  typesJob">
         <label class="typesJob" for="typesJob" <#if !employee??> hidden="hidden"</#if>>Подразделение (опционально)</label>
         <select class="form-control typesJob" name="typesJob" <#if !employee??> hidden="hidden"</#if>>
             <option selected="selected" value=""/>
@@ -17,7 +17,7 @@
             </#list>
         </select>
     </div>
-    <div class="form-group col-4 division">
+    <div class="form-group  division">
         <label class="division" for="division" <#if employee??> hidden="hidden"</#if>>Институт (опционально)</label>
         <select class="form-control division" name="division" <#if employee??> hidden="hidden"</#if>>
             <option selected="selected" value=""/>
@@ -27,7 +27,7 @@
         </select>
     </div>
 
-    <div class="form-group col-4 subdivisions">
+    <div class="form-group  subdivisions">
         <label class="subdivision" for="subdivision"  hidden="hidden">Кафедра (опционально)</label>
         <select class="form-control subdivision" name="subdivision" hidden="hidden">
         </select>

@@ -6,12 +6,12 @@
             ${message}
         </div>
     </#if>
-    <form method="post" action="/report/simple">
+    <form method="post" action="/report/simple" class="col-sm-4">
         <@r.dateReport/>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <input type="hidden" name="_csrf" value="${_csrf.token}" class="col-sm-4"/>
         <#if personId??><input type="hidden" name="personId" value="${personId}"/></#if>
         <#if fileName??>
-            <input type="hidden" name="fileName" class="fileName" value="${fileName}"/>
+            <input type="hidden" name="fileName" class="fileName" value="${fileName}" class="col-sm-4"/>
         </#if>
         <button type="submit" class="btn btn-primary mt-3 send">Генерация отчета</button>
     </form>

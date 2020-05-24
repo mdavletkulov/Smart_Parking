@@ -9,12 +9,12 @@
     </#if>
     <div>
         <a href="/dataEdit"
-           class="btn btn-primary stretched-link my-3">Назад</a>
+           class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <div><h5 class="mb-3">Водители</h5>
     </div>
-    <table id="persons" class="table table-striped no-border text-center" style="width:100%">
-        <thead class="thead-dark">
+    <table id="persons" class="table table-striped no-border text-center table-dark" style="width:100%">
+        <thead>
         <tr>
             <th class="align-middle" scope="col">Водитель</th>
             <th class="align-middle" scope="col">Статус</th>

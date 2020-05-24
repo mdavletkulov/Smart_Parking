@@ -9,13 +9,13 @@
     </#if>
     <div>
         <a href="/dataEdit"
-           class="btn btn-primary stretched-link my-3">Назад</a>
+           class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <div><h5 class="mb-3">Парковочные места</h5>
     </div>
 
-    <table class="table table-striped text-center table-hover col-6" id="places" style="width: 80%;">
-        <thead class="thead-dark">
+    <table class="table table-striped text-center table-hover table-dark" id="places">
+        <thead>
         <tr>
             <th class="align-middle" scope="col">Парковка</th>
             <th class="align-middle" scope="col">Номер места</th>

@@ -9,13 +9,13 @@
     </#if>
     <div>
         <a href="/dataEdit/color"
-           class="btn btn-primary stretched-link my-3">Назад</a>
+           class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <h5>Цвет</h5>
-    <form action="/dataEdit/color/add" method="post" class="mt-2">
+    <form action="/dataEdit/color/add" method="post" class="mt-2 col-sm-4">
         <div class="form-group">
             <label for="name">Название цвета</label>
-            <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')} "
                    id="name"
                    value="<#if color??>${color.name}</#if>"
                    placeholder="Введите название цвета"

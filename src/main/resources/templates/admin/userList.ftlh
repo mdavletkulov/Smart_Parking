@@ -7,8 +7,8 @@
             ${message}
         </div>
     </#if>
-    <table id="users" class="table table-striped no-border" style="width:100%">
-        <thead class="thead-dark">
+    <table id="users" class="table table-striped no-border table-dark" style="width:100%">
+        <thead>
         <tr>
             <th scope="col">E-mail</th>
             <th scope="col">Пользователь</th>

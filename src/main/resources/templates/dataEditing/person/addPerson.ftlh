@@ -3,19 +3,19 @@
 <@c.page>
 
     <#if message?has_content>
-        <div class="alert alert-${messageType} col-4" role="alert">
+        <div class="alert alert-${messageType}" role="alert">
             ${message}
         </div>
     </#if>
     <div>
         <a href="/dataEdit/person"
-           class="btn btn-primary stretched-link my-3">Назад</a>
+           class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <h5>Водитель</h5>
-    <form action="/dataEdit/person/add" method="post" class="mt-2">
+    <form action="/dataEdit/person/add" method="post" class="mt-2 col-sm-4">
         <div class="form-group">
             <label for="firstName">Имя</label>
-            <input type="text" class="form-control ${(firstNameError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(firstNameError??)?string('is-invalid', '')} "
                    id="firstName"
                    value="<#if person??>${person.firstName}</#if>"
                    placeholder="Введите имя водителя"
@@ -28,7 +28,7 @@
         </div>
         <div class="form-group">
             <label for="secondName">Фамилия</label>
-            <input type="text" class="form-control ${(secondNameError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(secondNameError??)?string('is-invalid', '')} "
                    id="secondName"
                    value="<#if person??>${person.secondName}</#if>"
                    placeholder="Введите фамилию водителя"
@@ -41,7 +41,7 @@
         </div>
         <div class="form-group">
             <label for="middleName">Отчество</label>
-            <input type="text" class="form-control ${(middleNameError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(middleNameError??)?string('is-invalid', '')} "
                    id="middleName"
                    value="<#if person??>${person.middleName}</#if>"
                    placeholder="Введите отчество водителя"
@@ -69,7 +69,7 @@
         </div>
         <div class="form-group">
             <label class="course" for="course" hidden="hidden">Курс</label>
-            <input type="text" class="course form-control ${(courseError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="course form-control ${(courseError??)?string('is-invalid', '')} "
                    id="course"
                    value="<#if person?? && person.getCourse()??>${person.course}</#if>"
                    placeholder="Введите курс водителя"
@@ -83,7 +83,7 @@
         </div>
         <div class="form-group">
             <label class="group" for="groupName" hidden="hidden">Группа</label>
-            <input type="text" class="group form-control ${(groupNameError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="group form-control ${(groupNameError??)?string('is-invalid', '')} "
                    id="groupName"
                    value="<#if person?? && person.getGroupName()??>${person.groupName}</#if>"
                    placeholder="Введите группу водителя"
@@ -97,7 +97,7 @@
         </div>
         <div class="form-group jobPosition">
             <label class="jobPosition" for="jobPosition" hidden="hidden">Должность</label>
-            <select class="form-control jobPosition col-4" name="jobPosition" hidden="hidden">
+            <select class="form-control jobPosition" name="jobPosition" hidden="hidden">
                 <option selected="selected" value=""/>
                 <#list jobPositions as jobPosition>
                     <option value="${jobPosition.getId()}">${jobPosition.getNamePosition()}</option>
@@ -112,7 +112,7 @@
         </div>
         <div class="form-group division">
             <label class="division" for="division">Институт</label>
-            <select class="form-control division col-4" name="division">
+            <select class="form-control division" name="division">
                 <option selected="selected" value=""/>
                 <#list divisions as division>
                     <option value="${division.getId()}" >${division.getName()}</option>
@@ -127,13 +127,13 @@
 
         <div class="form-group subdivision">
             <label class="subdivision" for="subdivision" hidden="hidden">Кафедра</label>
-            <select class="form-control subdivision col-4" name="subdivision" hidden="hidden">
+            <select class="form-control subdivision" name="subdivision" hidden="hidden">
                 <option selected="selected" value=""></option>
             </select>
         </div>
         <div class="form-group">
             <label for="passNum">Номер пропуска</label>
-            <input type="text" class="form-control ${(passError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(passError??)?string('is-invalid', '')} "
                    id="passNum"
                    value="<#if person?? && person.getPassNum()??>${person.getPassNumString()}</#if>"
                    placeholder="Введите номер пропуска водителя"
@@ -149,7 +149,7 @@
             <label for="passEndDate">Срок истечения пропуска</label>
             <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
                 <input type="text" id="passEndDate" name="passEndDate"
-                       class="form-control col-4 datetimepicker-input ${(passDateError??)?string('is-invalid', '')}"
+                       class="form-control datetimepicker-input ${(passDateError??)?string('is-invalid', '')}"
                        data-target="#datetimepicker2" placeholder="Введите дату истечения пропуска"
                        value="<#if person?? && person.getPassEndDate()??>${person.passEndDate}</#if> "/>
                 <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">

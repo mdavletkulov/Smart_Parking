@@ -2,8 +2,8 @@
 
 <@c.page>
 <h5 class="mb-3"> Редактирование данных</h5>
-    <table class="table-hover table table-borderless table-striped col-6 text-center">
-        <thead class="thead-dark">
+    <table class="table-hover table table-borderless table-striped col-6 text-center table-dark">
+        <thead >
         <tr class="row">
             <th class="col-sm-8" scope="col">Сущность</th>
             <th class="col-sm-4" scope="col"></th>

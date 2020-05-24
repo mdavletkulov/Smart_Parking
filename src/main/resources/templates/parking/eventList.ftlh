@@ -11,8 +11,8 @@
     </div>
 
 
-    <table class="table table-striped text-center table-hover " id="events" style="width: 100%">
-        <thead class="thead-dark">
+    <table class="table table-striped text-center table-hover table-dark" id="events" style="width: 100%">
+        <thead>
         <tr>
             <th class="align-middle" scope="col">Парковка</th>
             <th class="align-middle" scope="col">Номер марковочного места</th>

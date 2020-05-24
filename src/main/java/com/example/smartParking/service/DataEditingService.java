@@ -346,9 +346,9 @@ public class DataEditingService {
             model) {
         boolean success = true;
         Optional<Automobile> autoDB = automobileRepo.findById(automobileId);
-        Optional<Automobile> autoFromDB = automobileRepo.findByNumber(autoChange.getNumber());
-        if (autoFromDB.isEmpty()) {
-            if (autoDB.isPresent()) {
+        List<Automobile> autosFromDB = automobileRepo.findAutosByNumber(autoChange.getNumber());
+        if (autoDB.isPresent()) {
+            if ((autosFromDB.size() == 1 && autosFromDB.get(0).getNumber().equals(autoDB.get().getNumber())) || autosFromDB.size() == 0) {
                 Automobile automobile = autoDB.get();
                 if (!validateNumber(autoChange.getNumber())) {
                     model.addAttribute("numberError", "Номер машины должен содержать английские буквы и цифры");
@@ -365,17 +365,17 @@ public class DataEditingService {
                     automobileRepo.save(automobile);
                 }
             } else {
-                model.addAttribute("message", "Такого автомобиля не существует");
+                model.addAttribute("messageType", "danger");
+                model.addAttribute("message", "Автомобиль с таким номером уже существует");
                 success = false;
+
             }
             if (success) {
                 model.addAttribute("messageType", "success");
                 model.addAttribute("message", "Успешно");
             }
-        }
-        else {
-            model.addAttribute("messageType", "danger");
-            model.addAttribute("message", "Автомобиль с таким номером уже существует");
+        } else {
+            model.addAttribute("message", "Такого автомобиля не существует");
             success = false;
         }
         return success;

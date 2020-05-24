@@ -7,10 +7,14 @@
             ${message}
         </div>
     </#if>
+    <div>
+        <a href="/parking/events"
+           class="btn btn-dark stretched-link my-3">Назад</a>
+    </div>
     <h5>Добавление парковочного события</h5>
-    <form action="/parking/addEvent" method="post" class="mt-2" enctype="multipart/form-data">
+    <form action="/parking/addEvent" method="post" class="mt-2 col-sm-4" enctype="multipart/form-data">
         <div>
-        <div class="form-group col-sm-4 parking">
+        <div class="form-group  parking">
             <label class="parkings" for="parking">Парковки</label>
             <select class="form-control parkings" name="parking">
                 <#list parkings as parking>
@@ -24,7 +28,7 @@
                 </div>
             </#if>
         </div>
-        <div class="form-group place col-sm-4">
+        <div class="form-group place ">
             <label class="place" for="place">Парковочное место</label>
             <select class="form-control place" name="place">
             </select>
@@ -34,7 +38,7 @@
                 </div>
             </#if>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group ">
             <label for="file">Выберите фото автомобиля на парковочном месте</label>
             <input name="image" type="file" class="filestyle">
         </div>

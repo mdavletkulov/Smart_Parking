@@ -2,7 +2,7 @@
 <@c.page>
     <div>
         <a href="/parking"
-           class="btn btn-primary stretched-link">Назад</a>
+           class="btn btn-dark stretched-link">Назад</a>
     </div>
     <div class="card-deck">
         <#list places as place>

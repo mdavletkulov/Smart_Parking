@@ -9,11 +9,11 @@
     </#if>
     <div>
         <a href="/dataEdit/parking"
-           class="btn btn-primary stretched-link my-3">Назад</a>
+           class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <h5>Парковка</h5>
-    <form action="/dataEdit/parking/edit/${parking.getId()}" method="post" class="mt-2" enctype="multipart/form-data">
-        <div class="form-group col-sm-4">
+    <form action="/dataEdit/parking/edit/${parking.getId()}" method="post" class="mt-2 col-sm-4" enctype="multipart/form-data">
+        <div class="form-group ">
             <label for="description">Название парковки</label>
             <input type="text" class="form-control ${(descriptionError??)?string('is-invalid', '')} "
                    id="description"
@@ -26,7 +26,7 @@
                 </div>
             </#if>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group">
             <label for="file">Выберите фото парковки</label>
             <input name="image" type="file" class="filestyle">
         </div>

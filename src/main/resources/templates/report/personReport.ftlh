@@ -1,8 +1,8 @@
 <#import "../parts/reportNav.ftlh" as rN>
 <#import "../parts/dateReport.ftlh" as r>
 <@rN.reportNav>
-    <table id="persons" class="table table-striped no-border text-center" style="width:100%">
-        <thead class="thead-dark">
+    <table id="persons" class="table table-striped no-border text-center table-dark" style="width:100%">
+        <thead>
         <tr>
             <th class="align-middle">Водитель</th>
             <th class="align-middle">Автомобиль</th>

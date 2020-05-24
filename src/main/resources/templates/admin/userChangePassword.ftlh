@@ -3,7 +3,7 @@
 <@c.page>
     <div>
         <a href="/user/edit/${user.getId()}"
-           class="btn btn-primary stretched-link">Назад</a>
+           class="btn btn-dark stretched-link">Назад</a>
     </div>
     <h5>${user.username}</h5>
     <h6>Изменение пароля</h6>
@@ -12,10 +12,10 @@
             ${message}
         </div>
     </#if>
-    <form action="${user.getId()}" method="post" class="mt-2">
+    <form action="${user.getId()}" method="post" class="mt-2 col-sm-4">
         <div class="form-group">
             <label for="password">Новый пароль</label>
-            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} col-sm-4"
+            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} "
                    id="password" placeholder="Введите новый пароль"
                    name="password">
             <#if passwordError??>
@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             <label for="password2">Подтверждение пароля</label>
-            <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')} col-sm-4"
+            <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')} "
                    id="password2" placeholder="Повторите пароль"
                    name="password2">
             <#if password2Error??>
@@ -43,5 +43,5 @@
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit" class="btn btn-primary mt-3">Обновить пароль</button>
     </form>
-    <a href="/user/profile" class="btn btn-primary stretched-link mt-3">Назад</a>
+    <a href="/user/profile" class="btn btn-dark stretched-link mt-3">Назад</a>
 </@c.page>

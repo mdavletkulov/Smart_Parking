@@ -8,7 +8,7 @@
         </div>
     </#if>
     <#if message?has_content>
-        <div class="alert alert-${messageType}" role="alert">
+        <div class="alert alert-${messageType} col-sm-4" role="alert">
             ${message}
         </div>
     </#if>

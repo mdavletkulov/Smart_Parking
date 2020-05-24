@@ -51,7 +51,7 @@
             ${name}</div>
         <#if isAdmin || isManager>
             <form action="/registration" method="get">
-                <button type="submit" class="btn btn-primary mr-2">Зарегестрировать</button>
+                <button type="submit" class="btn btn-primary mr-2">Зарегистрировать</button>
             </form>
         </#if>
         <@l.logout />

@@ -11,13 +11,13 @@
 
     <div>
         <a href="/dataEdit/auto"
-           class="btn btn-primary stretched-link my-3">Назад</a>
+           class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <h5>Автомобиль</h5>
-    <form action="/dataEdit/auto/add" method="post" class="mt-2">
+    <form action="/dataEdit/auto/add" method="post" class="mt-2 col-sm-4">
         <div class="form-group">
             <label for="model">Марка и модель автомобиля</label>
-            <input type="text" class="form-control ${(modelError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(modelError??)?string('is-invalid', '')} "
                    id="model"
                    value="<#if automobile??>${automobile.model}</#if>"
                    placeholder="Введите марку и модель автомобиля"
@@ -29,8 +29,8 @@
             </#if>
         </div>
         <div class="form-group">
-            <label for="number">Номер автомобиля</label>
-            <input type="text" class="form-control ${(numberError??)?string('is-invalid', '')} col-sm-4"
+            <label class="font-weight-bold" for="number" >Номер автомобиля</label>
+            <input type="text" class="form-control ${(numberError??)?string('is-invalid', '')} "
                    id="number"
                    value="<#if automobile??>${automobile.number}</#if>"
                    placeholder="Введите номер автомобиля"
@@ -43,7 +43,7 @@
         </div>
         <div class="form-group color">
             <label class="color" for="division">Цвет автомобиля</label>
-            <select class="form-control parking col-sm-4" name="color">
+            <select class="form-control parking " name="color">
                 <option selected="selected" value=""/>
                 <#list colors as color>
                     <option value="${color.getId()}">${color.getName()}</option>
@@ -57,7 +57,7 @@
         </div>
         <div class="form-group">
             <label for="person1">Владелец</label>
-            <input type="text" class="form-control col-sm-4"
+            <input type="text" class="form-control "
                    id="person1"
                    value="<#if automobile??> ${automobile.getPerson().getFullName()}</#if>"
                    name="person1"
@@ -71,8 +71,8 @@
             </button>
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
-                    <table class="table table-striped text-center table-hover" id="persons">
-                        <thead class="thead-dark">
+                    <table class="table table-striped text-center table-hover table-dark" id="persons">
+                        <thead>
                         <tr>
                             <th class="align-middle" scope="col">Водитель</th>
                             <th class="align-middle" scope="col">Статус</th>

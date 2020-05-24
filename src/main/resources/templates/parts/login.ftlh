@@ -1,8 +1,8 @@
 <#macro login>
-    <form action="/login" method="post" class="mt-2">
+    <form action="/login" method="post" class="mt-2 col-sm-4">
         <div class="form-group">
             <label for="username">E-mail:</label>
-            <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')} col-sm-4" id="username"
+            <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')} " id="username"
                    value="<#if user??>${user.username}</#if>"
                    placeholder="Введите e-mail"
                    name="username">
@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="password">Пароль:</label>
-            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} col-sm-4"
+            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} "
                    id="password" placeholder="Введите пароль"
                    name="password">
             <#if passwordError??>
@@ -36,10 +36,10 @@
 </#macro>
 
 <#macro registration>
-    <form action="/registration" method="post" class="mt-2">
+    <form action="/registration" method="post" class="mt-2 col-sm-4">
         <div class="form-group">
             <label for="firstName">Имя</label>
-            <input type="text" class="form-control ${(firstNameError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(firstNameError??)?string('is-invalid', '')} "
                    id="firstName"
                    value="<#if userTemp??>${userTemp.firstName}</#if>"
                    placeholder="Введите имя пользователя"
@@ -52,7 +52,7 @@
         </div>
         <div class="form-group">
             <label for="secondName">Фамилия</label>
-            <input type="text" class="form-control ${(secondNameError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(secondNameError??)?string('is-invalid', '')} "
                    id="secondName"
                    value="<#if userTemp??>${userTemp.secondName}</#if>"
                    placeholder="Введите фамилию"
@@ -65,7 +65,7 @@
         </div>
         <div class="form-group">
             <label for="middleName">Отчество</label>
-            <input type="text" class="form-control ${(middleNameError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(middleNameError??)?string('is-invalid', '')} "
                    id="middleName"
                    value="<#if userTemp??>${userTemp.middleName}</#if>"
                    placeholder="Введите отчество"
@@ -78,7 +78,7 @@
         </div>
         <div class="form-group">
             <label for="username">E-mail:</label>
-            <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')} col-sm-4" id="username"
+            <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')} " id="username"
                    value="<#if userTemp??>${userTemp.username}</#if>"
                    placeholder="Введите e-mail"
                    name="username">
@@ -90,7 +90,7 @@
         </div>
         <div class="form-group">
             <label for="password">Пароль:</label>
-            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} col-sm-4"
+            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')} "
                    id="password" placeholder="Введите пароль"
                    name="password">
             <#if passwordError??>
@@ -101,7 +101,7 @@
         </div>
         <div class="form-group">
             <label for="password2">Подтверждение пароля:</label>
-            <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')} col-sm-4"
+            <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')} "
                    id="password2" placeholder="Повторите пароль"
                    name="password2">
             <#if password2Error??>
@@ -124,7 +124,7 @@
                 </div>
             </#if>
 
-        <div class="col-sm-1">
+        <div>
             <div class="g-recaptcha" data-sitekey="6Ld2WPIUAAAAAD7PuG0wfhYFEIK408dIjng1u1fa"></div>
             <#if captchaError??>
             <div class="invalid-feedback mb-3 mt-3" style="display: block">
@@ -133,6 +133,6 @@
         </div>
         </#if>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button type="submit" class="btn btn-primary mt-3">Create</button>
+        <button type="submit" class="btn btn-primary mt-3">Зарегистрировать</button>
     </form>
 </#macro>

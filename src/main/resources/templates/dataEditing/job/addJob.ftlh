@@ -9,14 +9,14 @@
     </#if>
     <div>
         <a href="/dataEdit/job"
-           class="btn btn-primary stretched-link my-3">Назад</a>
+           class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <h5>Должность</h5>
-    <form action="/dataEdit/job/add" method="post" class="mt-2">
+    <form action="/dataEdit/job/add" method="post" class="mt-2 col-sm-4">
 
         <div class="form-group typeJobPosition">
             <label class="typeJobPosition" for="typeJobPosition">Подразделение</label>
-            <select class="form-control typeJobPosition col-4" name="typeJobPosition">
+            <select class="form-control typeJobPosition" name="typeJobPosition">
                 <#list typeJobPositions as typeJobPosition>
                     <option>${typeJobPosition}</option>
                 </#list>
@@ -30,7 +30,7 @@
 
         <div class="form-group">
             <label for="namePosition">Название должности</label>
-            <input type="text" class="form-control ${(namePositionError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(namePositionError??)?string('is-invalid', '')} "
                    id="namePosition"
                    value="<#if jobPosition??>${jobPosition.namePosition}</#if>"
                    placeholder="Введите Название должности"

@@ -9,13 +9,13 @@
     </#if>
     <div>
         <a href="/dataEdit/place"
-           class="btn btn-primary stretched-link my-3">Назад</a>
+           class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <h5>Парковочное место</h5>
-    <form action="/dataEdit/place/edit/${place.getId()}" method="post" class="mt-2">
+    <form action="/dataEdit/place/edit/${place.getId()}" method="post" class="mt-2 col-sm-4">
         <div class="form-group parking">
             <label class="parking" for="parking">Парковки</label>
-            <select class="form-control parking col-4" name="parking">
+            <select class="form-control parking" name="parking">
                 <#list parkings as parking>
                     <option <#if place.getParking().getDescription() == parking.getDescription()> selected="selected"
                                                                                                   </#if>value="${parking.getId()}">${parking.getDescription()}</option>
@@ -29,7 +29,7 @@
         </div>
         <div class="form-group">
             <label for="placeNumber">Номер места</label>
-            <input type="text" class="form-control ${(placeNumberError??)?string('is-invalid', '')} col-sm-4"
+            <input type="text" class="form-control ${(placeNumberError??)?string('is-invalid', '')} "
                    id="placeNumber"
                    value="${place.placeNumber}"
                    placeholder="Введите номер парковочного места"

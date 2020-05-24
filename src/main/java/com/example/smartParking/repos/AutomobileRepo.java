@@ -22,4 +22,9 @@ public interface AutomobileRepo extends CrudRepository<Automobile, Long> {
     List<Automobile> findByPersonId(Long personId);
 
     Optional<Automobile> findByNumber(String number);
+
+    @Query(
+            value = "SELECT * FROM automobile where number = ?1",
+            nativeQuery = true)
+    List<Automobile> findAutosByNumber(String number);
 }

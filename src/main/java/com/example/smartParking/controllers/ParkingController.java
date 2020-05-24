@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +51,7 @@ public class ParkingController {
 
     @GetMapping("{parking}")
     public String getParking(@PathVariable Parking parking, Model model) {
-        ArrayList<Place> places = Lists.newArrayList(parkingService.findPlaceByParkingId(parking.getId()));
+        ArrayList<Place> places = Lists.newArrayList(parkingService.findPlacesByParkingId(parking.getId()));
         model.addAttribute("parking", parking);
         model.addAttribute("places", places);
         model.addAttribute("placesSize", places.size());
@@ -73,7 +71,7 @@ public class ParkingController {
     public @ResponseBody
     List<UpdateParking> updateStatus(@PathVariable Long parkingId) {
         List<Event> actualEvents = parkingService.getActualEvents(parkingId);
-        List<Place> parkingPlaces = parkingService.findPlaceByParkingId(parkingId);
+        List<Place> parkingPlaces = parkingService.findPlacesByParkingId(parkingId);
         List<UpdateParking> updateParkings = new ArrayList<>();
         for (Place place : parkingPlaces) {
             UpdateParking updateParking = new UpdateParking();
@@ -91,6 +89,35 @@ public class ParkingController {
 
         }
         return updateParkings;
+    }
+
+    @GetMapping(value = "getPlaces/{parking}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<String> getSubdivisions(@PathVariable String parking) {
+        List<String> places = new ArrayList<>();
+        Long parkingId = Long.valueOf(parking);
+        for (Place place : parkingService.findPlacesByParkingId(parkingId)) {
+            places.add(place.getPlaceNumber().toString());
+        }
+        return places;
+    }
+
+    @GetMapping("addEvent")
+    public String addEventPage(Model model) {
+        model.addAttribute("parkings", parkingService.findAllParking());
+        return "admin/addParkingPhoto";
+    }
+
+    @PostMapping("addEvent")
+    public String addEvent(@RequestParam String parking,
+                           @RequestParam String place,
+                           Model model,
+                           @RequestParam("image") MultipartFile image) {
+        Event event = new Event();
+        boolean success = parkingService.processEvent(parking, place, image, model, event);
+        if (success) return getAllEvents(model);
+        else return addEventPage(model);
+
     }
 
 }

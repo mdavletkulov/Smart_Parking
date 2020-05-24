@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlaceRepo extends CrudRepository<Place, Long> {
 
@@ -17,5 +18,10 @@ public interface PlaceRepo extends CrudRepository<Place, Long> {
             value = "Select * FROM parking_place WHERE place_number = ?1 and parking_id = ?2",
             nativeQuery = true)
     List<Place> findByParkingAndNum(Integer placeNum, Long parkingId);
+
+    @Query(
+            value = "Select * FROM parking_place WHERE place_number = ?1 and parking_id = ?2",
+            nativeQuery = true)
+    Optional<Place> findPlace(Integer placeNum, Long parkingId);
 
 }

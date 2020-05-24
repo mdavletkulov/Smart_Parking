@@ -8,7 +8,7 @@
         </div>
     </#if>
     <div>
-        <a href="/parking/events"
+        <a href="/parking/adminEvents"
            class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <h5>Добавление парковочного события</h5>
@@ -43,7 +43,8 @@
             <input name="image" type="file" class="filestyle">
         </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button type="submit" class="btn btn-primary mt-3">Отправить</button>
+        <img hidden="hidden" class="download" src="/img/download_gif.gif"/>
+        <button type="submit" class="btn btn-primary mt-3 send">Отправить</button>
     </form>
     <script>
         var parkings = [<#list parkings as parking>['${parking.getId()}', "${parking.getDescription()}"], </#list>];
@@ -62,6 +63,10 @@
                 var selectedParking = $(this).children("option:selected").attr('id');
                 places(selectedParking);
             });
+
+            $('button.send').click(function () {
+                $('img.download').removeAttr('hidden');
+            })
 
         });
 

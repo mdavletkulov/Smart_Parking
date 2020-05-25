@@ -84,3 +84,30 @@ div .dataTables_paginate ul li a {
     background-color: #22272b !important;
     color: white !important;
 }
+
+.card {
+    background-color: #22272b;
+}
+.parent {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.img-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.img-container img {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 20%;
+    height: 20%;
+}
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}

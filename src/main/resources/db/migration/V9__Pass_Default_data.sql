@@ -28,4 +28,5 @@ values (N'Заведующий кафедрой', N'ППС'),
        (N'Ректор', N'АУП');
 
 insert into parking(description, image_name)
-values (N'Парковка у первого корпуса', 'first_Parking.jpg');
+values (N'Парковка у первого корпуса', 'first_Parking.jpg'),
+       (N'Парковка у второго корпуса', 'parking_2.jpg');

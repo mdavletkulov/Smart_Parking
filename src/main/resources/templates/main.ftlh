@@ -30,7 +30,8 @@
 <header>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Умная Парковка</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -105,30 +106,36 @@
             <div class="carousel-item active">
                 <img class="first-slide" src="/img/carusel_1.jpg" alt="First slide">
                 <div class="container">
-                    <div class="carousel-caption text-left">
-                        <h1>Example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img class="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
-                <div class="container">
                     <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                        <div class="caption-text">
+                            <h1>Система "Умная парковка"</h1>
+                            <p>Система "Умная парковка" предназначена для автоматизированного управления парковочными местами университета
+                                и может быть масштабирована до уровня большого города</p>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
+                <img class="second-slide" src="/img/carusel_2.jpg" alt="Second slide">
                 <div class="container">
-                    <div class="carousel-caption text-right">
-                        <h1>One more for good measure.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                    <div class="carousel-caption" style="color: black;">
+                        <div class="caption-text">
+                            <h1>Выявление нарушений</h1>
+                            <p>Система автоматически определяет нарушения парковки: проезд на парковку без пропуска или с проспроченным пропуском,
+                                нелегальная поставновка автомобиля на парковочное место для людей с ограниченными возможностями</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="third-slide" src="/img/carusel_3.jpg" alt="Third slide">
+                <div class="container">
+                    <div class="carousel-caption" style="color: black;">
+                        <div class="caption-text">
+                            <h1>Использование современных технологий</h1>
+                            <p>Система разработана с помощью передовых технологий в сфере умного города,
+                                которые используются в инновационных проектах по всему миру</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,23 +162,31 @@
         </div>
         <!-- Three columns of text below the carousel -->
         <div class="row">
-            <div class="col-lg-4 mt-5">
-                <img class="rounded-circle" src="/img/main_parking.jpg" alt="Generic placeholder image" width="140" height="140">
-                <h2>Автоматизация парковки</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <div class="col-lg-4">
+                <img class="rounded-circle" src="/img/main_parking.jpg" alt="Generic placeholder image" width="140"
+                     height="140">
+                <h2>Автоматизация постановки автомобиля на парковку</h2>
+                <p>Самостоятельная работа системы, основанной на новейшихх технологиях в сфере умного города
+                    с участием лишь одного человека,
+                    который будет следить за изменением состояния парковочных мест
+                    при помощи веб-интерфейса</p>
             </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4 mt-5">
-                <img class="rounded-circle" src="/img/main_safety.jpg" alt="Generic placeholder image" width="140" height="140">
-                <h2>Безопасность</h2>
-                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <div class="col-lg-4">
+                <img class="rounded-circle" src="/img/main_safety.jpg" alt="Generic placeholder image" width="140"
+                     height="140">
+                <h2>Безопасность вашего автомобиля на парковочной площадке</h2>
+                <p>Обеспечение безопасности автомобилей на парковочной площадке благодаря
+                    использованию специальных камер, которые определяют номер каждой машины,
+                    заезжающей на парковку</p>
             </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4 mt-5">
-                <img class="rounded-circle" src="/img/special.jpg" alt="Generic placeholder image" width="140" height="140">
-                <h2>Для людей с инвалидностью</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <div class="col-lg-4 ">
+                <img class="rounded-circle" src="/img/special.jpg" alt="Generic placeholder image" width="140"
+                     height="140">
+                <h2>Для людей с ограниченными возможностями</h2>
+                <p>Система контролирует правомерность парковки
+                    на места со специальным статусом, следовательно,
+                    количество нарушений правил парковки на этих места уменьшается,
+                    и такие места чаще будут оставать свободными</p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
 
@@ -182,11 +197,17 @@
 
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading ml-3"> <span
+                            class="text-muted">Проблема парковки автомобиля </span></h2>
+                <p class="lead ml-3">В наше время с увеличением количества автомобилей,
+                    дорожного трафика увеличивается загруженность улиц,
+                    вследствие чего наблюдается нехватка парковочных мест,
+                    повышение уровня аварийности на дорогах,
+                    что в настоящее время является общемировой проблемой мегаполисов,
+                    которая в настоящее время решается с помощью активного использования цифровых технологий.</p>
             </div>
             <div class="col-md-5">
-                <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+                <img class="featurette-image img-fluid mx-auto" src="/img/feature_1.jpg">
             </div>
         </div>
 
@@ -194,11 +215,15 @@
 
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading"><span
+                            class="text-muted">Умная парковка</span></h2>
+                <p class="lead">Умная парковка – специализированное место для парковки автомобилей,
+                    созданное с использованием датчиков, видеокамер и современных цифровых технологий
+                    для быстрого и удобного поиска парковочных мест,
+                    обеспечения безопасности постановки автомобиля на стоянку.</p>
             </div>
             <div class="col-md-5 order-md-1">
-                <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+                <img class="featurette-image img-fluid mx-auto ml-5"  src="/img/feature_2.jpg">
             </div>
         </div>
 
@@ -206,11 +231,14 @@
 
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading ml-3"><span class="text-muted">Мобильное приложение</span></h2>
+                <p class="lead ml-3">Для работы с системой "Умная парковка" вы можете воспользоваться
+                    разработанным нами мобильным приложением,
+                    которое умеет показывать свободные и занятые места на парковочной
+                    площадке и сэкономит вам огромное количество времени</p>
             </div>
             <div class="col-md-5">
-                <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+                <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto">
             </div>
         </div>
 

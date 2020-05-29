@@ -9,6 +9,7 @@ import com.example.smartParking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,8 +39,9 @@ public class RegistrationController {
 
     @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     @GetMapping("/registration")
-    public String registration(Model model) {
+    public String registration(@AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("roles", Role.values());
+        model.addAttribute("currentUser", currentUser);
         return "registration";
     }
 
@@ -48,7 +50,9 @@ public class RegistrationController {
     public String addUser(@RequestParam("g-recaptcha-response") String captchaResponse,
                           @Valid UserTemp user,
                           BindingResult bindingResult,
-                          Model model) {
+                          Model model,
+                          @AuthenticationPrincipal User currentUser) {
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("roles", Role.values());
         String url = String.format(CAPTCHA_URL, recaptchaSecret, captchaResponse);
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);

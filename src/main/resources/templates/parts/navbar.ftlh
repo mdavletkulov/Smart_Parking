@@ -34,7 +34,7 @@
                     <a class="nav-link" href="/user/profile">Профиль</a>
                 </li>
             </#if>
-            <#if isAdmin || isManager>
+            <#if isAdmin>
             <li class="nav-item">
                 <a class="nav-link" href="/user">Пользователи</a>
             </li>

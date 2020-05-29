@@ -45,9 +45,9 @@ values (4, 0, N'Максим', N'Давлеткулов', N'Артурович',
        (null, 1, N'Иван', N'Иванов', N'Иванович', null, DATEADD(month, 4, current_timestamp), 2, 1, 0, 6, null, null);
 
 insert into automobile(model, number, color_id, person_id)
-values ('Chevrolet Aveo', 'B008AK164', 4, 1),
-       ('Audi A3', 'A111AA64', 1, 2),
-       ('Lada Priora', 'B222BB164', 2, 3);
+values ('Mercedes Benz', 'T290KB125', 3, 1),
+       ('Mercedes E-Class', 'H757YC33', 2, 2),
+       ('Lexus ES 250', 'T222YY777', 3, 3);
 
 insert into parking_place(place_number, parking_id, special_status)
 values (1, 1, 1),

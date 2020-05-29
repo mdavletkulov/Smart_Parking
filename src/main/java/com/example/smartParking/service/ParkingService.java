@@ -1,7 +1,7 @@
 package com.example.smartParking.service;
 
 import com.example.smartParking.model.domain.*;
-import com.example.smartParking.model.domain.response.CarNumberResponse;
+import com.example.smartParking.model.response.CarNumberResponse;
 import com.example.smartParking.repos.AutomobileRepo;
 import com.example.smartParking.repos.EventRepo;
 import com.example.smartParking.repos.ParkingRepo;

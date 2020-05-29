@@ -6,6 +6,7 @@
             ${message}
         </div>
     </#if>
+    <#if personId??><h4>Отчет о водителе</h4> </#if>
     <form method="post" action="/report/simple" class="col-sm-4">
         <@r.dateReport/>
         <input type="hidden" name="_csrf" value="${_csrf.token}" class="col-sm-4"/>

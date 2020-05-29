@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,8 +39,10 @@ public class ReportService {
     JobPositionRepo jobPositionRepo;
 
     public Timestamp convertToTimestamp(String dateTime) {
-        String pattern = "dd.MM.yyyy HH:mm";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendOptional(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+                .appendOptional(DateTimeFormatter.ofPattern(("dd.MM.yyyy H:mm")))
+                .toFormatter();
         LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(dateTime));
         localDateTime.format(DateTimeFormatter.ofPattern("yyyy.MM.dd.HH.mm.ss"));
         return Timestamp.valueOf(localDateTime);
@@ -95,7 +98,7 @@ public class ReportService {
             }
         } else {
             model.addAttribute("messageType", "danger");
-            model.addAttribute("message", "Нет парковочных событий в этот промежуток времени!");
+            model.addAttribute("message", "По выбранным критериям нет парковочных событий");
             model.addAttribute("noSuccess", "no");
         }
     }

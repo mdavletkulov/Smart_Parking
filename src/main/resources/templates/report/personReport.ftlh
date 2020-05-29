@@ -1,6 +1,7 @@
 <#import "../parts/reportNav.ftlh" as rN>
 <#import "../parts/dateReport.ftlh" as r>
 <@rN.reportNav>
+    <h4>Отчет о водителе</h4>
     <table id="persons" class="table table-striped no-border text-center table-dark" style="width:100%">
         <thead>
         <tr>

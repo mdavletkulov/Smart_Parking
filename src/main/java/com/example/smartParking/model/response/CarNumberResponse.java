@@ -1,4 +1,4 @@
-package com.example.smartParking.model.domain.response;
+package com.example.smartParking.model.response;
 
 public class CarNumberResponse {
 

@@ -113,9 +113,12 @@
 
         <div class="btn-group btn-group-toggle form-group" data-toggle="buttons">
             <#list roles as role>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="role" id="${role}" value="${role}"> ${role}
-                </label>
+                <#if role == "ADMIN" && currentUser.getRole() != "ADMIN">
+                    <#else>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="role" id="${role}" value="${role}"> ${role}
+                        </label>
+                </#if>
             </#list>
         </div>
             <#if roleError??>

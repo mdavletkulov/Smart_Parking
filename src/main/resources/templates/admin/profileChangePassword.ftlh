@@ -1,7 +1,7 @@
 <#import "../parts/common.ftlh" as c>
 
 <@c.page>
-    <h5>${user.username}</h5>
+    <h5>${user.getFullName()}</h5>
     <h6>Изменение пароля</h6>
     <#if message?has_content>
         <div class="alert alert-success col-sm-4" role="alert">

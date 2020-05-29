@@ -7,6 +7,10 @@
             ${message}
         </div>
     </#if>
+    <#if violation??> <h4>Отчет о нарушениях</h4> </#if>
+    <#if employee??><h5>Отчет о сотрудниках</h5> </#if>
+    <#if student??><h5>Отчет о студентах</h5> </#if>
+    <#if !student?? && !employee??><h5>Общий отчет</h5> </#if>
     <form method="post" action="/report/common" class="col-sm-4">
     <div class="form-group  typesJob">
         <label class="typesJob" for="typesJob" <#if !employee??> hidden="hidden"</#if>>Подразделение (опционально)</label>

@@ -14,11 +14,11 @@
                     <h3 class="card-title" id="${place.getPlaceNumber()}h3">Парковочное
                         место ${place.getPlaceNumber()}</h3>
                 </div>
-                <#if place.isSpecialStatus()>
-                    <div class="img-container">
-                    <img class="mb-3" src="/img/invalid1.png">
-                    </div>
-                </#if>
+<#--                <#if place.isSpecialStatus()>-->
+<#--                    <div class="img-container">-->
+<#--                    <img class="mb-3" src="/img/invalid1.png">-->
+<#--                    </div>-->
+<#--                </#if>-->
 
             </a>
         </div>

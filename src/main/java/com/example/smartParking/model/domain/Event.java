@@ -27,10 +27,10 @@ public class Event {
     @NotNull(message = "Время начала парковки не может быть пустым")
     private Timestamp startTime;
     private Timestamp endTime;
-    @NotNull
     private Boolean statusViolation;
-    @NotNull
     private Boolean passNumViolation;
+    private Boolean personViolation;
+    private Boolean autoViolation;
 
     public Long getId() {
         return Id;
@@ -73,7 +73,7 @@ public class Event {
     }
 
     public Boolean isPassViolation() {
-        if (automobile != null) {
+        if (automobile != null && automobile.getPerson() != null) {
             return automobile.getPerson().getPassNum() == null
                     || automobile.getPerson().getPassEndDate().getTime() < getStartTime().getTime();
         } else return null;
@@ -83,6 +83,23 @@ public class Event {
         if (place != null && automobile != null && automobile.getPerson() != null) {
             return place.isSpecialStatus() && !automobile.getPerson().isSpecialStatus();
         } else return null;
+    }
+
+
+    public Boolean getPersonViolation() {
+        return automobile == null || automobile.getPerson() == null;
+    }
+
+    public void setPersonViolation(Boolean personViolation) {
+        this.personViolation = personViolation;
+    }
+
+    public Boolean getAutoViolation() {
+        return automobile == null;
+    }
+
+    public void setAutoViolation(Boolean autoViolation) {
+        this.autoViolation = autoViolation;
     }
 
     private String getDateString(Date date) {
@@ -112,6 +129,7 @@ public class Event {
         if (isSpecialStatusViolation() != null) {
             return isSpecialStatusViolation();
         }
+        if (statusViolation == null) return true;
         return statusViolation;
     }
 
@@ -119,6 +137,7 @@ public class Event {
         if (isPassViolation() != null) {
             return isPassViolation();
         }
+        if (passNumViolation == null) return false;
         return passNumViolation;
     }
 
@@ -144,4 +163,5 @@ public class Event {
         }
         this.person = person;
     }
+
 }

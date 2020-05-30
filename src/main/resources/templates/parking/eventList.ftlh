@@ -30,11 +30,11 @@
                 <th class="align-middle" scope="row"><#if event.getPlace()??>${event.getPlace().getParking().getDescription()}</#if></th>
                 <td class="align-middle" scope="row"><#if event.getPlace()??>${event.getPlace().getPlaceNumber()}</#if></td>
                 <td class="align-middle" scope="row"><#if event.getPerson()??>${event.getPerson().getFullName()}</#if></td>
-                <td class="align-middle" scope="row"><#if event.getAutomobile()??>${event.getAutomobile().getModel()}</#if></td>
+                <td class="align-middle" scope="row"><#if event.getAutomobile()?? && event.getAutomobile().getModel()?? >${event.getAutomobile().getModel()}</#if></td>
                 <td class="align-middle" scope="row"><#if event.getAutomobile()??>${event.getAutomobile().getNumber()}</#if></td>
                 <td class="align-middle" scope="row">${event.getStartDateString()}</td>
                 <td class="align-middle" scope="row"><#if event.getEndTime()??>${event.getEndDateString()}</#if></td>
-                <td class="align-middle" scope="row"><#if event.getPassNumViolation() || event.getStatusViolation()>&#x2716;<#else>&#9745;</#if></td>
+                <td class="align-middle" scope="row"><#if event.getPassNumViolation() || event.getAutoViolation() || event.getPersonViolation()>&#x2716;<#else>&#9745;</#if></td>
             </tr>
         </#list>
         </tbody>
@@ -161,7 +161,7 @@
                     {width: '15%', type: 'de_datetime', targets: 6},
                     {width: '15%', targets: 7},
                 ],
-                "order": [[ 5, "desc" ]],
+                "order": [[ 6, "desc" ]],
                 language: {
                     url: '/static/localization/Russian.json'
                 },

@@ -1,23 +1,16 @@
 package com.example.smartParking.model.response;
 
+import java.util.List;
+
 public class CarNumberResponse {
 
-    public String result;
-    public String number;
+    public List<String> numbers;
 
-    public String getResult() {
-        return result;
+    public List<String> getNumbers() {
+        return numbers;
     }
 
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
+    public void setNumbers(List<String> number) {
+        this.numbers = number;
     }
 }

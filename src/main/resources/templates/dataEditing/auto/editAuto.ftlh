@@ -13,12 +13,12 @@
            class="btn btn-dark stretched-link my-3">Назад</a>
     </div>
     <h5>Автомобиль</h5>
-    <form action="/dataEdit/auto/edit/${automobile.getId()}" method="post" class="mt-2 col-sm-4">
+    <form action="/dataEdit/auto/edit/${automobile.getId()}" method="post" class="mt-2 col-sm-9">
         <div class="form-group">
             <label for="model">Марка и модель автомобиля</label>
             <input type="text" class="form-control ${(modelError??)?string('is-invalid', '')} "
                    id="model"
-                   value="${automobile.model}"
+                   value="<#if automobile.getModel()??>${automobile.model}</#if>"
                    placeholder="Введите марку и модель автомобиля"
                    name="model">
             <#if modelError??>
@@ -60,7 +60,7 @@
             <label for="person1">Владелец</label>
             <input type="text" class="form-control "
                    id="person1"
-                   value="${automobile.getPerson().getFullName()}"
+                   value="<#if automobile.getPerson()??>${automobile.getPerson().getFullName()}</#if>"
                    name="person1"
                    disabled="disabled">
 
@@ -90,7 +90,7 @@
                         <tbody>
                         <#list persons as person>
                             <#assign hasAuto = 0>
-                            <tr id="${person.getId()}" <#if automobile.getPerson() == person> class="table-success"</#if>>
+                            <tr id="${person.getId()}" <#if automobile.getPerson()??><#if automobile.getPerson() == person> class="table-success"</#if></#if>>
                                 <th class="align-middle">${person.getFullName()}</th>
                                 <td class="align-middle"><#if person.isStudent()>Студент</#if> <#if person.isEmployee()>Сотрудник</#if></td>
                                 <td class="align-middle"><#if person.getJobPosition()??>${person.getJobPosition().getTypeJobPosition()}<#else>&#x2716;</#if></td>

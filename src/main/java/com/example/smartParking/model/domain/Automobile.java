@@ -18,7 +18,6 @@ public class Automobile {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     private Person person;
-    @NotBlank(message = "Модель машины не может быть пустой")
     @Length(max = 50, message = "Значение модели машины слишком длинное")
     private String model;
     @ManyToOne(fetch = FetchType.EAGER)

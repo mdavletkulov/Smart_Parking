@@ -18,6 +18,8 @@ public class ReportEntity {
     private String course;
     private String passViolation;
     private String statusViolation;
+    private String autoViolation;
+    private String personViolation;
 
     public Integer getPlaceNum() {
         return placeNum;
@@ -129,5 +131,21 @@ public class ReportEntity {
 
     public void setStatusViolation(String statusViolation) {
         this.statusViolation = statusViolation;
+    }
+
+    public String getAutoViolation() {
+        return autoViolation;
+    }
+
+    public void setAutoViolation(String autoViolation) {
+        this.autoViolation = autoViolation;
+    }
+
+    public String getPersonViolation() {
+        return personViolation;
+    }
+
+    public void setPersonViolation(String personViolation) {
+        this.personViolation = personViolation;
     }
 }

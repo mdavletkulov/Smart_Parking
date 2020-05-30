@@ -88,7 +88,7 @@ public class ParkingController {
         for (Event event : actualEvents) {
             updateParkings.stream().peek(updateParking -> {
                 if (updateParking.getPlaceId().equals(event.getPlace().getId())) {
-                    updateParking.setViolation(event.getPassNumViolation() || event.getStatusViolation());
+                    updateParking.setViolation(event.getPassNumViolation() || event.getAutoViolation() || event.getPersonViolation());
                     updateParking.setActive(true);
                 }
             }).collect(Collectors.toList());
@@ -122,8 +122,7 @@ public class ParkingController {
                            @RequestParam(required = false) String place,
                            Model model,
                            @RequestParam("image") MultipartFile image) throws IOException {
-        Event event = new Event();
-        boolean success = parkingService.processEvent(parking, place, image, model, event);
+        boolean success = parkingService.processEvent(image, model, parking);
         if (success) return getAllEventsAdmin(model);
         else return addEventPage(model);
     }

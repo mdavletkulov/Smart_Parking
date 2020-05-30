@@ -330,12 +330,20 @@ public class DataEditingService {
             if (!validateNumber(automobile.getNumber())) {
                 model.addAttribute("numberError", "Номер машины должен содержать английские буквы и цифры");
             }
+            if (!checkModelIsNotEmpty(automobile)) {
+                model.addAttribute("modelError", "Модель машины не может быть пустой");
+            }
             return false;
         }
         if (!validateNumber(automobile.getNumber())) {
             model.addAttribute("numberError", "Номер машины должен содержать английские буквы и цифры");
             return false;
         }
+
+        if (!checkModelIsNotEmpty(automobile)) {
+            model.addAttribute("modelError", "Модель машины не может быть пустой");
+        }
+
         automobileRepo.save(automobile);
         model.addAttribute("messageType", "success");
         model.addAttribute("message", String.format("Автомобиль %s %s создан!", automobile.getModel(), automobile.getNumber()));
@@ -352,6 +360,10 @@ public class DataEditingService {
                 Automobile automobile = autoDB.get();
                 if (!validateNumber(autoChange.getNumber())) {
                     model.addAttribute("numberError", "Номер машины должен содержать английские буквы и цифры");
+                    success = false;
+                }
+                if (!checkModelIsNotEmpty(automobile)) {
+                    model.addAttribute("modelError", "Модель машины не может быть пустой");
                     success = false;
                 }
                 if (ControllerUtils.hasError(model, bindingResult)) {
@@ -379,6 +391,10 @@ public class DataEditingService {
             success = false;
         }
         return success;
+    }
+
+    private boolean checkModelIsNotEmpty(Automobile automobile) {
+        return automobile.getModel() != null && !automobile.getModel().isBlank();
     }
 
     //------------------------------------------------------------------//

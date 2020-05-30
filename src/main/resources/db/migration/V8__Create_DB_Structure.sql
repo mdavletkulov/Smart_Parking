@@ -47,6 +47,8 @@ create table parking_event
     place_id      bigint   ,
     status_violation       bit default 0,
     pass_num_violation        bit default 0,
+    person_violation bit default 0,
+    auto_violation bit default 0,
     person_id bigint default null,
     primary key (id)
 )

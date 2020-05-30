@@ -23,6 +23,13 @@ public interface EventRepo extends CrudRepository<Event, Long> {
     List<Event> findActiveParkingEvent(Long parkingId);
 
     @Query(
+            value = "Select * FROM parking_event LEFT JOIN" +
+                    " parking_place ON parking_event.place_id = parking_place.id " +
+                    "WHERE parking_place.parking_id = ?1 and end_time IS NULL and automobile_id IS NULL order by start_time DESC",
+            nativeQuery = true)
+    List<Event> findActiveParkingEventWithoutAuto(Long parkingId);
+
+    @Query(
             value = "Select * FROM parking_event LEFT JOIN automobile a on parking_event.automobile_id = a.id where a.number =?1 and end_time IS NULL order by start_time DESC",
             nativeQuery = true)
     Optional<Event> findActiveAutoEvent(String number);

@@ -24,4 +24,10 @@ public interface PlaceRepo extends CrudRepository<Place, Long> {
             nativeQuery = true)
     Optional<Place> findPlace(Integer placeNum, Long parkingId);
 
+    @Query(
+            value = "Select * FROM parking_place where parking_id = ?1 and (SELECT COUNT(*) FROM parking_event " +
+                    "WHERE end_time IS NULL and place_id = parking_place.id) = 0 ORDER BY place_number",
+            nativeQuery = true)
+    List<Place> findFreePlacesByParking(Long parkingId);
+
 }

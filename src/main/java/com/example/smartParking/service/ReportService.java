@@ -76,8 +76,14 @@ public class ReportService {
             }
             if (person.getJobPosition() != null) reportEntity.setJobPosition(person.getJobPosition().getNamePosition());
             if (event.getPassNumViolation()) reportEntity.setPassViolation("Пропуск просрочен или не существует!");
-            if (event.getStatusViolation())
-                reportEntity.setStatusViolation("Нарушение правил парковки на место для людей со специальным статусом!");
+            if (event.getAutoViolation()) {
+                reportEntity.setAutoViolation("Неизвестный автомобиль!");
+            }
+            if (event.getPersonViolation()) {
+                reportEntity.setPersonViolation("Неизвестный водитель!");
+            }
+//            if (event.getStatusViolation())
+//                reportEntity.setStatusViolation("Нарушение правил парковки на место для людей со специальным статусом!");
             reportEntities.add(reportEntity);
         }
         return reportEntities;
@@ -86,7 +92,7 @@ public class ReportService {
     public void createReport(List<Event> events, Model model, HttpServletResponse response) {
         if (!events.isEmpty()) {
             List<ReportEntity> reportEntities = createReportEntities(events);
-            boolean reportSaved = reportCreatorService.createDocxReport(reportEntities , response , model);
+            boolean reportSaved = reportCreatorService.createDocxReport(reportEntities, response, model);
             if (reportSaved) {
                 model.addAttribute("messageType", "success");
                 model.addAttribute("message", "Отчет успешно сохранен");
@@ -203,6 +209,6 @@ public class ReportService {
             Long personIdL = Long.valueOf(personId);
             return eventRepo.findAllPersonParkingBetweenDates(startDateTime, endDateTime, personIdL);
         }
-       return eventRepo.findAllParkingBetweenDates(startDateTime, endDateTime);
+        return eventRepo.findAllParkingBetweenDates(startDateTime, endDateTime);
     }
 }

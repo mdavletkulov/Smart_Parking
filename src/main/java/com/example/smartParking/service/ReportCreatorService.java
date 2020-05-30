@@ -151,15 +151,21 @@ public class ReportCreatorService {
     private void generateViolationText(ReportEntity reportEntity, XWPFRun paragraphConfig, XWPFParagraph bodyParagraph) {
         String passViolation = reportEntity.getPassViolation();
         String statusViolation = reportEntity.getStatusViolation();
+        String autoViolation = reportEntity.getAutoViolation();
+        String personViolation = reportEntity.getPersonViolation();
         paragraphConfig.setFontSize(14);
         paragraphConfig.setFontFamily("Times New Roman");
-        if (passViolation != null || statusViolation != null) {
+        if (passViolation != null || autoViolation != null || personViolation != null) {
             paragraphConfig.setColor("FF0000");
             writeViolationLine("Нарушения: ", "", paragraphConfig, bodyParagraph);
             if (passViolation != null)
                 writeViolationLine("", passViolation, paragraphConfig, bodyParagraph);
-            if (statusViolation != null)
-                writeViolationLine("", statusViolation, paragraphConfig, bodyParagraph);
+            if (autoViolation != null)
+                writeViolationLine("", autoViolation, paragraphConfig, bodyParagraph);
+            if (personViolation != null)
+                writeViolationLine("", personViolation, paragraphConfig, bodyParagraph);
+//            if (statusViolation != null)
+//                writeViolationLine("", statusViolation, paragraphConfig, bodyParagraph);
         }
     }
 

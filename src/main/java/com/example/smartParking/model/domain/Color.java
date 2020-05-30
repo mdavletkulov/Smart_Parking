@@ -32,5 +32,4 @@ public class Color {
         this.name = name;
     }
 
-
 }

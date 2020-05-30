@@ -4,27 +4,16 @@ import com.example.smartParking.model.domain.*;
 import com.example.smartParking.model.domain.dto.UpdateParking;
 import com.example.smartParking.service.DataEditingService;
 import com.example.smartParking.service.ParkingService;
-import com.example.smartParking.service.PollerService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,9 +26,6 @@ public class ParkingController {
 
     @Autowired
     DataEditingService dataEditingService;
-
-    @Autowired
-    PollerService pollerService;
 
     @GetMapping("events")
     public String getAllEvents(Model model) {
@@ -118,24 +104,6 @@ public class ParkingController {
             places.add(place.getPlaceNumber().toString());
         }
         return places;
-    }
-
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @GetMapping("addEvent")
-    public String addEventPage(Model model) throws IOException {
-        model.addAttribute("parkings", parkingService.findAllParking());
-        pollerService.processSnapshot();
-        return "admin/addParkingPhoto";
-    }
-
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PostMapping("addEvent")
-    public String addEvent(@RequestParam(required = false) String parking,
-                           Model model,
-                           @RequestParam("image") MultipartFile image) throws IOException {
-        boolean success = parkingService.processEvent(image, model, parking);
-        if (success) return getAllEventsAdmin(model);
-        else return addEventPage(model);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")

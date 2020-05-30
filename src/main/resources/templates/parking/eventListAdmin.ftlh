@@ -22,8 +22,7 @@
             <th class="align-middle" scope="col">Дата начала</th>
             <th class="align-middle" scope="col">Дата окончания</th>
             <th class="align-middle" scope="col">Правомерность парковки</th>
-            <th class="align-middle" scope="col"><a href="/parking/addEvent"
-                                                            class="btn btn-primary stretched-link my-3">Добавить</a></th>
+            <th class="align-middle" scope="col"></th>
         </tr>
         </thead>
         <tbody>

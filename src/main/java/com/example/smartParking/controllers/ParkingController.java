@@ -4,9 +4,11 @@ import com.example.smartParking.model.domain.*;
 import com.example.smartParking.model.domain.dto.UpdateParking;
 import com.example.smartParking.service.DataEditingService;
 import com.example.smartParking.service.ParkingService;
+import com.example.smartParking.service.PollerService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,8 +39,7 @@ public class ParkingController {
     DataEditingService dataEditingService;
 
     @Autowired
-    @Qualifier(value = "digestRestTemplate")
-    private RestTemplate restTemplate;
+    PollerService pollerService;
 
     @GetMapping("events")
     public String getAllEvents(Model model) {
@@ -118,19 +122,15 @@ public class ParkingController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("addEvent")
-    public String addEventPage(Model model) {
+    public String addEventPage(Model model) throws IOException {
         model.addAttribute("parkings", parkingService.findAllParking());
-//        String uri = "http://82.137.177.67/cgi-bin/snapshot.cgi?channel=1";
-//        ResponseEntity<String> entity = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
-//        System.out.println(entity.getStatusCode());
+        pollerService.processSnapshot();
         return "admin/addParkingPhoto";
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("addEvent")
-    public String addEvent(@AuthenticationPrincipal User currentUser,
-                           @RequestParam(required = false) String parking,
-                           @RequestParam(required = false) String place,
+    public String addEvent(@RequestParam(required = false) String parking,
                            Model model,
                            @RequestParam("image") MultipartFile image) throws IOException {
         boolean success = parkingService.processEvent(image, model, parking);

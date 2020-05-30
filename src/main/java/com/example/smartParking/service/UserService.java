@@ -43,6 +43,9 @@ public class UserService implements UserDetailsService {
         User user = userRepo.findByUsername(username);
         if (user == null) throw new IllegalArgumentException("Пользователь не найден");
         if (!user.isEnabled()) throw new IllegalArgumentException("Пользователь не активирован.");
+        if (user.getRole().equals(Role.MOBILE_USER))
+            throw new IllegalArgumentException("Вы не имеете доступа к системе администрирования. \n" +
+                    "Воспользуйтесь нашим мобильным приложением.");
         return user;
     }
 

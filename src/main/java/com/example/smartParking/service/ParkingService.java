@@ -98,6 +98,17 @@ public class ParkingService {
         return eventRepo.findAll();
     }
 
+    public void processPollEvent(String resultFileName, Long parkingId) {
+        List<String> autoNums = checkAndProcessImage(resultFileName);
+        if (autoNums != null && autoNums.isEmpty()) {
+            processEmptyParking(parkingId);
+        } else if (autoNums != null) {
+            processAutoEvents(autoNums, parkingId);
+        }
+        File file = new File(uploadPath + "/autos/" + resultFileName);
+        file.delete();
+    }
+
     public boolean processEvent(MultipartFile image, Model model, String parkingId) throws IOException {
         boolean success;
         String resultFileName = null;
@@ -112,7 +123,7 @@ public class ParkingService {
             success = false;
         }
         if (success) {
-            List<String> autoNums = processImage(resultFileName, model);
+            List<String> autoNums = checkAndProcessImage(resultFileName);
             if (autoNums != null && autoNums.isEmpty()) {
                 processEmptyParking(Long.valueOf(parkingId));
             } else if (autoNums != null) {
@@ -154,7 +165,7 @@ public class ParkingService {
         return resultFileName;
     }
 
-    private List<String> processImage(String resultFileName, Model model) {
+    private List<String> checkAndProcessImage(String resultFileName) {
         if (resultFileName != null && !resultFileName.isBlank()) {
             return processImage(resultFileName);
         }

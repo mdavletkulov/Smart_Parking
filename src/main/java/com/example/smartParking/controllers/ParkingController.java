@@ -6,12 +6,16 @@ import com.example.smartParking.service.DataEditingService;
 import com.example.smartParking.service.ParkingService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -28,6 +32,10 @@ public class ParkingController {
 
     @Autowired
     DataEditingService dataEditingService;
+
+    @Autowired
+    @Qualifier(value = "digestRestTemplate")
+    private RestTemplate restTemplate;
 
     @GetMapping("events")
     public String getAllEvents(Model model) {
@@ -112,6 +120,9 @@ public class ParkingController {
     @GetMapping("addEvent")
     public String addEventPage(Model model) {
         model.addAttribute("parkings", parkingService.findAllParking());
+//        String uri = "http://82.137.177.67/cgi-bin/snapshot.cgi?channel=1";
+//        ResponseEntity<String> entity = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
+//        System.out.println(entity.getStatusCode());
         return "admin/addParkingPhoto";
     }
 

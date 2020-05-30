@@ -1,6 +1,6 @@
 package com.example.smartParking.service;
 
-import com.example.smartParking.Utils.ControllerUtils;
+import com.example.smartParking.utils.ControllerUtils;
 import com.example.smartParking.model.domain.*;
 import com.example.smartParking.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;

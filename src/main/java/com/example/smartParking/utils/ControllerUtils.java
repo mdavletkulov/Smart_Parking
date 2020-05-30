@@ -1,4 +1,4 @@
-package com.example.smartParking.Utils;
+package com.example.smartParking.utils;
 
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

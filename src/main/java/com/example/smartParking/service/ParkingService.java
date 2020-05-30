@@ -8,6 +8,7 @@ import com.example.smartParking.repos.ParkingRepo;
 import com.example.smartParking.repos.PlaceRepo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class ParkingService {
     AutomobileRepo automobileRepo;
 
     @Autowired
+    @Qualifier(value = "defaultRestTemplate")
     private RestTemplate restTemplate;
 
     @Value("${neuralNetwork.address}")

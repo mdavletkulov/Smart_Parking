@@ -1,6 +1,6 @@
 package com.example.smartParking.controllers;
 
-import com.example.smartParking.Utils.ControllerUtils;
+import com.example.smartParking.utils.ControllerUtils;
 import com.example.smartParking.model.domain.Role;
 import com.example.smartParking.model.domain.User;
 import com.example.smartParking.model.domain.UserTemp;
